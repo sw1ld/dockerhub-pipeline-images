@@ -3,6 +3,8 @@ language: generic
 
 sudo: required
 
+dist: xenial
+
 cache: false
 
 services:

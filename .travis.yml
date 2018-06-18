@@ -19,10 +19,8 @@ env:
   - DOCKER_IMAGE=adorsys/ci-run-node8 DIR=node8/run
 
 script:
-  - |
-      [ ! -f "${DIR}/tests.sh" ] && echo "No tests definded for image ${NAME}"
-  - |
-      [ -f "${DIR}/tests.sh" ] && ${DIR}/tests.sh
+  - bach -c "[ ! -f '${DIR}/tests.sh' ] && echo 'No tests definded for image ${NAME}'"
+  - bach -c "[ -f '${DIR}/tests.sh' ] && ${DIR}/tests.sh"
 
 after_success:
   - docker build --pull -t ${DOCKER_IMAGE}:${TRAVIS_BRANCH/master/latest} ${DIR}

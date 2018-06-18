@@ -17,14 +17,17 @@ env:
   - DOCKER_IMAGE=adorsys/ci-run-node8 DIR=node8/run
 
 script:
-  - docker build --pull -t ${DOCKER_IMAGE} $DIR
+  - docker build --pull -t ${DOCKER_IMAGE}:${TRAVIS_BRANCH/master/latest} $DIR
 
 deploy:
   provider: script
   script: >-
     echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  skip_cleanup: true
   on:
+    repo: adorsys/dockerhub-pipeline-images
     branch: master
+    tags: true
 
 notifications:
   email: false

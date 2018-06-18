@@ -1,4 +1,5 @@
 # Status
+Travis CI: [![Build Status](https://travis-ci.org/adorsys/dockerhub-pipeline-images.svg?branch=master)](https://travis-ci.org/adorsys/dockerhub-pipeline-images)
 
 
 | Image | Info | Status | Pulls | Automated |

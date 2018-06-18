@@ -15,7 +15,7 @@ stages:
   - build
   - push
 
-env:
+.env: &env
   - DOCKER_IMAGE=adorsys/ci-frontend DIR=frontend
   - DOCKER_IMAGE=adorsys/ci-helm DIR=helm
   - DOCKER_IMAGE=adorsys/ci-build-java8 DIR=java8/build
@@ -26,11 +26,15 @@ env:
 jobs:
   include:
     - stage: build
+      env:
+        <<: *env
       script:
         - docker build --pull -t ${DOCKER_IMAGE} $DIR
         - docker inspect ${DOCKER_IMAGE}
 
     - stage: push
+      env:
+        <<: *env
       if: branch = master or tag
       script:
         - docker build --pull -t ${DOCKER_IMAGE} $DIR

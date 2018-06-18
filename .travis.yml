@@ -1,0 +1,38 @@
+---
+language: python
+
+sudo: required
+
+services:
+  - docker
+
+addons:
+  apt:
+    packages:
+      - docker-ce
+
+stages:
+  - build
+  - push
+
+env:
+  - DOCKER_IMAGE=adorsys/ci-frontend DIR=frontend
+  - DOCKER_IMAGE=adorsys/ci-helm DIR=helm
+  - DOCKER_IMAGE=adorsys/ci-build-java8 DIR=java8/build
+  - DOCKER_IMAGE=adorsys/ci-run-java8 DIR=java8/run
+  - DOCKER_IMAGE=adorsys/ci-build-node8 DIR=node8/build
+  - DOCKER_IMAGE=adorsys/ci-run-node8 DIR=node8/run
+
+jobs:
+  include:
+    - stage: build
+      script:
+        - docker build --pull -t ${DOCKER_IMAGE} $DIR
+        - docker inspect ${DOCKER_IMAGE}
+
+    - stage: push
+      if: branch = master or tag
+      script:
+        - docker build --pull -t ${DOCKER_IMAGE} $DIR
+        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+        - docker push ${DOCKER_IMAGE}

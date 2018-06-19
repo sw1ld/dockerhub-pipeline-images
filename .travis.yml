@@ -30,8 +30,7 @@ deploy:
   skip_cleanup: true
   on:
     repo: adorsys/dockerhub-pipeline-images
-    branch: master
-    tags: true
+    condition: $TRAVIS_BRANCH == master || $TRAVIS_TAG =~ ^[0-9]+.[0-9]+.+$
 
 notifications:
   email: false

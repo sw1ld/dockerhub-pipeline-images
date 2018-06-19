@@ -2,8 +2,18 @@ language: generic
 sudo: required
 dist: xenial
 cache: false
+
+addons:
+  apt:
+    packages:
+      - docker-ce
+
 services:
-- docker
+  - docker
+
+before_script:
+  - docker version
+
 env:
   matrix:
     - DOCKER_IMAGE=adorsys/ci-frontend DIR=frontend

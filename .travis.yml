@@ -30,7 +30,7 @@ after_success:
 deploy:
   provider: script
   script: >-
-    echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
+    echo "${DOCKER_PASSWORD}" | docker login --username "${DOCKER_USER}" --password-stdin
     && docker push ${DOCKER_IMAGE}:${TRAVIS_BRANCH/master/latest}
   skip_cleanup: true
   on:

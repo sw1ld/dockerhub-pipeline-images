@@ -1,1 +1,1 @@
-FROM centos:7
+FROM centos/nginx-112-centos7

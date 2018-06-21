@@ -37,6 +37,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone &
     echo "NodeJS: " && scl enable rh-nodejs8 -- node --version && \
     echo "NPM8: " && scl enable rh-nodejs8 -- npm --version && \
     echo "YARN: " && scl enable rh-nodejs8 -- yarn --version && \
+    echo "Docker: " && docker --version && \
     echo "Java: " && java -version && \
     echo "Maven: " && scl enable rh-maven35 -- mvn --version && \
     echo "Chrome: " && google-chrome-stable --version && \

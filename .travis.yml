@@ -1,12 +1,17 @@
 language: generic
 sudo: required
-dist: xenial
 cache: false
+
+addons:
+  apt:
+    packages:
+      - docker-ce
 
 services:
   - docker
 
 before_script:
+  - docker --version
   - docker info
 
 env:

@@ -18,7 +18,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone &
     echo -e '[google-chrome]\nname=google-chrome\nbaseurl=http://dl.google.com/linux/chrome/rpm/stable/$basearch\nenabled=1\ngpgcheck=1\ngpgkey=https://dl-ssl.google.com/linux/linux_signing_key.pub' > /etc/yum.repos.d/google-chrome.repo && \
     yum install -y centos-release-scl-rh && \
     yum install -y \
-        zip unzip python bzip2 libXt git make gcc-c++ \
+        zip unzip python bzip2 libXt git make gcc \
         docker-client \
         rh-nodejs8 rh-nodejs8-npm \
         apr java-1.8.0-openjdk-devel rh-maven35 \

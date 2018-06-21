@@ -34,8 +34,8 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone &
     (cd /opt && curl -o firefox.tar.bz2 -fsSL "https://download.mozilla.org/?product=firefox-${FIREFOX_VERSION}&os=linux64&lang=en-US" && tar xfj firefox.tar.bz2 && rm -f firefox.tar.bz2) && \
     ln -s /opt/firefox/firefox /usr/local/bin/firefox && \
     echo "Bazel: " && bazel version && \
-    echo "NodeJS: " && scl enable rh-nodejs8 -- node --version && \
-    echo "NPM8: " && scl enable rh-nodejs8 -- npm --version && \
+    echo "NodeJS8: " && scl enable rh-nodejs8 -- node --version && \
+    echo "NPM (NodeJS8): " && scl enable rh-nodejs8 -- npm --version && \
     echo "YARN: " && scl enable rh-nodejs8 -- yarn --version && \
     echo "Docker: " && docker --version && \
     echo "Java: " && java -version && \

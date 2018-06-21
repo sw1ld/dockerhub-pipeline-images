@@ -27,6 +27,8 @@ env:
 
 script:
   - docker build --pull -t ${DOCKER_IMAGE}:${TRAVIS_BRANCH/master/latest} ${DIR}
+  - docker images ${DOCKER_IMAGE}:${TRAVIS_BRANCH/master/latest}
+  - docker history ${DOCKER_IMAGE}:${TRAVIS_BRANCH/master/latest}
 
 after_success:
   - "${DIR}/tests.sh"
@@ -39,6 +41,7 @@ deploy:
   skip_cleanup: true
   on:
     repo: adorsys/dockerhub-pipeline-images
+    all_branches: true
     condition: $TRAVIS_BRANCH == master || $TRAVIS_TAG =~ ^[0-9]+.[0-9]+.+$
 
 notifications:

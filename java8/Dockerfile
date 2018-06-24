@@ -12,8 +12,8 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone &
 
 ADD root /
 
-USER 1001
-
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
 CMD ["java", "${JAVA_OPTS}", "-jar", "/opt/app-root/src/*.jar"]
+
+USER 1001

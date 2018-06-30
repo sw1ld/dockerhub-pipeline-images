@@ -17,6 +17,7 @@ before_script:
 env:
   matrix:
     - DOCKER_IMAGE=adorsys/ci-build DIR=build/upstream
+    - DOCKER_IMAGE=adorsys/copy-image DIR=build/copy-image
     - DOCKER_IMAGE=adorsys/ci-build DIR=build/redhat TAG=redhat
     - DOCKER_IMAGE=adorsys/ci-frontend DIR=frontend
     - DOCKER_IMAGE=adorsys/ci-helm DIR=helm

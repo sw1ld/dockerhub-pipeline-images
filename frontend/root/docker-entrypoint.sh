@@ -8,5 +8,4 @@ if ! whoami &> /dev/null; then
 fi
 
 # envsubst
-
-exec "$@"
+exec /usr/bin/container-entrypoint "$@"

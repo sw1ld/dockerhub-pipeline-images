@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker run --rm ${DOCKER_IMAGE} copy-docker-image --help
+docker run --rm ${DOCKER_IMAGE}:${TAG} copy-docker-image --help

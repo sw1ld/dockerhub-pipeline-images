@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker run --rm ${DOCKER_IMAGE} nginx -t
+docker run --rm ${DOCKER_IMAGE}:${TAG} nginx -t

@@ -11,7 +11,7 @@ services:
   - docker
 
 before_script:
-  - export TAG="${TAG}"
+  - export TAG="${TAG:-${TRAVIS_BRANCH/master/latest}}"
   - docker --version
   - docker info
 

@@ -31,8 +31,6 @@ script:
   - docker build --pull -t ${DOCKER_IMAGE}:${TAG:-${TRAVIS_BRANCH/master/latest}} ${DIR}
   - docker images ${DOCKER_IMAGE}:${TAG:-${TRAVIS_BRANCH/master/latest}}
   - docker history ${DOCKER_IMAGE}:${TAG:-${TRAVIS_BRANCH/master/latest}}
-
-after_success:
   - "${DIR}/tests.sh"
 
 deploy:

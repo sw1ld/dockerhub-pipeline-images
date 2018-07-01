@@ -1,0 +1,24 @@
+---
+version: '3'
+services:
+  copy_image:
+    build:
+      context: copy-image
+  frontend:
+    build:
+      context: frontend
+  helm:
+    build:
+      context: helm
+  java8:
+    build:
+      context: java8
+  node8:
+    build:
+      context: node8
+  build_redhat:
+    build:
+      context: build/redhat
+  build_upstream:
+    build:
+      context: build/upstream

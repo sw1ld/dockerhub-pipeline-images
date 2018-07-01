@@ -7,5 +7,7 @@ if ! whoami &> /dev/null; then
   fi
 fi
 
-# envsubst
-exec /usr/bin/container-entrypoint "$@"
+source scl_source enable rh-nodejs8
+source scl_source enable rh-maven35
+
+exec "$@"

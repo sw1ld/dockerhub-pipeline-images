@@ -11,12 +11,15 @@ services:
   - docker
 
 before_script:
+  - export TAG="${TAG:-${TRAVIS_BRANCH/master/latest}}"
   - docker --version
   - docker info
 
 env:
   matrix:
-    - DOCKER_IMAGE=adorsys/ci-build DIR=build
+    - DOCKER_IMAGE=adorsys/ci-build DIR=build/upstream
+    - DOCKER_IMAGE=adorsys/copy-image DIR=copy-image
+    - DOCKER_IMAGE=adorsys/ci-build DIR=build/redhat TAG=redhat
     - DOCKER_IMAGE=adorsys/ci-frontend DIR=frontend
     - DOCKER_IMAGE=adorsys/ci-helm DIR=helm
     - DOCKER_IMAGE=adorsys/ci-run-java8 DIR=java8
@@ -26,18 +29,16 @@ env:
     - secure: aw0pM/B90CY41LFxFS83ju3Ebpwbv1BdRK0GGRbFhP9WnL+xwGZeEujDDDm0eJcUn06wBwxYPe8f+0TwLyYH2zmKHG8X2C+fp+c1M+ayuAi9dAh0hvu9jiwughuIikrNVw+3fgsm2T8Pqzf1PmDKouIqJ1U1YONfFtT7PhNAiSXK4M0g9eLbwRYx/77PVkWc8iFtLwAVMjtZTsMSIP4HVTW5AFkok/g9gBXt/Lp9CRCtz6EaqY30wo77rWmthV2ug1O+fzCzb4UVj3yiTzC+C5AUTa9wqBC9TH1Me+rxZiOb0PD4lZsDrc6ndOlCiADRimYb0JmBA8a+W+ibV7WXY9Dz7ompkS+FozifRWDwHmKtjtQE08UQOBV69IdIkv4c1GPB2FUOV9iF6r3712JPedmaIi4tG7lRXCiLZvPCXRkrTuD6NB51OlBh4YdEkM3u+czME+irAFWRl4u+7eDCuv025Z3bKBEXHbxk2kEAxDAD1T8rfBMu6Rxj7URh19T83QxS5FWF9s3TI5YhquRQQ71n6nw4tNB2onNm84LhH3dXxF4vZgVZGUTidKboNKlLgru9TKUOjrcR9uEbvcQfVwA85uONyhYegC/bnEVsRN3oijm32gORfX9IW1981mqXF8s5U4ieOZo2OKRi/NqpFAdtQ+aJq0LmFqDuG1J7AjM=
 
 script:
-  - docker build --pull -t ${DOCKER_IMAGE}:${TRAVIS_BRANCH/master/latest} ${DIR}
-  - docker images ${DOCKER_IMAGE}:${TRAVIS_BRANCH/master/latest}
-  - docker history ${DOCKER_IMAGE}:${TRAVIS_BRANCH/master/latest}
-
-after_success:
+  - docker build --pull -t ${DOCKER_IMAGE}:${TAG} ${DIR}
+  - docker images ${DOCKER_IMAGE}:${TAG}
+  - docker history ${DOCKER_IMAGE}:${TAG}
   - "${DIR}/tests.sh"
 
 deploy:
   provider: script
   script: >-
     echo "${DOCKER_PASSWORD}" | docker login --username "${DOCKER_USER}" --password-stdin
-    && docker push ${DOCKER_IMAGE}:${TRAVIS_BRANCH/master/latest}
+    && docker push ${DOCKER_IMAGE}:${TAG}
   skip_cleanup: true
   on:
     repo: adorsys/dockerhub-pipeline-images

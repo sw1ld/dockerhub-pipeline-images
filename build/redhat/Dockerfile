@@ -53,4 +53,6 @@ WORKDIR /opt/app-root/src
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
+CMD ["/bin/bash"]
+
 USER 1001

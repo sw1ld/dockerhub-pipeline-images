@@ -28,6 +28,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone &
         apr java-1.8.0-openjdk-devel \
         google-chrome-stable && \
     yum clean all -y && rm -rf /var/cache/yum && \
+    npm -g update && npm cache clear --force && \
     chmod g=u /etc/passwd && \
     mkdir -p /opt/app-root/src && chown -R 1001:0 /opt/app-root/src && chmod -R ug+rwx /opt/app-root/src && \
     ( \

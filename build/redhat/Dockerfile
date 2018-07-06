@@ -8,9 +8,9 @@ ENV HOME=/tmp/ \
     NO_UPDATE_NOTIFIER=1 \
     JAVA_TOOL_OPTIONS="-Xmx128M" \
     NODE_OPTIONS="--max_old_space_size=512" \
-    BASH_ENV=/scl_enable.sh \
-    ENV=/scl_enable.sh \
-    PROMPT_COMMAND=". /scl_enable.sh" \
+    BASH_ENV=/enable.sh \
+    ENV=/enable.sh \
+    PROMPT_COMMAND=". /enable.sh" \
     PATH="$HOME/node_modules/.bin/:$HOME/.npm-global/bin/:$PATH"
 
 ADD root /

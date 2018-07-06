@@ -7,4 +7,6 @@ if ! whoami &> /dev/null; then
   fi
 fi
 
+. "${HOME}/.nvm/nvm.sh"
+
 exec "$@"

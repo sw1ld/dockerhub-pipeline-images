@@ -44,7 +44,7 @@ RUN useradd -d "${HOME}" -u 1001 -g 0 default && \
       nvm install 6 && nvm install 8 && nvm install 10 && \
       nvm cache clear && \
       nvm alias default ${NODE_VERSION} && \
-      chown default -R "${HOME}" \
+      rm -rf /home/default/.npm/ \
     ) && \
     (cd /opt && \
       curl  -fsSL "https://download.mozilla.org/?product=firefox-${FIREFOX_VERSION}&os=linux64&lang=en-US" | tar xj && \

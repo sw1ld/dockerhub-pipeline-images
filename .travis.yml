@@ -33,7 +33,6 @@ script:
   - docker images ${DOCKER_IMAGE}:${TAG}
   - docker history ${DOCKER_IMAGE}:${TAG}
   - "${DIR}/tests.sh"
-# - curl -s -L https://raw.githubusercontent.com/simonsdave/clair-cicd/master/bin/assess-image-risk.sh | bash -s -- -v "${DOCKER_IMAGE}:${TAG}"
 
 deploy:
   provider: script

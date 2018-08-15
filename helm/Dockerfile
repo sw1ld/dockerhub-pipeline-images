@@ -18,6 +18,9 @@ RUN yum install -y docker-client \
     && tar -zxvf helm-v2.9.1-linux-amd64.tar.gz \
     && mv linux-amd64/helm /usr/local/bin/helm \
     && rm -rf helm-v2.9.1-linux-amd64.tar.gz linux-amd64 \
-    && yum clean all -y
+    && yum clean all -y \
+## Install helm diff plugin
+    && helm init --client-only \
+    && helm plugin install https://github.com/databus23/helm-diff --version master
 
 ENTRYPOINT ["/usr/bin/ansible-playbook"]

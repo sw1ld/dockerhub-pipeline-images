@@ -12,7 +12,7 @@ services:
       context: helm
   java8:
     build:
-      context: java8
+      context: java/8
   node8:
     build:
       context: node8

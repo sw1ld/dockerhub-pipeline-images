@@ -22,7 +22,7 @@ env:
     - DOCKER_IMAGE=adorsys/ci-build DIR=build/redhat TAG=redhat
     - DOCKER_IMAGE=adorsys/ci-frontend DIR=frontend
     - DOCKER_IMAGE=adorsys/ci-helm DIR=helm
-    - DOCKER_IMAGE=adorsys/ci-run-java8 DIR=java8
+    - DOCKER_IMAGE=adorsys/java DIR=java/8 TAG=8
     - DOCKER_IMAGE=adorsys/ci-run-node8 DIR=node8
   global:
     - secure: cBQclLxxoFFWvKueszkmbXWPFtYNVsF1ipuCMLqqKlP8UVOHRcE5064PReeibNLg+n1fvTeqffHaqT6Dp4C/d/osZa2sNQ8ZZ3i3muY/q7+IS8JySRRk7TSPcHD6FkJBqAVXHEMyIlR76TIuMT9oonbK6Uxp3cjcJOz1Kq5GVMuoynyY+Nh/w+lGjUmSAnhrvT109nuaubupp+3PWFUdHplTFDm0XY6VvrrJMzLwPqoj55/Xp8OqTw1YH1pTUqZRYwcFvmNlHzA2YxZe8qxLDz5EbZAtQVz0vME3poI4GOC2BgzjeOLK6JVRsbgIW4FfCpTMijGDznsr1NdYrzD/Z25Xe4SFfzeiith0IL5vPCNLPxi/UcJGOc7welDU+Yk8YlMxOyTCLYI6udADOfqqKO5GQVCf6j8OIFvHeKLtSYwYX1VbJt96b+zB/A7JvIOz45aEaforKCNVTQRbCOjx5d0YtXdpifkvAntKQq1njQ4FDrxD5+DEQxmnl7Yqy2zIKI00AxuReReW18qt7eJK/1ja7Vy7G5v+rRjR1nWH0VodpFcfVKl57BolfwAH0kG9cLgWcQqYgxF6Yif7JZpl+1x8YgEWpw85q0KkZyRSOYF2YPKh0sMAI6OK9Vl2TLpEsd5jsSje54nakvAlT6Wg0UIqAc6/N7kWa1ogfdyyuOM=

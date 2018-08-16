@@ -14,6 +14,6 @@ ADD root /
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
-CMD ["java", "${JAVA_OPTS}", "-jar", "/opt/app-root/src/*.jar"]
+CMD exec java $JAVA_OPTS -jar *.jar
 
 USER 1001

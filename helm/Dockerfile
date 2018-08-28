@@ -3,7 +3,7 @@ FROM centos:7
 MAINTAINER SYI <ysi@adorsys.de>
 
 ARG COPY_IMAGE_VERSION=v2.0.0-rc.1
-ARG HELM_VERSION=v2.9.1
+ARG HELM_VERSION=v2.10.0
 ARG HELM_DIFF_VERSION=v2.9.0+2
 
 RUN yum install -y epel-release centos-release-openshift-origin \
@@ -21,3 +21,4 @@ RUN yum install -y epel-release centos-release-openshift-origin \
 ## Install copy-docker-image
     && curl -LsSf -o /usr/local/bin/copy-docker-image "https://github.com/jkroepke/copy-docker-image/releases/download/${COPY_IMAGE_VERSION}/copy-docker-image_linux_amd64" \
     && chmod +x /usr/local/bin/copy-docker-image
+

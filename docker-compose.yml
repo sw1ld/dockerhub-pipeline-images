@@ -6,7 +6,7 @@ services:
       context: copy-image
   frontend:
     build:
-      context: frontend
+      context: nginx
   helm:
     build:
       context: helm
@@ -15,7 +15,7 @@ services:
       context: java/8
   node8:
     build:
-      context: node8
+      context: node
   build_redhat:
     build:
       context: build/redhat

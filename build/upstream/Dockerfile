@@ -3,6 +3,7 @@ FROM centos:7
 ARG FIREFOX_VERSION=latest
 ARG NODE_VERSION=8
 ARG MAVEN_VERSION=3.5.4
+ARG JMETER_VERSION=4.0
 
 ENV HOME=/home/default
 ENV TZ=Europe/Berlin \
@@ -34,7 +35,8 @@ RUN useradd -d "${HOME}" -u 1001 -g 0 default && \
       git checkout `git describe --abbrev=0 --tags --match "v[0-9]*" $(git rev-list --tags --max-count=1)` && \
       echo -e "npm\nyarn" > default-packages && \
       . "${HOME}/.nvm/nvm.sh" && \
-      nvm install 6 && nvm install 8 && nvm install 10 && \
+      nvm install 8 && \
+      nvm install 10 && \
       nvm cache clear && \
       nvm alias default ${NODE_VERSION} && \
       rm -rf /home/default/.npm/ \
@@ -44,15 +46,23 @@ RUN useradd -d "${HOME}" -u 1001 -g 0 default && \
       ln -s /opt/firefox/firefox /usr/local/bin/firefox \
     ) && \
     (mkdir -p /usr/share/maven && cd /usr/share/maven && \
-      curl -fsSL "https://www-eu.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz" -o apache-maven.tar.gz && \
-      echo -n "$(curl -LsSf https://www-us.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz.sha512)  apache-maven.tar.gz" | sha512sum -c && \
-      tar -xzf apache-maven.tar.gz -C /usr/share/maven --strip-components=1 && \
-      rm -f apache-maven.tar.gz && \
+      curl -fsSLO "https://www-eu.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz" && \
+      curl -fsSLO "https://www-us.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz.sha512" && \
+      echo -n "$(cat apache-maven-${MAVEN_VERSION}-bin.tar.gz.sha512)  apache-maven-${MAVEN_VERSION}-bin.tar.gz" | sha512sum -c && \
+      tar -xzf apache-maven-${MAVEN_VERSION}-bin.tar.gz -C /usr/share/maven --strip-components=1 && \
+      rm -f apache-maven-${MAVEN_VERSION}-bin.tar.gz apache-maven-${MAVEN_VERSION}-bin.tar.gz.sha512 && \
       ln -s /usr/share/maven/bin/mvn /usr/bin/mvn \
+    ) && \
+    (mkdir -p /usr/share/jmeter && cd /usr/share/jmeter && \
+      curl -fsSLO "https://www-eu.apache.org/dist/jmeter/binaries/apache-jmeter-${JMETER_VERSION}.tgz"  && \
+      curl -fsSLO "https://www-us.apache.org/dist/jmeter/binaries/apache-jmeter-${JMETER_VERSION}.tgz.sha512" && \
+      sha512sum -c apache-jmeter-${JMETER_VERSION}.tgz.sha512 && \
+      tar -xzf apache-jmeter-${JMETER_VERSION}.tgz -C /usr/share/jmeter --strip-components=1 && \
+      rm -f apache-jmeter-${JMETER_VERSION}.tgz apache-jmeter-${JMETER_VERSION}.tgz.sha512 && \
+      ln -s /usr/share/jmeter/bin/jmeter /usr/bin/jmeter \
     ) && \
     cd /tmp && rm -rf ..?* .[!.]* * && \
     . "${HOME}/.nvm/nvm.sh" && \
-    nvm exec 6 npm cache clear --force && \
     nvm exec 8 npm cache clear --force && \
     nvm exec 10 npm cache clear --force
 

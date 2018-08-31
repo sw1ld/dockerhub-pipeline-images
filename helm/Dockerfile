@@ -4,7 +4,7 @@ MAINTAINER SYI <ysi@adorsys.de>
 
 ARG COPY_IMAGE_VERSION=v2.0.0-rc.1
 ARG HELM_VERSION=v2.10.0
-ARG HELM_DIFF_VERSION=v2.9.0+2
+ARG HELM_DIFF_VERSION=v2.10.0+1
 
 RUN yum install -y epel-release centos-release-openshift-origin \
     && yum install -y git docker-client ansible origin-clients \

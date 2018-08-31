@@ -1,7 +1,6 @@
 #!/bin/bash
 
 docker run --rm ${DOCKER_IMAGE}:${TAG} /bin/bash -lc '\
-    echo "Bazel: " && bazel version && \
     echo "NVM: " && nvm --version && \
     echo "NodeJS: " && node --version && \
     echo "NPM (NodeJS): " && npm --version && \

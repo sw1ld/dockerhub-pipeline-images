@@ -1,6 +1,5 @@
 FROM centos:7
 
-ARG BAZEL_VERSION=0.14.1
 ARG FIREFOX_VERSION=latest
 ARG NODE_VERSION=8
 ARG MAVEN_VERSION=3.5.4
@@ -30,11 +29,6 @@ RUN useradd -d "${HOME}" -u 1001 -g 0 default && \
     chmod g=u /etc/passwd && \
     mkdir -p /opt/app-root/src && chown -R 1001:0 /opt/app-root/src && chmod -R ug+rwx /opt/app-root/src && \
     ( \
-      curl -LsSfJ -O https://github.com/bazelbuild/bazel/releases/download/${BAZEL_VERSION}/bazel-${BAZEL_VERSION}-linux-x86_64 && \
-      echo -n "$(curl -LsSf https://github.com/bazelbuild/bazel/releases/download/${BAZEL_VERSION}/bazel-${BAZEL_VERSION}-linux-x86_64.sha256)" | sha256sum -c && \
-      mv bazel-${BAZEL_VERSION}-linux-x86_64 /usr/local/bin/bazel && chmod +x /usr/local/bin/bazel \
-    ) && \
-    ( \
       git clone https://github.com/creationix/nvm.git "${HOME}/.nvm/" && \
       cd "${HOME}/.nvm/" && \
       git checkout `git describe --abbrev=0 --tags --match "v[0-9]*" $(git rev-list --tags --max-count=1)` && \
@@ -51,7 +45,7 @@ RUN useradd -d "${HOME}" -u 1001 -g 0 default && \
     ) && \
     (mkdir -p /usr/share/maven && cd /usr/share/maven && \
       curl -fsSL "https://www-eu.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz" -o apache-maven.tar.gz && \
-      echo -n "$(curl -LsSf https://www-us.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz.sha256)  apache-maven.tar.gz" | sha256sum -c && \
+      echo -n "$(curl -LsSf https://www-us.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz.sha512)  apache-maven.tar.gz" | sha512sum -c && \
       tar -xzf apache-maven.tar.gz -C /usr/share/maven --strip-components=1 && \
       rm -f apache-maven.tar.gz && \
       ln -s /usr/share/maven/bin/mvn /usr/bin/mvn \

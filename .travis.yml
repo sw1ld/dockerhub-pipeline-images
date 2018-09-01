@@ -46,8 +46,6 @@ deploy:
     echo "Pushing tag aliases ${ALIASES}";
     for TAG_ALIAS in ${ALIASES}; do
     echo "Push to ${DOCKER_IMAGE}:${TAG_ALIAS}"
-    && docker tag "${DOCKER_IMAGE}:${TAG}" "${DOCKER_IMAGE}:${TAG_ALIAS}"
-    && docker push "${DOCKER_IMAGE}:${TAG_ALIAS}";
     done;
     fi
   skip_cleanup: true

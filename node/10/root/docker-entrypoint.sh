@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # From https://docs.openshift.com/container-platform/3.9/creating_images/guidelines.html#use-uid
 if ! whoami &> /dev/null; then
@@ -6,8 +6,5 @@ if ! whoami &> /dev/null; then
     echo "${USER_NAME:-default}:x:$(id -u):0:${USER_NAME:-default} user:${HOME}:/sbin/nologin" >> /etc/passwd
   fi
 fi
-
-source scl_source enable rh-nodejs8
-source scl_source enable rh-maven35
 
 exec "$@"

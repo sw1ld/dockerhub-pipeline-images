@@ -1,24 +1,30 @@
 ---
 version: '3'
 services:
+  ansible:
+    build:
+      context: ansible
+  awscli:
+    build:
+      context: awscli
+  ci_build:
+    build:
+      context: ci-build
   copy_image:
     build:
       context: copy-image
-  frontend:
+  nginx:
     build:
       context: nginx
-  helm:
+  helm_2.10:
     build:
-      context: helm
-  java8:
+      context: helm/2.10
+  java_8:
     build:
       context: java/8
-  node8:
+  node_10:
     build:
-      context: node
-  build_redhat:
+      context: node/10
+  node_8:
     build:
-      context: build/redhat
-  build_upstream:
-    build:
-      context: build/upstream
+      context: node/8

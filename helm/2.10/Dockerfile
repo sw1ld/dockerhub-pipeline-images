@@ -7,7 +7,7 @@ ARG HELM_VERSION=v2.10.0
 ARG HELM_DIFF_VERSION=v2.10.0+1
 
 RUN yum install -y epel-release centos-release-openshift-origin \
-    && yum install -y git docker-client ansible origin-clients \
+    && yum install -y docker-client ansible origin-clients \
     && yum clean all \
     && rm -rf /var/cache/yum \
 ## Install kubernetes helm
@@ -17,7 +17,7 @@ RUN yum install -y epel-release centos-release-openshift-origin \
     && rm -rf helm-${HELM_VERSION}-linux-amd64.tar.gz linux-amd64 \
 ## Install helm diff plugin
     && helm init --client-only \
-    && helm plugin install https://github.com/databus23/helm-diff --version ${HELM_DIFF_VERSION} \
+    && curl -LsSf https://github.com/databus23/helm-diff/releases/download/${HELM_DIFF_VERSION}/helm-diff-macos.tgz | tar -C "$(helm home)/plugins" --warning=no-unknown-keyword -zxf- \
 ## Install copy-docker-image
     && curl -LsSf -o /usr/local/bin/copy-docker-image "https://github.com/jkroepke/copy-docker-image/releases/download/${COPY_IMAGE_VERSION}/copy-docker-image_linux_amd64" \
     && chmod +x /usr/local/bin/copy-docker-image

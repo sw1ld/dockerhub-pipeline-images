@@ -45,7 +45,7 @@ deploy:
     && if [ ! -z ${ALIASES+x} ]; then
     echo "Pushing tag aliases ${ALIASES}";
     for TAG_ALIAS in ${ALIASES}; do
-    echo "Push to ${DOCKER_IMAGE}:${TAG_ALIAS}"
+    echo "Push to ${DOCKER_IMAGE}:${TAG_ALIAS}";
     done;
     fi
   skip_cleanup: true

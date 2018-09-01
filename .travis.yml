@@ -42,8 +42,8 @@ deploy:
     echo "${DOCKER_PASSWORD}" | docker login --username "${DOCKER_USER}" --password-stdin
     && echo push to ${DOCKER_IMAGE}:${TAG}
     && docker push ${DOCKER_IMAGE}:${TAG}
-    && if [ ! -z ${ALIAS+x} ]; then
-    echo "Pushing tag aliases ${ALIAS}"
+    && if [ ! -z ${ALIASES+x} ]; then
+    echo "Pushing tag aliases ${ALIASES}";
     for TAG_ALIAS in ${ALIASES}; do
     echo "Push to ${DOCKER_IMAGE}:${TAG_ALIAS}"
     && docker tag "${DOCKER_IMAGE}:${TAG}" "${DOCKER_IMAGE}:${TAG_ALIAS}"

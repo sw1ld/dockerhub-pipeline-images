@@ -44,9 +44,8 @@ deploy:
     && docker push ${DOCKER_IMAGE}:${TAG}
     && if [ ! -z ${ALIASES+x} ]; then
     echo "Pushing tag aliases ${ALIASES}";
-    for TAG_ALIAS in ${ALIASES}; do
-    echo "Push to ${DOCKER_IMAGE}:${TAG_ALIAS}";
-    done;
+    docker tag "${DOCKER_IMAGE}:${TAG}" "${DOCKER_IMAGE}:${ALIASES}";
+    docker push "${DOCKER_IMAGE}:${ALIASES}";
     fi
   skip_cleanup: true
   on:

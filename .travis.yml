@@ -40,15 +40,15 @@ deploy:
   provider: script
   script: >-
     echo "${DOCKER_PASSWORD}" | docker login --username "${DOCKER_USER}" --password-stdin
-    && echo push to "${DOCKER_IMAGE}:${TAG}"
-    && docker push "${DOCKER_IMAGE}:${TAG}"
-    && if [ -n ${ALIASES+x} ]; then
-      echo "Pushing tag aliases '${ALIASES}'"
-      && for ALIAS_TAG in ${ALIASES}; do
-        echo Push to "${DOCKER_IMAGE}:${ALIAS_TAG}"
-        && docker tag "${DOCKER_IMAGE}:${TAG}" "${DOCKER_IMAGE}:${ALIAS_TAG}"
-        && docker push "${DOCKER_IMAGE}:${ALIAS_TAG}"
-      done;
+    && echo push to ${DOCKER_IMAGE}:${TAG}
+    && docker push ${DOCKER_IMAGE}:${TAG}
+    && if [ ! -z ${ALIAS+x} ]; then
+    echo "Pushing tag aliases ${ALIAS}"
+    for TAG_ALIAS in ${ALIASES}; do
+    echo "Push to ${DOCKER_IMAGE}:${TAG_ALIAS}"
+    && docker tag "${DOCKER_IMAGE}:${TAG}" "${DOCKER_IMAGE}:${TAG_ALIAS}"
+    && docker push "${DOCKER_IMAGE}:${TAG_ALIAS}";
+    done;
     fi
   skip_cleanup: true
   on:

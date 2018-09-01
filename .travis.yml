@@ -22,7 +22,7 @@ env:
   - DOCKER_IMAGE=adorsys/ci-build DIR=ci-build
   - DOCKER_IMAGE=adorsys/copy-image DIR=copy-image
   - DOCKER_IMAGE=adorsys/nginx DIR=nginx
-  - DOCKER_IMAGE=adorsys/ci-helm DIR=helm/2.10 TAG=2.10 ALIAS="latest"
+  - DOCKER_IMAGE=adorsys/ci-helm DIR=helm/2.10 TAG=2.10 ALIASES="latest"
   - DOCKER_IMAGE=adorsys/java DIR=java/8 TAG=8
   - DOCKER_IMAGE=adorsys/node DIR=node/8 TAG=8
   - DOCKER_IMAGE=adorsys/node DIR=node/10 TAG=10
@@ -38,7 +38,18 @@ script:
 
 deploy:
   provider: script
-  script: bash .travis/deploy.sh
+  script: >-
+    echo "${DOCKER_PASSWORD}" | docker login --username "${DOCKER_USER}" --password-stdin
+    && echo push to "${DOCKER_IMAGE}:${TAG}"
+    && docker push "${DOCKER_IMAGE}:${TAG}"
+    && if [ -n ${ALIASES+x} ]; then
+      echo "Pushing tag aliases '${ALIASES}'"
+      && for ALIAS_TAG in ${ALIASES}; do
+        echo Push to "${DOCKER_IMAGE}:${ALIAS_TAG}"
+        && docker tag "${DOCKER_IMAGE}:${TAG}" "${DOCKER_IMAGE}:${ALIAS_TAG}"
+        && docker push "${DOCKER_IMAGE}:${ALIAS_TAG}"
+      done;
+    fi
   skip_cleanup: true
   on:
     repo: adorsys/dockerhub-pipeline-images

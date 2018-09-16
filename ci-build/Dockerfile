@@ -1,5 +1,7 @@
 FROM centos:7
 
+LABEL maintainer="joe@adorsys.de"
+
 ARG FIREFOX_VERSION=latest
 ARG NODE_VERSION=8
 ARG MAVEN_VERSION=3.5.4

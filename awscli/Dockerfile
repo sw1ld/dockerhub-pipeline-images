@@ -1,5 +1,7 @@
 FROM centos:7
 
+LABEL maintainer="joe@adorsys.de"
+
 ENV PAGER="more"
 
 RUN yum install -y epel-release && \

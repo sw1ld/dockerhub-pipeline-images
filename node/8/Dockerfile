@@ -1,5 +1,7 @@
 FROM centos:7
 
+LABEL maintainer="joe@adorsys.de"
+
 EXPOSE 8080
 
 # discard npm update warnings

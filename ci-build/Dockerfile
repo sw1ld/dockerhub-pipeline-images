@@ -5,7 +5,8 @@ LABEL maintainer="joe@adorsys.de"
 ARG FIREFOX_VERSION=latest
 ARG NODE_VERSION=8
 ARG MAVEN_VERSION=3.5.4
-ARG JMETER_VERSION=4.0
+ARG JMETER_VERSION=5.0
+ARG JAVA_11_MINOR=28
 
 ENV HOME=/home/default
 ENV TZ=Europe/Berlin \
@@ -42,6 +43,9 @@ RUN useradd -d "${HOME}" -u 1001 -g 0 default && \
       nvm cache clear && \
       nvm alias default ${NODE_VERSION} && \
       rm -rf /home/default/.npm/ \
+    ) && \
+    (cd /opt && \
+      curl -sSf https://download.java.net/java/GA/jdk11/${JAVA_11_MINOR}/GPL/openjdk-11+${JAVA_11_MINOR}_linux-x64_bin.tar.gz | tar xz -C /usr/local/share/ \
     ) && \
     (cd /opt && \
       curl  -fsSL "https://download.mozilla.org/?product=firefox-${FIREFOX_VERSION}&os=linux64&lang=en-US" | tar xj && \

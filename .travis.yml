@@ -24,6 +24,7 @@ env:
   - DOCKER_IMAGE=adorsys/nginx DIR=nginx
   - DOCKER_IMAGE=adorsys/ci-helm DIR=helm/2.10 TAG=2.10 ALIASES="latest"
   - DOCKER_IMAGE=adorsys/java DIR=java/8 TAG=8
+  - DOCKER_IMAGE=adorsys/java DIR=java/11 TAG=11
   - DOCKER_IMAGE=adorsys/node DIR=node/8 TAG=8
   - DOCKER_IMAGE=adorsys/node DIR=node/10 TAG=10
   global:

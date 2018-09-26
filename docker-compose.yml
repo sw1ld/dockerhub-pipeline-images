@@ -19,6 +19,9 @@ services:
   helm_2.10:
     build:
       context: helm/2.10
+  helm_2.11:
+    build:
+      context: helm/2.11
   java_8:
     build:
       context: java/8

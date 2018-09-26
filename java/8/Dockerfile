@@ -1,6 +1,6 @@
 FROM centos:7
 
-LABEL maintainer="joe@adorsys.de"
+LABEL maintainer="adorsys GmbH & Co. KG"
 
 EXPOSE 8080
 

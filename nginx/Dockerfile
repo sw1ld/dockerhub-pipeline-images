@@ -1,6 +1,6 @@
 FROM centos/nginx-112-centos7
 
-LABEL maintainer="joe@adorsys.de"
+LABEL maintainer="adorsys GmbH & Co. KG"
 
 USER 0
 

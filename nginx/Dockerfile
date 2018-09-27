@@ -6,7 +6,8 @@ USER 0
 
 ENV TZ=Europe/Berlin
 
-ADD root /
+COPY root/docker-entrypoint.sh /
+COPY root/opt/app-root/etc/nginx.default.d /opt/app-root/etc/nginx.default.d
 
 # https://github.com/sclorg/nginx-container/issues/58
 RUN sed -i '/^\s*location \/ {/ { N; /^\s*location \/ {\n\s*}/d }' "${NGINX_CONF_PATH}" && \

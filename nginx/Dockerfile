@@ -1,5 +1,7 @@
 FROM centos/nginx-112-centos7
 
+LABEL maintainer="adorsys GmbH & Co. KG"
+
 USER 0
 
 ENV TZ=Europe/Berlin

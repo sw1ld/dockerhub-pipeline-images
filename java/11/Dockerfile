@@ -4,13 +4,16 @@ LABEL maintainer="adorsys GmbH & Co. KG"
 
 EXPOSE 8080
 
+ARG JAVA_11_MINOR=28
+
 ENV TZ=Europe/Berlin \
-    JAVA_OPTS="-Xmx128m"
+    JAVA_OPTS="-Xmx128m" \
+    PATH="/usr/local/share/jdk-11/bin/:$PATH"
 
 WORKDIR /opt/app-root/src
 
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone && \
-    yum install epel-release -y && yum install -y java-1.8.0-openjdk-headless tomcat-native && yum clean all
+    curl -sSf https://download.java.net/java/GA/jdk11/${JAVA_11_MINOR}/GPL/openjdk-11+${JAVA_11_MINOR}_linux-x64_bin.tar.gz | tar xz -C /usr/local/share/
 
 ADD root /
 

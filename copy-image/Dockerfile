@@ -1,5 +1,7 @@
 FROM alpine:latest
 
+LABEL maintainer="joe@adorsys.de"
+
 ARG VERSION=v2.0.0-rc.1
 
 RUN apk --no-cache add ca-certificates \

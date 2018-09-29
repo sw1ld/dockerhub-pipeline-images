@@ -21,7 +21,8 @@ ENV TZ=Europe/Berlin \
 
 ADD root /
 
-RUN useradd -d "${HOME}" -u 1001 -g 0 default && \
+RUN set -euo pipefail && \
+    useradd -d "${HOME}" -u 1001 -g 0 default && \
     ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone && \
     echo -e '[google-chrome]\nname=google-chrome\nbaseurl=http://dl.google.com/linux/chrome/rpm/stable/$basearch\nenabled=0\ngpgcheck=1\ngpgkey=https://dl-ssl.google.com/linux/linux_signing_key.pub' > /etc/yum.repos.d/google-chrome.repo && \
     yum install -y epel-release && \
@@ -46,23 +47,23 @@ RUN useradd -d "${HOME}" -u 1001 -g 0 default && \
       rm -rf /home/default/.npm/ \
     ) && \
     (cd /opt && \
-      curl -sSf https://download.java.net/java/GA/jdk11/${JAVA_11_MINOR}/GPL/openjdk-11+${JAVA_11_MINOR}_linux-x64_bin.tar.gz | tar xz -C /usr/local/share/ \
+      curl -fsSf "https://download.java.net/java/GA/jdk11/${JAVA_11_MINOR}/GPL/openjdk-11+${JAVA_11_MINOR}_linux-x64_bin.tar.gz" | tar xz -C /usr/local/share/ \
     ) && \
     (cd /opt && \
       curl  -fsSL "https://download.mozilla.org/?product=firefox-${FIREFOX_VERSION}&os=linux64&lang=en-US" | tar xj && \
       ln -s /opt/firefox/firefox /usr/local/bin/firefox \
     ) && \
     (mkdir -p /usr/share/maven && cd /usr/share/maven && \
-      curl -fsSLO "https://www-eu.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz" && \
-      curl -fsSLO "https://www-us.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz.sha512" && \
+      curl -fsSLO "https://archive.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz" && \
+      curl -fsSLO "https://archive.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz.sha512" && \
       echo -n "$(cat apache-maven-${MAVEN_VERSION}-bin.tar.gz.sha512)  apache-maven-${MAVEN_VERSION}-bin.tar.gz" | sha512sum -c && \
       tar -xzf apache-maven-${MAVEN_VERSION}-bin.tar.gz -C /usr/share/maven --strip-components=1 && \
       rm -f apache-maven-${MAVEN_VERSION}-bin.tar.gz apache-maven-${MAVEN_VERSION}-bin.tar.gz.sha512 && \
       ln -s /usr/share/maven/bin/mvn /usr/bin/mvn \
     ) && \
     (mkdir -p /usr/share/jmeter && cd /usr/share/jmeter && \
-      curl -fsSLO "https://www-eu.apache.org/dist/jmeter/binaries/apache-jmeter-${JMETER_VERSION}.tgz"  && \
-      curl -fsSLO "https://www-us.apache.org/dist/jmeter/binaries/apache-jmeter-${JMETER_VERSION}.tgz.sha512" && \
+      curl -fsSLO "https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-${JMETER_VERSION}.tgz"  && \
+      curl -fsSLO "https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-${JMETER_VERSION}.tgz.sha512" && \
       sha512sum -c apache-jmeter-${JMETER_VERSION}.tgz.sha512 && \
       tar -xzf apache-jmeter-${JMETER_VERSION}.tgz -C /usr/share/jmeter --strip-components=1 --exclude='docs' && \
       rm -f apache-jmeter-${JMETER_VERSION}.tgz apache-jmeter-${JMETER_VERSION}.tgz.sha512 && \

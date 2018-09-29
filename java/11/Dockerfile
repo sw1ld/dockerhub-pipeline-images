@@ -4,8 +4,6 @@ LABEL maintainer="adorsys GmbH & Co. KG"
 
 EXPOSE 8080
 
-ARG JAVA_11_MINOR=28
-
 ENV TZ=Europe/Berlin \
     JAVA_OPTS="-Xmx128m" \
     PATH="/usr/local/share/jdk-11/bin/:$PATH"
@@ -13,7 +11,7 @@ ENV TZ=Europe/Berlin \
 WORKDIR /opt/app-root/src
 
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone && \
-    curl -sSf https://download.java.net/java/GA/jdk11/${JAVA_11_MINOR}/GPL/openjdk-11+${JAVA_11_MINOR}_linux-x64_bin.tar.gz | tar xz -C /usr/local/share/
+    curl -sSf https://download.java.net/java/ga/jdk11/openjdk-11_linux-x64_bin.tar.gz | tar xz --exclude='src.zip' -C /usr/local/share/
 
 ADD root /
 

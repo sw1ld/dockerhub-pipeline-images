@@ -4,9 +4,10 @@ LABEL maintainer="ysi@adorsys.de,joe@adorsys.de"
 
 ARG COPY_IMAGE_VERSION=v2.0.0-rc.1
 ARG HELM_VERSION=v2.11.0
-ARG HELM_DIFF_VERSION=v2.10.0+1
+ARG HELM_DIFF_VERSION=v2.11.0+2
 ARG HELM_PUSH_VERSION=0.7.1
 ARG HELM_SECRETS_VERSION=1.3.1
+ARG HELM_TILLER_VERSION=0.5.6
 
 RUN set -euo pipefail \
     && yum install -y epel-release centos-release-openshift-origin \
@@ -24,9 +25,11 @@ RUN set -euo pipefail \
     && mkdir "$(helm home)/plugins/helm-push" \
     && curl -LsSf https://github.com/chartmuseum/helm-push/releases/download/v${HELM_PUSH_VERSION}/helm-push_${HELM_PUSH_VERSION}_linux_amd64.tar.gz | tar -C "$(helm home)/plugins/helm-push" -zxf- \
     && curl -LsSf https://github.com/databus23/helm-diff/releases/download/${HELM_DIFF_VERSION}/helm-diff-linux.tgz | tar -C "$(helm home)/plugins" --warning=no-unknown-keyword -zxf- \
+    && curl -LsSf https://github.com/rimusz/helm-tiller/archive/v${HELM_TILLER_VERSION}.tar.gz| tar -C "$(helm home)/plugins" -xzf- \
     && curl -LsSf https://github.com/futuresimple/helm-secrets/archive/v${HELM_SECRETS_VERSION}.tar.gz | tar -C "$(helm home)/plugins" -xzf- \
     && export SOPS_VERSION=$(grep SOPS_VERSION= "$(helm home)/plugins/helm-secrets-${HELM_SECRETS_VERSION}/install-binary.sh" | cut -d'"' -f2) \
     && curl -LsSf https://github.com/mozilla/sops/releases/download/${SOPS_VERSION}/sops-${SOPS_VERSION}.linux -o /usr/local/bin/sops && chmod +x /usr/local/bin/sops \
+    && helm tiller install \
 ## Install copy-docker-image
     && curl -LsSf -o /usr/local/bin/copy-docker-image "https://github.com/jkroepke/copy-docker-image/releases/download/${COPY_IMAGE_VERSION}/copy-docker-image_linux_amd64" \
     && chmod +x /usr/local/bin/copy-docker-image

@@ -2,16 +2,15 @@ FROM centos:7
 
 LABEL maintainer="ysi@adorsys.de,joe@adorsys.de"
 
-ARG COPY_IMAGE_VERSION=v2.0.0-rc.1
-ARG HELM_VERSION=v2.11.0
-ARG HELM_DIFF_VERSION=v2.11.0+2
+ARG HELM_VERSION=v2.10.0
+ARG HELM_DIFF_VERSION=v2.10.0+1
 ARG HELM_PUSH_VERSION=0.7.1
 ARG HELM_SECRETS_VERSION=1.3.1
-ARG HELM_TILLER_VERSION=0.5.6
+ARG HELM_TILLER_VERSION=0.5.8
 
 RUN set -euo pipefail \
     && yum install -y epel-release centos-release-openshift-origin \
-    && yum install -y docker-client ansible origin-clients \
+    && yum install -y skopeo docker-client ansible origin-clients \
     && yum clean all \
     && rm -rf /var/cache/yum \
 ## Install kubernetes helm
@@ -29,8 +28,5 @@ RUN set -euo pipefail \
     && curl -LsSf https://github.com/futuresimple/helm-secrets/archive/v${HELM_SECRETS_VERSION}.tar.gz | tar -C "$(helm home)/plugins" -xzf- \
     && export SOPS_VERSION=$(grep SOPS_VERSION= "$(helm home)/plugins/helm-secrets-${HELM_SECRETS_VERSION}/install-binary.sh" | cut -d'"' -f2) \
     && curl -LsSf https://github.com/mozilla/sops/releases/download/${SOPS_VERSION}/sops-${SOPS_VERSION}.linux -o /usr/local/bin/sops && chmod +x /usr/local/bin/sops \
-    && helm tiller install \
-## Install copy-docker-image
-    && curl -LsSf -o /usr/local/bin/copy-docker-image "https://github.com/jkroepke/copy-docker-image/releases/download/${COPY_IMAGE_VERSION}/copy-docker-image_linux_amd64" \
-    && chmod +x /usr/local/bin/copy-docker-image
+    && helm tiller install
 

@@ -10,4 +10,5 @@ docker run --rm ${DOCKER_IMAGE}:${TAG} /bin/bash -lc '\
     echo "Maven: " && mvn --version && \
     echo "JMeter: " && jmeter -n --version && \
     echo "Chrome: " && google-chrome-stable --version && \
-    echo "Firefox: " && firefox --version'
+    echo "Firefox: " && firefox --version && \
+    echo "Skopeo: " && skopeo -v'

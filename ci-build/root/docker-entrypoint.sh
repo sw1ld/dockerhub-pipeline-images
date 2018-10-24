@@ -7,6 +7,7 @@ if ! whoami &> /dev/null; then
   fi
 fi
 
-. "${HOME}/.nvm/nvm.sh"
+. "${NVM_DIR}/nvm.sh"
+. "${JABBA_HOME}/jabba.sh"
 
 exec "$@"

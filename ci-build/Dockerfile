@@ -14,7 +14,8 @@ ENV TZ=Europe/Berlin \
     NODE_OPTIONS="--max_old_space_size=512" \
     MAVEN_HOME=/usr/share/maven \
     MAVEN_CONFIG="$HOME/.m2" \
-    NVM_DIR="$HOME/.nvm" \
+    NVM_DIR="/usr/local/share/nvm" \
+    JABBA_HOME="/usr/local/share/jabba" \
     BASH_ENV=/enable.sh \
     ENV=/enable.sh
 
@@ -49,6 +50,14 @@ RUN set -euo pipefail && \
       curl -fsSL "https://download.java.net/java/ga/jdk11/openjdk-11_linux-x64_bin.tar.gz" | tar xz --exclude='src.zip' -C /usr/local/share/ \
     ) && \
     (cd /opt && \
+      # Less secure then git clone ... bash install.sh ?
+      curl -fsSL "https://github.com/shyiko/jabba/raw/master/install.sh" | bash && \
+      . "${JABBA_HOME}/jabba.sh" && \
+      jabba link system@1.11 /usr/local/share/jdk-11 && \
+      jabba link system@1.8 /usr/lib/jvm/java-1.8.0 && \
+      jabba alias default system@1.8 \
+    ) && \
+    (cd /opt && \
       curl  -fsSL "https://download.mozilla.org/?product=firefox-${FIREFOX_VERSION}&os=linux64&lang=en-US" | tar xj && \
       ln -s /opt/firefox/firefox /usr/local/bin/firefox \
     ) && \
@@ -71,7 +80,10 @@ RUN set -euo pipefail && \
     cd /tmp && rm -rf ..?* .[!.]* * && \
     . "${NVM_DIR}/nvm.sh" && \
     nvm exec 8 npm cache clear --force && \
-    nvm exec 10 npm cache clear --force
+    nvm exec 10 npm cache clear --force && \
+    chmod -R g+rw "${NVM_DIR}" "${JABBA_HOME}" && \
+    find "${NVM_DIR}" -type d -exec chmod g+x {} + && \
+    find "${JABBA_HOME}" -type d -exec chmod g+x {} +
 
 WORKDIR /opt/app-root/src
 

@@ -2,76 +2,81 @@ FROM centos:7
 
 LABEL maintainer="joe@adorsys.de"
 
-ARG FIREFOX_VERSION=latest
-ARG NODE_VERSION=8
 ARG MAVEN_VERSION=3.5.4
 ARG JMETER_VERSION=5.0
 
-ENV HOME=/home/default
-ENV TZ=Europe/Berlin \
+ENV HOME=/home/default \
+    TZ=Europe/Berlin \
     NO_UPDATE_NOTIFIER=1 \
     JAVA_TOOL_OPTIONS="-Xmx128M" \
     NODE_OPTIONS="--max_old_space_size=512" \
     MAVEN_HOME=/usr/share/maven \
     MAVEN_CONFIG="$HOME/.m2" \
-    NVM_DIR="$HOME/.nvm" \
+    NVM_DIR="/usr/local/share/nvm" \
+    JABBA_HOME="/usr/local/share/jabba" \
     BASH_ENV=/enable.sh \
     ENV=/enable.sh
 
 ADD root /
 
-RUN set -euo pipefail && \
-    useradd -d "${HOME}" -u 1001 -g 0 default && \
-    ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone && \
-    echo -e '[google-chrome]\nname=google-chrome\nbaseurl=http://dl.google.com/linux/chrome/rpm/stable/$basearch\nenabled=0\ngpgcheck=1\ngpgkey=https://dl-ssl.google.com/linux/linux_signing_key.pub' > /etc/yum.repos.d/google-chrome.repo && \
-    yum install -y epel-release && \
-    yum install -y --enablerepo=google-chrome \
+RUN set -euo pipefail \
+    && useradd -d "${HOME}" -u 1001 -g 0 default \
+    && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
+    && echo -e '[google-chrome]\nname=google-chrome\nbaseurl=http://dl.google.com/linux/chrome/rpm/stable/$basearch\nenabled=0\ngpgcheck=1\ngpgkey=https://dl-ssl.google.com/linux/linux_signing_key.pub' > /etc/yum.repos.d/google-chrome.repo \
+    && yum install -y epel-release \
+    && yum install -y --enablerepo=google-chrome \
         zip unzip python bzip2 libXt git gcc-c++ make jq \
         docker-client skopeo \
         tomcat-native java-1.8.0-openjdk-devel \
-        google-chrome-stable && \
-    yum clean all -y && rm -rf /var/cache/yum && \
-    chmod g=u /etc/passwd && \
-    mkdir -p /opt/app-root/src && chown -R 1001:0 /opt/app-root/src && chmod -R ug+rwx /opt/app-root/src && \
-    ( \
-      git clone https://github.com/creationix/nvm.git "${NVM_DIR}/" && \
-      cd "${NVM_DIR}/" && \
-      git checkout `git describe --abbrev=0 --tags --match "v[0-9]*" $(git rev-list --tags --max-count=1)` && \
-      echo -e "npm\nyarn" > default-packages && \
-      . "${NVM_DIR}/nvm.sh" && \
-      nvm install 8 && \
-      nvm install 10 && \
-      nvm cache clear && \
-      nvm alias default ${NODE_VERSION} && \
-      rm -rf /home/default/.npm/ \
-    ) && \
-    (cd /opt && \
-      curl -fsSL "https://download.java.net/java/ga/jdk11/openjdk-11_linux-x64_bin.tar.gz" | tar xz --exclude='src.zip' -C /usr/local/share/ \
-    ) && \
-    (cd /opt && \
-      curl  -fsSL "https://download.mozilla.org/?product=firefox-${FIREFOX_VERSION}&os=linux64&lang=en-US" | tar xj && \
-      ln -s /opt/firefox/firefox /usr/local/bin/firefox \
-    ) && \
-    (mkdir -p /usr/share/maven && cd /usr/share/maven && \
-      curl -fsSLO "https://archive.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz" && \
-      curl -fsSLO "https://archive.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz.sha512" && \
-      echo -n "$(cat apache-maven-${MAVEN_VERSION}-bin.tar.gz.sha512)  apache-maven-${MAVEN_VERSION}-bin.tar.gz" | sha512sum -c && \
-      tar -xzf apache-maven-${MAVEN_VERSION}-bin.tar.gz -C /usr/share/maven --strip-components=1 && \
-      rm -f apache-maven-${MAVEN_VERSION}-bin.tar.gz apache-maven-${MAVEN_VERSION}-bin.tar.gz.sha512 && \
-      ln -s /usr/share/maven/bin/mvn /usr/bin/mvn \
-    ) && \
-    (mkdir -p /usr/share/jmeter && cd /usr/share/jmeter && \
-      curl -fsSLO "https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-${JMETER_VERSION}.tgz"  && \
-      curl -fsSLO "https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-${JMETER_VERSION}.tgz.sha512" && \
-      sha512sum -c apache-jmeter-${JMETER_VERSION}.tgz.sha512 && \
-      tar -xzf apache-jmeter-${JMETER_VERSION}.tgz -C /usr/share/jmeter --strip-components=1 --exclude='docs' && \
-      rm -f apache-jmeter-${JMETER_VERSION}.tgz apache-jmeter-${JMETER_VERSION}.tgz.sha512 && \
-      ln -s /usr/share/jmeter/bin/jmeter /usr/bin/jmeter \
-    ) && \
-    cd /tmp && rm -rf ..?* .[!.]* * && \
-    . "${NVM_DIR}/nvm.sh" && \
-    nvm exec 8 npm cache clear --force && \
-    nvm exec 10 npm cache clear --force
+        google-chrome-stable \
+    && yum clean all -y && rm -rf /var/cache/yum \
+    && chmod g=u /etc/passwd \
+    && mkdir -p /opt/app-root/src && chown -R 1001:0 /opt/app-root/src && chmod -R ug+rwx /opt/app-root/src \
+    && ( mkdir -p "${NVM_DIR}" && cd "${NVM_DIR}" \
+        && curl "https://raw.githubusercontent.com/creationix/nvm/master/install.sh" | bash \
+        && echo -e "npm\nyarn" > default-packages \
+        && . "${NVM_DIR}/nvm.sh" \
+        && nvm install 8 \
+        && nvm install 10 \
+        && nvm cache clear \
+        && nvm alias default 8 \
+        && rm -rf /home/default/.npm/ \
+    ) \
+    && (cd /opt \
+       && curl -fsSL "https://download.java.net/java/ga/jdk11/openjdk-11_linux-x64_bin.tar.gz" | tar xz --exclude='src.zip' -C /usr/local/share/ \
+    ) \
+    && (cd /opt \
+       # Less secure then git clone ... bash install.sh ?
+       && curl -fsSL "https://github.com/shyiko/jabba/raw/master/install.sh" | bash \
+       && . "${JABBA_HOME}/jabba.sh" \
+       && jabba link system@1.11 /usr/local/share/jdk-11 \
+       && jabba link system@1.8 /usr/lib/jvm/java-1.8.0 \
+       && jabba alias default system@1.8 \
+    ) \
+    && (cd /opt \
+       && curl  -fsSL "https://download.mozilla.org/?product=firefox-latest&os=linux64&lang=en-US" | tar xj \
+       && ln -s /opt/firefox/firefox /usr/local/bin/firefox \
+    ) \
+    && (mkdir -p /usr/share/maven && cd /usr/share/maven \
+       && curl -fsSLO "https://archive.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz" \
+       && curl -fsSLO "https://archive.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz.sha512" \
+       && echo -n "$(cat apache-maven-${MAVEN_VERSION}-bin.tar.gz.sha512)  apache-maven-${MAVEN_VERSION}-bin.tar.gz" | sha512sum -c \
+       && tar -xzf apache-maven-${MAVEN_VERSION}-bin.tar.gz -C /usr/share/maven --strip-components=1 \
+       && rm -f apache-maven-${MAVEN_VERSION}-bin.tar.gz apache-maven-${MAVEN_VERSION}-bin.tar.gz.sha512 \
+       && ln -s /usr/share/maven/bin/mvn /usr/bin/mvn \
+    ) \
+    && (mkdir -p /usr/share/jmeter && cd /usr/share/jmeter \
+       && curl -fsSLO "https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-${JMETER_VERSION}.tgz"  \
+       && curl -fsSLO "https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-${JMETER_VERSION}.tgz.sha512" \
+       && sha512sum -c apache-jmeter-${JMETER_VERSION}.tgz.sha512 \
+       && tar -xzf apache-jmeter-${JMETER_VERSION}.tgz -C /usr/share/jmeter --strip-components=1 --exclude='docs' \
+       && rm -f apache-jmeter-${JMETER_VERSION}.tgz apache-jmeter-${JMETER_VERSION}.tgz.sha512 \
+       && ln -s /usr/share/jmeter/bin/jmeter /usr/bin/jmeter \
+    ) \
+    && cd /tmp && rm -rf ..?* .[!.]* * \
+    && chmod -R g+rw "${NVM_DIR}" "${JABBA_HOME}" \
+    && find "${NVM_DIR}" -type d -exec chmod g+x {} + \
+    && find "${JABBA_HOME}" -type d -exec chmod g+x {} +
 
 WORKDIR /opt/app-root/src
 

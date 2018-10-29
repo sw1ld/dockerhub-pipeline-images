@@ -32,5 +32,6 @@ RUN set -euo pipefail \
     && export SOPS_VERSION=$(grep SOPS_VERSION= "$(helm home)/plugins/helm-secrets-${HELM_SECRETS_VERSION}/install-binary.sh" | cut -d'"' -f2) \
     && curl -LsSf https://github.com/mozilla/sops/releases/download/${SOPS_VERSION}/sops-${SOPS_VERSION}.linux -o /usr/local/bin/sops && chmod +x /usr/local/bin/sops \
     && helm tiller install \
-    && chmod -R g+rw /usr/local/share/helm/ \
-    && find /usr/local/share/helm/ -type d -exec chmod g+x {} +
+    && ln -s "$(helm home)/plugins/helm-secrets-${HELM_SECRETS_VERSION}/wrapper.sh" /usr/local/bin/helm-wrapper \
+    && chmod -R g+rw "$(helm home)" \
+    && find "$(helm home)" -type d -exec chmod g+x {} +

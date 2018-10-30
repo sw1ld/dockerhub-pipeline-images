@@ -2,16 +2,18 @@ FROM centos:7
 
 LABEL maintainer="ysi@adorsys.de,joe@adorsys.de"
 
-ENV HELM_HOME=/usr/local/share/helm/
+# Required von helm secrets
+ENV GNUPGHOME=/var/local/lib/gnupg/ \
+    HELM_HOME=/var/local/lib/helm/
 
 ARG HELM_VERSION=v2.10.0
 ARG HELM_DIFF_VERSION=v2.10.0+1
 ARG HELM_PUSH_VERSION=0.7.1
 ARG HELM_SECRETS_VERSION=1.3.1
-ARG HELM_TILLER_VERSION=0.5.8
+ARG HELM_TILLER_VERSION=0.6.3
 
 RUN set -euo pipefail \
-    && mkdir -p /usr/local/share/helm/ \
+    && mkdir -p "${HELM_HOME}" "${GNUPGHOME}" \
     && yum install -y epel-release centos-release-openshift-origin \
     && yum install -y skopeo docker-client ansible origin-clients \
     && yum clean all \
@@ -33,5 +35,5 @@ RUN set -euo pipefail \
     && curl -LsSf https://github.com/mozilla/sops/releases/download/${SOPS_VERSION}/sops-${SOPS_VERSION}.linux -o /usr/local/bin/sops && chmod +x /usr/local/bin/sops \
     && helm tiller install \
     && ln -s "$(helm home)/plugins/helm-secrets-${HELM_SECRETS_VERSION}/wrapper.sh" /usr/local/bin/helm-wrapper \
-    && chmod -R g+rw "$(helm home)" \
+    && chmod -R g+rw "$(helm home)" "${GNUPGHOME}" \
     && find "$(helm home)" -type d -exec chmod g+x {} +

@@ -13,6 +13,8 @@ ARG HELM_PUSH_VERSION=0.7.1
 ARG HELM_SECRETS_VERSION=1.3.1
 ARG HELM_TILLER_VERSION=0.6.3
 
+ADD root /
+
 RUN set -euo pipefail \
     && mkdir -p "${HELM_HOME}" "${GNUPGHOME}" \
     && yum install -y epel-release centos-release-openshift-origin \
@@ -37,7 +39,6 @@ RUN set -euo pipefail \
     && helm tiller install \
     && ln -s "$(helm home)/plugins/helm-secrets-${HELM_SECRETS_VERSION}/wrapper.sh" /usr/local/bin/helm-wrapper \
     && ln -s /usr/libexec/gpg-preset-passphrase /usr/local/bin/gpg-preset-passphrase \
-# Since we are in a container silence warnings like there
-    && printf '#!/bin/sh\nexec /usr/bin/gpg --no-permission-warning "$@"' > /usr/local/bin/gpg && chmod +x /usr/local/bin/gpg \
+    && chmod +x /usr/local/bin/gpg /usr/local/bin/gpg-keyid \
     && chmod -R g+rw "$(helm home)" "${GNUPGHOME}" \
     && find "$(helm home)" -type d -exec chmod g+x {} +

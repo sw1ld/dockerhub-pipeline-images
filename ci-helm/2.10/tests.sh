@@ -10,3 +10,5 @@ docker run --rm ${DOCKER_IMAGE}:${TAG} helm secrets -h
 docker run --rm ${DOCKER_IMAGE}:${TAG} helm tiller -h
 docker run --rm -eHELM_TILLER_SILENT=false ${DOCKER_IMAGE}:${TAG} helm tiller run helm version
 docker run --rm ${DOCKER_IMAGE}:${TAG} skopeo -v
+docker run --rm ${DOCKER_IMAGE}:${TAG} gpg --list-keys
+docker run --rm ${DOCKER_IMAGE}:${TAG} sops -v

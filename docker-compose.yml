@@ -4,6 +4,9 @@ services:
   ansible:
     build:
       context: ansible
+  arc42:
+    build:
+      context: arc42-tools
   awscli:
     build:
       context: awscli

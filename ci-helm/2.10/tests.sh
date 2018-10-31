@@ -12,3 +12,4 @@ docker run --rm -eHELM_TILLER_SILENT=false ${DOCKER_IMAGE}:${TAG} helm tiller ru
 docker run --rm ${DOCKER_IMAGE}:${TAG} skopeo -v
 docker run --rm ${DOCKER_IMAGE}:${TAG} gpg --list-keys
 docker run --rm ${DOCKER_IMAGE}:${TAG} sops -v
+docker run --rm ${DOCKER_IMAGE}:${TAG} gpg-preset-passphrase -h

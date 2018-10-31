@@ -4,6 +4,7 @@ LABEL maintainer="ysi@adorsys.de,joe@adorsys.de"
 
 # Required von helm secrets
 ENV GNUPGHOME=/var/local/lib/gnupg/ \
+    TERM=xterm \
     HELM_HOME=/var/local/lib/helm/
 
 ARG HELM_VERSION=v2.10.0
@@ -35,5 +36,8 @@ RUN set -euo pipefail \
     && curl -LsSf https://github.com/mozilla/sops/releases/download/${SOPS_VERSION}/sops-${SOPS_VERSION}.linux -o /usr/local/bin/sops && chmod +x /usr/local/bin/sops \
     && helm tiller install \
     && ln -s "$(helm home)/plugins/helm-secrets-${HELM_SECRETS_VERSION}/wrapper.sh" /usr/local/bin/helm-wrapper \
+    && ln -s /usr/libexec/gpg-preset-passphrase /usr/local/bin/gpg-preset-passphrase \
+# Since we are in a container silence warnings like there
+    && printf '#!/bin/sh\nexec /usr/bin/gpg --no-permission-warning "$@"' > /usr/local/bin/gpg && chmod +x /usr/local/bin/gpg \
     && chmod -R g+rw "$(helm home)" "${GNUPGHOME}" \
     && find "$(helm home)" -type d -exec chmod g+x {} +

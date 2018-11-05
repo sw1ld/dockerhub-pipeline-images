@@ -2,32 +2,46 @@
 version: '3'
 services:
   ansible:
+    image: adorsys/ansible
     build:
       context: ansible
+  arc42_tools:
+    image: adorsys/arc42-tools
+    build:
+      context: arc42-tools
   awscli:
+    image: adorsys/awscli
     build:
       context: awscli
   ci_build:
+    image: adorsys/ci-build
     build:
       context: ci-build
-  copy_image:
-    build:
-      context: copy-image
   nginx:
+    image: adorsys/nginx
     build:
       context: nginx
   helm_2.10:
+    image: adorsys/helm:2.10
     build:
-      context: helm/2.10
+      context: ci-helm/2.10
   helm_2.11:
+    image: adorsys/helm:2.11
     build:
-      context: helm/2.11
+      context: ci-helm/2.11
   java_8:
+    image: adorsys/java:8
     build:
       context: java/8
+  java_11:
+    image: adorsys/java:11
+    build:
+      context: java/11
   node_10:
+    image: adorsys/node:10
     build:
       context: node/10
   node_8:
+    image: adorsys/node:8
     build:
       context: node/8

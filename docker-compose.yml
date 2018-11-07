@@ -21,22 +21,22 @@ services:
     image: adorsys/nginx
     build:
       context: nginx
-  helm_2.10:
-    image: adorsys/helm:2.10
+  ci_helm_2.10:
+    image: adorsys/ci-helm:2.10
     build:
       context: ci-helm/2.10
-  helm_2.11:
-    image: adorsys/helm:2.11
+  ci_helm_2.11:
+    image: adorsys/ci-helm:2.11
     build:
       context: ci-helm/2.11
-  java_8:
-    image: adorsys/java:8
-    build:
-      context: java/8
   java_11:
     image: adorsys/java:11
     build:
       context: java/11
+  java_8:
+    image: adorsys/java:8
+    build:
+      context: java/8
   node_10:
     image: adorsys/node:10
     build:

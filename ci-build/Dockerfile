@@ -33,45 +33,45 @@ RUN set -euo pipefail \
     && chmod g=u /etc/passwd \
     && mkdir -p /opt/app-root/src && chown -R 1001:0 /opt/app-root/src && chmod -R ug+rwx /opt/app-root/src \
     && ( mkdir -p "${NVM_DIR}" && cd "${NVM_DIR}" \
-        && curl "https://raw.githubusercontent.com/creationix/nvm/master/install.sh" | bash \
-        && echo -e "npm\nyarn" > default-packages \
-        && . "${NVM_DIR}/nvm.sh" \
-        && nvm install 8 \
-        && nvm install 10 \
-        && nvm cache clear \
-        && nvm alias default 8 \
-        && rm -rf /home/default/.npm/ \
+      && curl "https://raw.githubusercontent.com/creationix/nvm/master/install.sh" | bash \
+      && echo -e "npm\nyarn" > default-packages \
+      && . "${NVM_DIR}/nvm.sh" \
+      && nvm install 8 \
+      && nvm install 10 \
+      && nvm cache clear \
+      && nvm alias default 8 \
+      && rm -rf /home/default/.npm/ \
     ) \
     && (cd /opt \
-       && curl -fsSL "https://download.java.net/java/ga/jdk11/openjdk-11_linux-x64_bin.tar.gz" | tar xz --exclude='src.zip' -C /usr/local/share/ \
+      && curl -fsSL "https://download.java.net/java/ga/jdk11/openjdk-11_linux-x64_bin.tar.gz" | tar xz --exclude='src.zip' -C /usr/local/share/ \
     ) \
     && (cd /opt \
-       # Less secure then git clone ... bash install.sh ?
-       && curl -fsSL "https://github.com/shyiko/jabba/raw/master/install.sh" | bash \
-       && . "${JABBA_HOME}/jabba.sh" \
-       && jabba link system@1.11 /usr/local/share/jdk-11 \
-       && jabba link system@1.8 /usr/lib/jvm/java-1.8.0 \
-       && jabba alias default system@1.8 \
+      # Less secure then git clone ... bash install.sh ?
+      && curl -fsSL "https://github.com/shyiko/jabba/raw/master/install.sh" | bash \
+      && . "${JABBA_HOME}/jabba.sh" \
+      && jabba link system@1.11 /usr/local/share/jdk-11 \
+      && jabba link system@1.8 /usr/lib/jvm/java-1.8.0 \
+      && jabba alias default system@1.8 \
     ) \
     && (cd /opt \
-       && curl  -fsSL "https://download.mozilla.org/?product=firefox-latest&os=linux64&lang=en-US" | tar xj \
-       && ln -s /opt/firefox/firefox /usr/local/bin/firefox \
+      && curl  -fsSL "https://download.mozilla.org/?product=firefox-latest&os=linux64&lang=en-US" | tar xj \
+      && ln -s /opt/firefox/firefox /usr/local/bin/firefox \
     ) \
     && (mkdir -p /usr/share/maven && cd /usr/share/maven \
-       && curl -fsSLO "https://archive.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz" \
-       && curl -fsSLO "https://archive.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz.sha512" \
-       && echo -n "$(cat apache-maven-${MAVEN_VERSION}-bin.tar.gz.sha512)  apache-maven-${MAVEN_VERSION}-bin.tar.gz" | sha512sum -c \
-       && tar -xzf apache-maven-${MAVEN_VERSION}-bin.tar.gz -C /usr/share/maven --strip-components=1 \
-       && rm -f apache-maven-${MAVEN_VERSION}-bin.tar.gz apache-maven-${MAVEN_VERSION}-bin.tar.gz.sha512 \
-       && ln -s /usr/share/maven/bin/mvn /usr/bin/mvn \
+      && curl -fsSLO "https://archive.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz" \
+      && curl -fsSLO "https://archive.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz.sha512" \
+      && sha512sum -c apache-maven-${MAVEN_VERSION}-bin.tar.gz.sha512 \
+      && tar -xzf apache-maven-${MAVEN_VERSION}-bin.tar.gz -C /usr/share/maven --strip-components=1 \
+      && rm -f apache-maven-${MAVEN_VERSION}-bin.tar.gz apache-maven-${MAVEN_VERSION}-bin.tar.gz.sha512 \
+      && ln -s /usr/share/maven/bin/mvn /usr/bin/mvn \
     ) \
     && (mkdir -p /usr/share/jmeter && cd /usr/share/jmeter \
-       && curl -fsSLO "https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-${JMETER_VERSION}.tgz"  \
-       && curl -fsSLO "https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-${JMETER_VERSION}.tgz.sha512" \
-       && sha512sum -c apache-jmeter-${JMETER_VERSION}.tgz.sha512 \
-       && tar -xzf apache-jmeter-${JMETER_VERSION}.tgz -C /usr/share/jmeter --strip-components=1 --exclude='docs' \
-       && rm -f apache-jmeter-${JMETER_VERSION}.tgz apache-jmeter-${JMETER_VERSION}.tgz.sha512 \
-       && ln -s /usr/share/jmeter/bin/jmeter /usr/bin/jmeter \
+      && curl -fsSLO "https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-${JMETER_VERSION}.tgz"  \
+      && curl -fsSLO "https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-${JMETER_VERSION}.tgz.sha512" \
+      && sha512sum -c apache-jmeter-${JMETER_VERSION}.tgz.sha512 \
+      && tar -xzf apache-jmeter-${JMETER_VERSION}.tgz -C /usr/share/jmeter --strip-components=1 --exclude='docs' \
+      && rm -f apache-jmeter-${JMETER_VERSION}.tgz apache-jmeter-${JMETER_VERSION}.tgz.sha512 \
+      && ln -s /usr/share/jmeter/bin/jmeter /usr/bin/jmeter \
     ) \
     && cd /tmp && rm -rf ..?* .[!.]* * \
     && chmod -R g+rw "${NVM_DIR}" "${JABBA_HOME}" \

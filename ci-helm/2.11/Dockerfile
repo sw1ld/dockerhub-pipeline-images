@@ -18,7 +18,7 @@ ADD root /
 RUN set -euo pipefail \
     && mkdir -p "${HELM_HOME}" "${GNUPGHOME}" \
     && yum install -y epel-release centos-release-openshift-origin \
-    && yum install -y skopeo docker-client ansible origin-clients \
+    && yum install -y git skopeo docker-client ansible origin-clients \
     && yum clean all \
     && rm -rf /var/cache/yum \
 ## Install kubernetes helm

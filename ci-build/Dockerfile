@@ -2,7 +2,7 @@ FROM centos:7
 
 LABEL maintainer="joe@adorsys.de"
 
-ARG MAVEN_VERSION=3.5.4
+ARG MAVEN_VERSION=3.6.0
 ARG JMETER_VERSION=5.0
 
 ENV HOME=/home/default \

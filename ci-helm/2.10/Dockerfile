@@ -18,9 +18,11 @@ ADD root /
 RUN set -euo pipefail \
     && mkdir -p "${HELM_HOME}" "${GNUPGHOME}" \
     && yum install -y epel-release centos-release-openshift-origin \
-    && yum install -y git skopeo docker-client ansible origin-clients \
+    && yum install -y git skopeo docker-client ansible origin-clients python2-pip jq \
     && yum clean all \
     && rm -rf /var/cache/yum \
+## Install yq
+    && pip --disable-pip-version-check install -U --no-deps --compile --no-cache-dir yq \
 ## Install kubernetes helm
     && curl -LsSf -O https://storage.googleapis.com/kubernetes-helm/helm-${HELM_VERSION}-linux-amd64.tar.gz \
     && tar -zxvf helm-${HELM_VERSION}-linux-amd64.tar.gz \

@@ -41,5 +41,6 @@ RUN set -euo pipefail \
     && helm tiller install \
     && ln -s "$(helm home)/plugins/helm-secrets-${HELM_SECRETS_VERSION}/wrapper.sh" /usr/local/bin/helm-wrapper \
     && ln -s /usr/libexec/gpg-preset-passphrase /usr/local/bin/gpg-preset-passphrase \
-    && chmod -R g+rw "$(helm home)" "${GNUPGHOME}" \
-    && find "$(helm home)" -type d -exec chmod g+x {} +
+    && chmod -R go+rw "$(helm home)" "${GNUPGHOME}" \
+    && find "$(helm home)" -type d -exec chmod go+x {} +
+

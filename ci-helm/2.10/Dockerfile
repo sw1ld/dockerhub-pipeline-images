@@ -5,7 +5,8 @@ LABEL maintainer="ysi@adorsys.de,joe@adorsys.de"
 # Required von helm secrets
 ENV GNUPGHOME=/var/local/lib/gnupg/ \
     TERM=xterm \
-    HELM_HOME=/var/local/lib/helm/
+    HELM_HOME=/var/local/lib/helm/ \
+    KUBECONFIG=/var/local/lib/kube/config
 
 ARG HELM_VERSION=v2.10.0
 ARG HELM_DIFF_VERSION=v2.10.0+1
@@ -16,7 +17,7 @@ ARG HELM_TILLER_VERSION=0.6.3
 ADD root /
 
 RUN set -euo pipefail \
-    && mkdir -p "${HELM_HOME}" "${GNUPGHOME}" \
+    && mkdir -p "${HELM_HOME}" "${GNUPGHOME}" "$(dirname "$KUBECONFIG")" \
     && yum install -y epel-release centos-release-openshift-origin \
     && yum install -y git skopeo docker-client ansible origin-clients python2-pip jq \
     && yum clean all \
@@ -41,5 +42,5 @@ RUN set -euo pipefail \
     && helm tiller install \
     && ln -s "$(helm home)/plugins/helm-secrets-${HELM_SECRETS_VERSION}/wrapper.sh" /usr/local/bin/helm-wrapper \
     && ln -s /usr/libexec/gpg-preset-passphrase /usr/local/bin/gpg-preset-passphrase \
-    && chmod -R go+rw "$(helm home)" "${GNUPGHOME}" \
-    && find "$(helm home)" -type d -exec chmod go+x {} +
+    && chmod -R go+rw "$(helm home)" "${GNUPGHOME}" "$(dirname "$KUBECONFIG")" \
+    && find "$(helm home)" "${GNUPGHOME}" "$(dirname "$KUBECONFIG")" -type d -exec chmod go+x {} +

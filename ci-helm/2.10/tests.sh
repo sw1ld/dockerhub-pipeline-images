@@ -13,3 +13,5 @@ docker run --rm ${DOCKER_IMAGE}:${TAG} skopeo -v
 docker run --rm ${DOCKER_IMAGE}:${TAG} gpg --list-keys
 docker run --rm ${DOCKER_IMAGE}:${TAG} sops -v
 docker run --rm ${DOCKER_IMAGE}:${TAG} gpg-preset-passphrase -h
+docker run --rm ${DOCKER_IMAGE}:${TAG} yq --version
+docker run --rm ${DOCKER_IMAGE}:${TAG} jq --version

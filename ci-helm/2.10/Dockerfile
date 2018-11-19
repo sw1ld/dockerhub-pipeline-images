@@ -19,7 +19,7 @@ ADD root /
 RUN set -euo pipefail \
     && mkdir -p "${HELM_HOME}" "${GNUPGHOME}" "$(dirname "$KUBECONFIG")" \
     && yum install -y epel-release centos-release-openshift-origin \
-    && yum install -y git skopeo docker-client ansible origin-clients python2-pip jq \
+    && yum install -y git skopeo docker-client ansible origin-clients python2-pip jq unzip \
     && yum clean all \
     && rm -rf /var/cache/yum \
 ## Install yq

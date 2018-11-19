@@ -15,3 +15,4 @@ docker run --rm ${DOCKER_IMAGE}:${TAG} sops -v
 docker run --rm ${DOCKER_IMAGE}:${TAG} gpg-preset-passphrase -h
 docker run --rm ${DOCKER_IMAGE}:${TAG} yq --version
 docker run --rm ${DOCKER_IMAGE}:${TAG} jq --version
+docker run --rm ${DOCKER_IMAGE}:${TAG} unzip -v

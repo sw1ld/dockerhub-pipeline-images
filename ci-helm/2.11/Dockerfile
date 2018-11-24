@@ -2,7 +2,13 @@ FROM centos:7
 
 LABEL maintainer="ysi@adorsys.de,joe@adorsys.de"
 
-# Required von helm secrets
+# GNUPGHOME: Required von helm secrets
+# Workaround for
+#
+# could not decrypt data key with PGP key: golang.org/x/crypto/openpgp error: Could not load secring: open ~/.gnupg/secring.gpg: no such file or directory;
+#
+# Since the current user does not have $HOME (in passwd) and ~ can resolve to the current home a PGP home must be defined.
+# See also: https://github.com/mozilla/sops/blob/108e66f46f07a3c5dd0717d298f15558594baba6/pgp/keysource.go#L245
 ENV GNUPGHOME=/var/local/lib/gnupg/ \
     TERM=xterm \
     HELM_HOME=/var/local/lib/helm/ \

@@ -9,8 +9,9 @@ ENV TZ=Europe/Berlin \
 
 WORKDIR /opt/app-root/src
 
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone && \
-    yum install epel-release -y && yum install -y java-1.8.0-openjdk-headless tomcat-native && yum clean all
+RUN yum update -y && yum clean all && rm -rf /var/cache/yum \
+    && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
+    && yum install epel-release -y && yum install -y java-1.8.0-openjdk-headless tomcat-native && yum clean all
 
 ADD root /
 

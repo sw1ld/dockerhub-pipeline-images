@@ -17,6 +17,10 @@ services:
     image: adorsys/ci-build
     build:
       context: ci-build
+  clair:
+    image: adorsys/clair
+    build:
+      context: clair
   nginx:
     image: adorsys/nginx
     build:

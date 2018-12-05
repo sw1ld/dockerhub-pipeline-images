@@ -1,0 +1,10 @@
+#!/bin/sh
+
+while ! nc -z localhost 6060; do
+  sleep 1
+  WAIT=$((${WAIT} + 1))
+  if [ "${WAIT}" -gt 30 ]; then
+    echo "Error > Timeout waiting for Clair to start"
+    exit 1
+  fi
+done

@@ -8,7 +8,7 @@ With clair you can scan you images inside the CI pipeline
 scan:
   stage: scan
   image: 
-    name: adorsys/clair
+    name: adorsys/ci-clair
   services:
     - name: arminc/clair-db:latest
       alias: postgres

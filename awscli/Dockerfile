@@ -1,15 +1,14 @@
-FROM centos:7
+FROM python:alpine
 
-LABEL maintainer="joe@adorsys.de"
+LABEL maintainer="adorsys GmbH & Co. KG"
 
 ENV PAGER="more"
 
-RUN yum install -y epel-release && \
-    yum install -y jq python-pip zip && \
-    pip install --no-cache --upgrade awscli
+RUN apk add --no-cache jq zip && \
+    pip --disable-pip-version-check install -U --compile --no-cache-dir awscli
 
 # Expose volume for adding credentials
 VOLUME ["~/.aws"]
 
-ENTRYPOINT ["/usr/bin/aws"]
+ENTRYPOINT ["/usr/local/bin/aws"]
 CMD ["--version"]

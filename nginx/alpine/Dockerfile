@@ -1,0 +1,31 @@
+FROM nginx:stable-alpine
+
+LABEL maintainer="adorsys GmbH & Co. KG"
+
+USER 0
+
+ENV TZ=Europe/Berlin
+
+WORKDIR /usr/share/nginx/html
+
+COPY root /
+
+# https://github.com/nginxinc/docker-nginx-unprivileged/blob/master/mainline/stretch/Dockerfile
+RUN apk --no-cache upgrade \
+    && mkdir -p /var/cache/nginx /etc/nginx/conf.default.d/ \
+    && chown -R 1001:0 /var/cache/nginx \
+    && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
+    && rm -rf /usr/share/nginx/html/* \
+    && sed -i -e '/listen/!b' -e '/80;/!b' -e 's/80;/8080;/' /etc/nginx/conf.d/default.conf \
+    && sed -i -e '/user/!b' -e '/nginx/!b' -e '/nginx/d' /etc/nginx/nginx.conf \
+    && sed -i 's!/var/run/nginx.pid!/var/cache/nginx/nginx.pid!g' /etc/nginx/nginx.conf \
+    && sed -i "/^http {/a \    proxy_temp_path /var/cache/nginx/proxy_temp;\n    client_body_temp_path /var/cache/nginx/client_temp;\n    fastcgi_temp_path /var/cache/nginx/fastcgi_temp;\n    uwsgi_temp_path /var/cache/nginx/uwsgi_temp;\n    scgi_temp_path /var/cache/nginx/scgi_temp;\n" /etc/nginx/nginx.conf \
+    && sed -ri '/location \//,/.*\}/d' /etc/nginx/conf.d/default.conf \
+    && sed -i -e '/localhost/a\' -e'    include /etc/nginx/conf.default.d/*.conf;' /etc/nginx/conf.d/default.conf \
+    && sed -i -e '/localhost/a\' -e'    root         \/usr\/share\/nginx\/html;' /etc/nginx/conf.d/default.conf
+
+USER 1001
+
+ENTRYPOINT ["/docker-entrypoint.sh"]
+
+CMD ["nginx", "-g", "daemon off;"]

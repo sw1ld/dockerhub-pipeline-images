@@ -1,6 +1,6 @@
 FROM centos:7
 
-LABEL maintainer="joe@adorsys.de"
+LABEL maintainer="adorsys GmbH & Co. KG"
 
 ARG MAVEN_VERSION=3.6.0
 ARG JMETER_VERSION=5.0

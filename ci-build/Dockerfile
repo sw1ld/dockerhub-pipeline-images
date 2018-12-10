@@ -24,11 +24,12 @@ RUN set -euo pipefail \
     && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
     && echo -e '[google-chrome]\nname=google-chrome\nbaseurl=http://dl.google.com/linux/chrome/rpm/stable/$basearch\nenabled=0\ngpgcheck=1\ngpgkey=https://dl-ssl.google.com/linux/linux_signing_key.pub' > /etc/yum.repos.d/google-chrome.repo \
     && echo -e '[docker-ce-stable]\nname=Docker CE Stable - $basearch\nbaseurl=https://download.docker.com/linux/centos/7/$basearch/stable\nenabled=0\ngpgcheck=1\ngpgkey=https://download.docker.com/linux/centos/gpg' > /etc/yum.repos.d/docker-ce.repo \
+    && yum update -y \
     && yum install -y epel-release \
     && yum install -y --enablerepo=google-chrome --enablerepo=docker-ce-stable \
         zip unzip python bzip2 libXt git gcc-c++ make jq \
         docker-ce skopeo \
-        tomcat-native java-1.8.0-openjdk-devel \
+        tomcat-native java-1.8.0-openjdk-devel java-11-openjdk-devel \
         google-chrome-stable \
     && yum clean all -y && rm -rf /var/cache/yum \
     && chmod g=u /etc/passwd \
@@ -44,13 +45,10 @@ RUN set -euo pipefail \
       && rm -rf /home/default/.npm/ \
     ) \
     && (cd /opt \
-      && curl -fsSL "https://download.java.net/java/ga/jdk11/openjdk-11_linux-x64_bin.tar.gz" | tar xz --exclude='src.zip' -C /usr/local/share/ \
-    ) \
-    && (cd /opt \
       # Less secure then git clone ... bash install.sh ?
       && curl -fsSL "https://github.com/shyiko/jabba/raw/master/install.sh" | bash \
       && . "${JABBA_HOME}/jabba.sh" \
-      && jabba link system@1.11 /usr/local/share/jdk-11 \
+      && jabba link system@1.11 /usr/lib/jvm/java-11 \
       && jabba link system@1.8 /usr/lib/jvm/java-1.8.0 \
       && jabba alias default system@1.8 \
     ) \

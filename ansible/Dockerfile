@@ -1,6 +1,6 @@
 FROM centos:7
 
-LABEL maintainer="joe@adorsys.de"
+LABEL maintainer="adorsys GmbH & Co. KG"
 
 RUN yum install -y epel-release \
     && yum install -y openssh-clients git ansible python-six python-passlib python-lxml pyOpenSSL python-cryptography \

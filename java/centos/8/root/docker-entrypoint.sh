@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # From https://docs.openshift.com/container-platform/3.9/creating_images/guidelines.html#use-uid
 if ! whoami &> /dev/null; then

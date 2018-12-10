@@ -16,7 +16,7 @@ RUN yum update -y && yum clean all && rm -rf /var/cache/yum \
     && ln -sf /opt/rh/rh-nginx112/root/usr/share/nginx/html/404.html /opt/app-root/src/404.html \
     && ln -sf /opt/rh/rh-nginx112/root/usr/share/nginx/html/50x.html /opt/app-root/src/50x.html
 
-USER default
+USER 1001
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
 

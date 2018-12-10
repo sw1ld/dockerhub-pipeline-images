@@ -14,7 +14,7 @@ ENV GNUPGHOME=/var/local/lib/gnupg/ \
     HELM_HOME=/var/local/lib/helm/ \
     KUBECONFIG=/var/local/lib/kube/config
 
-ARG HELM_VERSION=v2.11.0
+ARG HELM_VERSION=v2.12.0
 ARG HELM_DIFF_VERSION=v2.11.0+2
 ARG HELM_PUSH_VERSION=0.7.1
 ARG HELM_SECRETS_VERSION=1.3.1

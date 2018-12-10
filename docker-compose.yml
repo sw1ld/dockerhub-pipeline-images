@@ -2,29 +2,25 @@
 version: '3'
 services:
   ansible:
-    image: adorsys/ansible
+    image: adorsys/ansible:ansible
     build:
       context: ansible
   arc42_tools:
-    image: adorsys/arc42-tools
+    image: adorsys/arc42-tools:arc42-tools
     build:
       context: arc42-tools
   awscli:
-    image: adorsys/awscli
+    image: adorsys/awscli:awscli
     build:
       context: awscli
   ci_build:
-    image: adorsys/ci-build
+    image: adorsys/ci-build:ci-build
     build:
       context: ci-build
-  clair:
-    image: adorsys/clair
+  ci_clair:
+    image: adorsys/ci-clair:ci-clair
     build:
-      context: clair
-  nginx:
-    image: adorsys/nginx
-    build:
-      context: nginx
+      context: ci-clair
   ci_helm_2.10:
     image: adorsys/ci-helm:2.10
     build:
@@ -33,19 +29,47 @@ services:
     image: adorsys/ci-helm:2.11
     build:
       context: ci-helm/2.11
-  java_11:
-    image: adorsys/java:11
+  ci_helm_2.12:
+    image: adorsys/ci-helm:2.12
     build:
-      context: java/11
-  java_8:
-    image: adorsys/java:8
+      context: ci-helm/2.12
+  nginx_alpine:
+    image: adorsys/nginx:alpine
     build:
-      context: java/8
-  node_10:
-    image: adorsys/node:10
+      context: nginx/alpine
+  nginx_centos:
+    image: adorsys/nginx:centos
     build:
-      context: node/10
-  node_8:
-    image: adorsys/node:8
+      context: nginx/centos
+  java_alpine_11:
+    image: adorsys/java/alpine:11
     build:
-      context: node/8
+      context: java/alpine/11
+  java_alpine_8:
+    image: adorsys/java/alpine:8
+    build:
+      context: java/alpine/8
+  java_centos_11:
+    image: adorsys/java/centos:11
+    build:
+      context: java/centos/11
+  java_centos_8:
+    image: adorsys/java/centos:8
+    build:
+      context: java/centos/8
+  node_alpine_10:
+    image: adorsys/node/alpine:10
+    build:
+      context: node/alpine/10
+  node_alpine_8:
+    image: adorsys/node/alpine:8
+    build:
+      context: node/alpine/8
+  node_centos_10:
+    image: adorsys/node/centos:10
+    build:
+      context: node/centos/10
+  node_centos_8:
+    image: adorsys/node/centos:8
+    build:
+      context: node/centos/8

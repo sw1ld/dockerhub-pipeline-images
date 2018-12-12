@@ -21,6 +21,7 @@ RUN apk --no-cache upgrade \
     && sed -i -e '/user/!b' -e '/nginx/!b' -e '/nginx/d' /etc/nginx/nginx.conf \
     && sed -i 's!/var/run/nginx.pid!/var/cache/nginx/nginx.pid!g' /etc/nginx/nginx.conf \
     && sed -i "/^http {/a \    proxy_temp_path /var/cache/nginx/proxy_temp;\n    client_body_temp_path /var/cache/nginx/client_temp;\n    fastcgi_temp_path /var/cache/nginx/fastcgi_temp;\n    uwsgi_temp_path /var/cache/nginx/uwsgi_temp;\n    scgi_temp_path /var/cache/nginx/scgi_temp;\n" /etc/nginx/nginx.conf \
+    && sed -i '/access_log/a \    server_tokens off;' /etc/nginx/nginx.conf \
     && sed -ri '/location \//,/.*\}/d' /etc/nginx/conf.d/default.conf \
     && sed -i -e '/localhost/a\' -e'    include /etc/nginx/conf.default.d/*.conf;' /etc/nginx/conf.d/default.conf \
     && sed -i -e '/localhost/a\' -e'    root         \/usr\/share\/nginx\/html;' /etc/nginx/conf.d/default.conf

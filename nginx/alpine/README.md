@@ -3,6 +3,6 @@
 Runtime Image for SPAs
 
 Paths:
-* `/opt/app-root/src`: Webroot
-* `/opt/app-root/etc/nginx.d/`: Configs for inside http block
-* `/opt/app-root/etc/nginx.default.d/` Configs for inside server block
+* `/usr/share/nginx/html`: Webroot
+* `/etc/nginx/conf.d/`: Configs for inside http block
+* `/etc/nginx/conf.default.d/` Configs for inside server block

@@ -27,7 +27,7 @@ RUN set -euo pipefail \
     && yum update -y \
     && yum install -y epel-release \
     && yum install -y --enablerepo=google-chrome --enablerepo=docker-ce-stable \
-        zip unzip python bzip2 libXt git gcc-c++ make jq \
+        iproute zip unzip python bzip2 libXt git gcc-c++ make jq \
         docker-ce skopeo \
         tomcat-native java-1.8.0-openjdk-devel java-11-openjdk-devel \
         google-chrome-stable \

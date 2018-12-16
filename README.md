@@ -1,14 +1,42 @@
-# Status
-Travis CI: [![Build Status](https://img.shields.io/travis/adorsys/dockerhub-pipeline-images/master.svg?longCache=true&style=flat-square)](https://travis-ci.org/adorsys/dockerhub-pipeline-images)
+[![Build Status](https://img.shields.io/travis/adorsys/dockerhub-pipeline-images/master.svg?longCache=true&style=flat-square)](https://travis-ci.org/adorsys/dockerhub-pipeline-images)
 
-|  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Image &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; | Info | Status | Pulls | Automated |
-| ----- | ---- | ------ | ----- | ----- |
-| [adorsys/ansible](https://hub.docker.com/r/adorsys/ansible/) | [![](https://img.shields.io/microbadger/image-size/adorsys/ansible.svg?longCache=true&style=flat-square)](https://microbadger.com/images/adorsys/ansible) | ![](https://img.shields.io/docker/build/adorsys/ansible.svg?longCache=true&style=flat-square) | ![](https://img.shields.io/docker/pulls/adorsys/ansible.svg?longCache=true&style=flat-square) | ![](https://img.shields.io/docker/automated/adorsys/ansible.svg?longCache=true&style=flat-square) |
-| [adorsys/arc42-tools](https://hub.docker.com/r/adorsys/arc42-tools/) | [![](https://img.shields.io/microbadger/image-size/adorsys/arc42-tools.svg?longCache=true&style=flat-square)](https://microbadger.com/images/adorsys/arc42-tools) | ![](https://img.shields.io/docker/build/adorsys/arc42-tools.svg?longCache=true&style=flat-square) | ![](https://img.shields.io/docker/pulls/adorsys/arc42-tools.svg?longCache=true&style=flat-square) | ![](https://img.shields.io/docker/automated/adorsys/arc42-tools.svg?longCache=true&style=flat-square) |
-| [adorsys/awscli](https://hub.docker.com/r/adorsys/awscli/) | [![](https://img.shields.io/microbadger/image-size/adorsys/awscli.svg?longCache=true&style=flat-square)](https://microbadger.com/images/adorsys/awscli) | ![](https://img.shields.io/docker/build/adorsys/awscli.svg?longCache=true&style=flat-square) | ![](https://img.shields.io/docker/pulls/adorsys/awscli.svg?longCache=true&style=flat-square) | ![](https://img.shields.io/docker/automated/adorsys/awscli.svg?longCache=true&style=flat-square) |
-| [adorsys/ci-build](https://hub.docker.com/r/adorsys/ci-build/) | [![](https://img.shields.io/microbadger/image-size/adorsys/ci-build.svg?longCache=true&style=flat-square)](https://microbadger.com/images/adorsys/ci-build) | ![](https://img.shields.io/docker/build/adorsys/ci-build.svg?longCache=true&style=flat-square) | ![](https://img.shields.io/docker/pulls/adorsys/ci-build.svg?longCache=true&style=flat-square) | ![](https://img.shields.io/docker/automated/adorsys/ci-build.svg?longCache=true&style=flat-square) |
-| [adorsys/ci-helm](https://hub.docker.com/r/adorsys/ci-helm/) | [![](https://img.shields.io/microbadger/image-size/adorsys/ci-helm.svg?longCache=true&style=flat-square)](https://microbadger.com/images/adorsys/ci-helm) | ![](https://img.shields.io/docker/build/adorsys/ci-helm.svg?longCache=true&style=flat-square) | ![](https://img.shields.io/docker/pulls/adorsys/ci-helm.svg?longCache=true&style=flat-square) | ![](https://img.shields.io/docker/automated/adorsys/ci-helm.svg?longCache=true&style=flat-square) |
-| [adorsys/ci-clair](https://hub.docker.com/r/adorsys/ci-clair/) | [![](https://img.shields.io/microbadger/image-size/adorsys/ci-clair.svg?longCache=true&style=flat-square)](https://microbadger.com/images/adorsys/ci-clair) | ![](https://img.shields.io/docker/build/adorsys/ci-clair.svg?longCache=true&style=flat-square) | ![](https://img.shields.io/docker/pulls/adorsys/ci-clair.svg?longCache=true&style=flat-square) | ![](https://img.shields.io/docker/automated/adorsys/ci-clair.svg?longCache=true&style=flat-square) |
-| [adorsys/nginx](https://hub.docker.com/r/adorsys/nginx/) | [![](https://img.shields.io/microbadger/image-size/adorsys/nginx.svg?longCache=true&style=flat-square)](https://microbadger.com/images/adorsys/nginx) | ![](https://img.shields.io/docker/build/adorsys/nginx.svg?longCache=true&style=flat-square) | ![](https://img.shields.io/docker/pulls/adorsys/nginx.svg?longCache=true&style=flat-square) | ![](https://img.shields.io/docker/automated/adorsys/nginx.svg?longCache=true&style=flat-square) |
-| [adorsys/java:8](https://hub.docker.com/r/adorsys/java/) <br> [adorsys/java:11](https://hub.docker.com/r/adorsys/java/) | [![](https://img.shields.io/microbadger/image-size/adorsys/java/8.svg?longCache=true&style=flat-square)](https://microbadger.com/images/adorsys/java:8)<br>[![](https://img.shields.io/microbadger/image-size/adorsys/java/11.svg?longCache=true&style=flat-square)](https://microbadger.com/images/adorsys/java:11) | ![](https://img.shields.io/docker/build/adorsys/java.svg?longCache=true&style=flat-square) | ![](https://img.shields.io/docker/pulls/adorsys/java.svg?longCache=true&style=flat-square) | ![](https://img.shields.io/docker/automated/adorsys/java.svg?longCache=true&style=flat-square) |
-| [adorsys/node:8](https://hub.docker.com/r/adorsys/node/) <br> [adorsys/node:10](https://hub.docker.com/r/adorsys/node/) | [![](https://img.shields.io/microbadger/image-size/adorsys/node/8.svg?longCache=true&style=flat-square)](https://microbadger.com/images/adorsys/node:8)<br>[![](https://img.shields.io/microbadger/image-size/adorsys/node/10.svg?longCache=true&style=flat-square)](https://microbadger.com/images/adorsys/node:10) | ![](https://img.shields.io/docker/build/adorsys/node.svg?longCache=true&style=flat-square) | ![](https://img.shields.io/docker/pulls/adorsys/node.svg?longCache=true&style=flat-square) | ![](https://img.shields.io/docker/automated/adorsys/node.svg?longCache=true&style=flat-square) |
+# adorsys docker pipeline images
+
+Primary used to build and distribute software at adorsys.
+
+# Getting updates
+
+All images are build daily at travis to receive daily OS update. Most of the images are squashed into one to
+reduce the image size. 
+
+## Flavors
+
+By default all images based on CentOS except `awscli`. Some images have a `alpine` flavor to get the minimal footprint.
+
+# Images
+
+* [adorsys/ansible](ansible/README.md)
+* [adorsys/arc42-tools](arc42-tools/README.md)
+* [adorsys/awscli](awscli/README.md)
+* [adorsys/ci-build](ci-build/README.md)
+* [adorsys/ci-helm](ci-helm/README.md)
+* [adorsys/ci-clair](ci-clair/README.md)
+* [adorsys/nginx](nginx/README.md)
+* [adorsys/java](java/README.md)
+* [adorsys/node](node/README.md)
+
+
+# Contributing
+
+If you want to contribute new images you should done:
+* The name of the subdirectory should always the same name as in the image name. For example if you want to create the
+  image `adorsys/tool` the directory should be named `tool`. If your images has some flavors use subdirectories like
+  `tool/<flavor>/` like `tool/alpine` and use the image tag `adorsys/tool:<flavor>` or `adorsys/tool:<version>-<flavor>`. 
+  If you want you use template, take a look at https://github.com/hairyhenderson/gomplate.
+* Create a executable `test.sh` and include some commands to test your images.
+  if you need more complex test you should take a look to https://github.com/aelsabbahy/goss. Also a `README.md` would 
+  be appreciated.
+* Include your images in the `.travis.yml`. 
+* Run the `gen_compose.sh` before commit your image.
+* Be sure you create a new `repository` at https://hub.docker.com/r/adorsys/. The team `service` should have write
+  permissions.

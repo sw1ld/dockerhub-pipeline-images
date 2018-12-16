@@ -1,9 +1,27 @@
-# Clair Scanner
+# [adorsys/ci-clair](https://hub.docker.com/r/adorsys/ci-clair/)
 
-With clair you can scan you images inside the CI pipeline
+![](https://img.shields.io/docker/pulls/adorsys/ci-clair.svg?logo=docker&style=flat-square)
+![](https://img.shields.io/docker/stars/adorsys/ci-clair.svg?logo=docker&style=flat-square)
+
+## Description
+
+Provides a local clair scanner. With clair you can scan you images inside the CI pipeline
+
+See also:
+
+* https://github.com/coreos/clair
+* https://github.com/arminc/clair-local-scan
+
+## Tags
+
+| Name | Description | Size |
+| ---- | ----------- | ---- |
+| latest | - | ![](https://img.shields.io/microbadger/image-size/adorsys/ci-clair.svg?style=flat-square) |
 
 
-## gitlab-ci.yml
+## CI Examples
+
+### gitlab-ci.yml
 ```yaml
 scan:
   stage: scan

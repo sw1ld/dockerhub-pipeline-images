@@ -29,7 +29,7 @@ env:
     - DOCKER_IMAGE=adorsys/node DIR=node/centos/10 TAG=10 SQUASH=true
     - DOCKER_IMAGE=adorsys/node DIR=node/alpine/8 TAG=8-alpine SQUASH=true
     - DOCKER_IMAGE=adorsys/node DIR=node/alpine/10 TAG=10-alpine SQUASH=true
-    - DOCKER_IMAGE=adorsys/ci-build DIR=ci-build
+    - DOCKER_IMAGE=adorsys/ci-build DIR=ci-build SNAPSHOT=true
     - DOCKER_IMAGE=adorsys/ansible DIR=ansible
     - DOCKER_IMAGE=adorsys/awscli DIR=awscli
     - DOCKER_IMAGE=adorsys/arc42-tools DIR=arc42-tools
@@ -52,15 +52,7 @@ script:
 
 deploy:
   provider: script
-  script: >-
-    echo "${DOCKER_PASSWORD}" | docker login --username "${DOCKER_USER}" --password-stdin
-    && echo push to ${DOCKER_IMAGE}:${TAG}
-    && docker push ${DOCKER_IMAGE}:${TAG}
-    && if [ ! -z ${ALIASES+x} ]; then
-    echo "Pushing tag aliases ${ALIASES}";
-    docker tag "${DOCKER_IMAGE}:${TAG}" "${DOCKER_IMAGE}:${ALIASES}";
-    docker push "${DOCKER_IMAGE}:${ALIASES}";
-    fi
+  script: .travis/deploy.sh
   skip_cleanup: true
   on:
     repo: adorsys/dockerhub-pipeline-images

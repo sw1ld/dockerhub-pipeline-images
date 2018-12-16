@@ -1,3 +1,37 @@
+# [adorsys/ci-helm](https://hub.docker.com/r/adorsys/ci-helm/)
+
+![](https://img.shields.io/docker/pulls/adorsys/ci-helm.svg?logo=docker&style=flat-square)
+![](https://img.shields.io/docker/stars/adorsys/ci-helm.svg?logo=docker&style=flat-square)
+
+## Description
+
+Provides Helm (and some plugins) also docker skopeo and ansible.
+
+### Installed Helm Plugins
+
+* helm-diff
+  https://github.com/databus23/helm-diff
+* helm-push
+  https://github.com/chartmuseum/helm-push
+* helm-secrets (incl. sops and gpg)
+  https://github.com/futuresimple/helm-secrets
+* helm-tiller
+  https://github.com/rimusz/helm-tiller
+
+## Tags
+
+| Name | Description | Size |
+| ---- | ----------- | ---- |
+| `latest` | Reference the latest recommend version | ![](https://img.shields.io/microbadger/image-size/adorsys/ci-helm/latest.svg?style=flat-square) |
+| `2.10` | helm 2.10 | ![](https://img.shields.io/microbadger/image-size/adorsys/ci-helm/2.12.svg?style=flat-square) |
+| `2.11` | helm 2.11 | ![](https://img.shields.io/microbadger/image-size/adorsys/ci-helm/2.11.svg?style=flat-square) |
+| `2.12` | helm 2.12 | ![](https://img.shields.io/microbadger/image-size/adorsys/ci-helm/2.10.svg?style=flat-square) |
+
+
+
+
+
+
 # Gitlab
 
 ```yaml

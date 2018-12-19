@@ -39,7 +39,7 @@ env:
 
 script:
   - set -e
-  - docker build --pull -t ${DOCKER_IMAGE}:${TAG} ${DIR}
+  - travis_retry docker build --pull -t ${DOCKER_IMAGE}:${TAG} ${DIR}
   - |
     if [ ! -z ${SQUASH+x} ]; then
       docker-squash -t "${DOCKER_IMAGE}:squashed" "${DOCKER_IMAGE}:${TAG}"

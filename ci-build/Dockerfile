@@ -8,7 +8,7 @@ ARG JMETER_VERSION=5.0
 ENV HOME=/home/default \
     TZ=Europe/Berlin \
     NO_UPDATE_NOTIFIER=1 \
-    JAVA_TOOL_OPTIONS="-Xmx128M" \
+    JAVA_TOOL_OPTIONS="-Xmx1G" \
     NODE_OPTIONS="--max_old_space_size=512" \
     MAVEN_HOME=/usr/share/maven \
     MAVEN_CONFIG="$HOME/.m2" \

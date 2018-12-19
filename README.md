@@ -15,15 +15,17 @@ By default all images based on CentOS except `awscli`. Some images have a `alpin
 
 # Images
 
-* [adorsys/ansible](ansible/README.md)
-* [adorsys/arc42-tools](arc42-tools/README.md)
-* [adorsys/awscli](awscli/README.md)
-* [adorsys/ci-build](ci-build/README.md)
-* [adorsys/ci-helm](ci-helm/README.md)
-* [adorsys/ci-clair](ci-clair/README.md)
-* [adorsys/nginx](nginx/README.md)
-* [adorsys/java](java/README.md)
-* [adorsys/node](node/README.md)
+| Name | Description |
+|------|-------------|
+| [adorsys/ansible](ansible/README.md) | Run Ansible inside Docker |
+| [adorsys/arc42-tools](arc42-tools/README.md) | Generate arc42 documentation for gitlab pages. Also supports plantuml |
+| [adorsys/awscli](awscli/README.md) | Provides awscli for terraform |
+| [adorsys/ci-build](ci-build/README.md) | Generic build image for Gitlab CI |
+| [adorsys/ci-helm](ci-helm/README.md) | Deploy your environment with helm! Multiple versions of helm supported |
+| [adorsys/ci-clair](ci-clair/README.md) | Scan your images with clair before release them  |
+| [adorsys/nginx](nginx/README.md) | Base image for distribute static files and SPAs. |
+| [adorsys/java](java/README.md) | Base image for distribute java jars. |
+| [adorsys/node](node/README.md) | Base image for distribute node applications. |
 
 
 # Contributing

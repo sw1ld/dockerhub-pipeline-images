@@ -78,8 +78,7 @@ RUN set -xeuo pipefail \
     && chmod -R g+rw "${NVM_DIR}" "${JABBA_HOME}" "${MAVEN_CONFIG}" \
     && for prog in "${NVM_DIR}/versions/node/$(. "${NVM_DIR}/nvm.sh"; nvm current)/bin/"*; do ln -s "$prog" "/usr/local/bin/$(basename "${prog}")"; done \
     && find "${NVM_DIR}" -type d -exec chmod g+x {} + \
-    && find "${JABBA_HOME}" -type d -exec chmod g+x {} + \
-    && rm -rf "${HOME}/"{.gnupg,.pki}
+    && find "${JABBA_HOME}" -type d -exec chmod g+x {} +
 
 WORKDIR /opt/app-root/src
 

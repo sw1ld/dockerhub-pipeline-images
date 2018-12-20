@@ -47,7 +47,7 @@ script:
     fi
   - docker images
   - docker history ${DOCKER_IMAGE}:${TAG}
-  - bash -e "${DIR}/tests.sh"
+  - bash -xe "${DIR}/tests.sh"
   - set +e
 
 deploy:

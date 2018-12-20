@@ -27,7 +27,7 @@ RUN set -euo pipefail \
     && mkdir -p "${HELM_HOME}" "${GNUPGHOME}" "$(dirname "$KUBECONFIG")" \
     && echo -e '[docker-ce-stable]\nname=Docker CE Stable - $basearch\nbaseurl=https://download.docker.com/linux/centos/7/$basearch/stable\nenabled=0\ngpgcheck=1\ngpgkey=https://download.docker.com/linux/centos/gpg' > /etc/yum.repos.d/docker-ce.repo \
     && yum install -y epel-release centos-release-openshift-origin \
-    && yum install -y --enablerepo=docker-ce-stable git skopeo docker-ce-cli origin-clients python2-pip jq unzip \
+    && yum install -y --enablerepo=docker-ce-stable git skopeo docker-ce-cli origin-clients python2-pip jq PyYAML unzip \
     && yum clean all \
     && rm -rf /var/cache/yum \
 ## Install yq

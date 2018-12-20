@@ -2,23 +2,23 @@
 version: '3'
 services:
   ansible:
-    image: adorsys/ansible:ansible
+    image: adorsys/ansible
     build:
       context: ansible
   arc42_tools:
-    image: adorsys/arc42-tools:arc42-tools
+    image: adorsys/arc42-tools
     build:
       context: arc42-tools
   awscli:
-    image: adorsys/awscli:awscli
+    image: adorsys/awscli
     build:
       context: awscli
   ci_build:
-    image: adorsys/ci-build:ci-build
+    image: adorsys/ci-build
     build:
       context: ci-build
   ci_clair:
-    image: adorsys/ci-clair:ci-clair
+    image: adorsys/ci-clair
     build:
       context: ci-clair
   ci_helm_2.10:
@@ -42,34 +42,34 @@ services:
     build:
       context: nginx/centos
   java_alpine_11:
-    image: adorsys/java/alpine:11
+    image: adorsys/java:11-alpine
     build:
       context: java/alpine/11
   java_alpine_8:
-    image: adorsys/java/alpine:8
+    image: adorsys/java:8-alpine
     build:
       context: java/alpine/8
   java_centos_11:
-    image: adorsys/java/centos:11
+    image: adorsys/java:11-centos
     build:
       context: java/centos/11
   java_centos_8:
-    image: adorsys/java/centos:8
+    image: adorsys/java:8-centos
     build:
       context: java/centos/8
   node_alpine_10:
-    image: adorsys/node/alpine:10
+    image: adorsys/node:10-alpine
     build:
       context: node/alpine/10
   node_alpine_8:
-    image: adorsys/node/alpine:8
+    image: adorsys/node:8-alpine
     build:
       context: node/alpine/8
   node_centos_10:
-    image: adorsys/node/centos:10
+    image: adorsys/node:10-centos
     build:
       context: node/centos/10
   node_centos_8:
-    image: adorsys/node/centos:8
+    image: adorsys/node:8-centos
     build:
       context: node/centos/8

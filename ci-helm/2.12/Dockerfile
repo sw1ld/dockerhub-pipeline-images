@@ -14,7 +14,8 @@ ENV GNUPGHOME=/var/local/lib/gnupg/ \
     HELM_HOME=/var/local/lib/helm/ \
     KUBECONFIG=/var/local/lib/kube/config
 
-ARG HELM_VERSION=v2.12.0
+ARG SOPS_VERSION=3.0.4
+ARG HELM_VERSION=v2.12.1
 ARG HELM_DIFF_VERSION=v2.11.0+2
 ARG HELM_PUSH_VERSION=0.7.1
 ARG HELM_SECRETS_VERSION=1.3.1
@@ -26,7 +27,7 @@ RUN set -euo pipefail \
     && mkdir -p "${HELM_HOME}" "${GNUPGHOME}" "$(dirname "$KUBECONFIG")" \
     && echo -e '[docker-ce-stable]\nname=Docker CE Stable - $basearch\nbaseurl=https://download.docker.com/linux/centos/7/$basearch/stable\nenabled=0\ngpgcheck=1\ngpgkey=https://download.docker.com/linux/centos/gpg' > /etc/yum.repos.d/docker-ce.repo \
     && yum install -y epel-release centos-release-openshift-origin \
-    && yum install -y --enablerepo=docker-ce-stable git skopeo docker-ce ansible origin-clients python2-pip jq unzip \
+    && yum install -y --enablerepo=docker-ce-stable git skopeo docker-ce-cli origin-clients python2-pip jq unzip \
     && yum clean all \
     && rm -rf /var/cache/yum \
 ## Install yq
@@ -44,7 +45,6 @@ RUN set -euo pipefail \
     && curl -LsSf https://github.com/databus23/helm-diff/releases/download/${HELM_DIFF_VERSION}/helm-diff-linux.tgz | tar -C "$(helm home)/plugins" --warning=no-unknown-keyword -zxf- \
     && curl -LsSf https://github.com/rimusz/helm-tiller/archive/v${HELM_TILLER_VERSION}.tar.gz| tar -C "$(helm home)/plugins" -xzf- \
     && curl -LsSf https://github.com/futuresimple/helm-secrets/archive/v${HELM_SECRETS_VERSION}.tar.gz | tar -C "$(helm home)/plugins" -xzf- \
-    && export SOPS_VERSION=$(grep SOPS_VERSION= "$(helm home)/plugins/helm-secrets-${HELM_SECRETS_VERSION}/install-binary.sh" | cut -d'"' -f2) \
     && curl -LsSf https://github.com/mozilla/sops/releases/download/${SOPS_VERSION}/sops-${SOPS_VERSION}.linux -o /usr/local/bin/sops && chmod +x /usr/local/bin/sops \
     && helm tiller install \
     && ln -s "$(helm home)/plugins/helm-secrets-${HELM_SECRETS_VERSION}/wrapper.sh" /usr/local/bin/helm-wrapper \

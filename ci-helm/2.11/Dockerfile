@@ -14,6 +14,7 @@ ENV GNUPGHOME=/var/local/lib/gnupg/ \
     HELM_HOME=/var/local/lib/helm/ \
     KUBECONFIG=/var/local/lib/kube/config
 
+ARG YQ_VERSION=2.2.0
 ARG SOPS_VERSION=3.0.4
 ARG HELM_VERSION=v2.11.0
 ARG HELM_DIFF_VERSION=v2.11.0+2
@@ -27,11 +28,12 @@ RUN set -euo pipefail \
     && mkdir -p "${HELM_HOME}" "${GNUPGHOME}" "$(dirname "$KUBECONFIG")" \
     && echo -e '[docker-ce-stable]\nname=Docker CE Stable - $basearch\nbaseurl=https://download.docker.com/linux/centos/7/$basearch/stable\nenabled=0\ngpgcheck=1\ngpgkey=https://download.docker.com/linux/centos/gpg' > /etc/yum.repos.d/docker-ce.repo \
     && yum install -y epel-release centos-release-openshift-origin \
-    && yum install -y --enablerepo=docker-ce-stable git skopeo docker-ce-cli ansible origin-clients python2-pip jq unzip \
+    && yum install -y --enablerepo=docker-ce-stable git skopeo docker-ce-cli ansible origin-clients jq unzip \
     && yum clean all \
     && rm -rf /var/cache/yum \
 ## Install yq
-    && pip --disable-pip-version-check install -U --no-deps --compile --no-cache-dir yq \
+    && curl -LsSf -o /usr/local/bin/yq https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/yq_linux_amd64 \
+    && chmod +x /usr/local/bin/yq \
 ## Install kubernetes helm
     && curl -LsSf -O https://storage.googleapis.com/kubernetes-helm/helm-${HELM_VERSION}-linux-amd64.tar.gz \
     && tar -zxvf helm-${HELM_VERSION}-linux-amd64.tar.gz \

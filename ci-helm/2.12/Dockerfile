@@ -1,3 +1,20 @@
+# If mutlistage docker builds are not supported in your enterprise environment
+# an older version of skopeo is available via yum install in the extras repo/channel.
+
+FROM golang:1.11 as SKOPEO
+
+ARG SKOPEO_VERSION=v0.1.34
+
+# From https://github.com/containers/skopeo/blob/master/Dockerfile.build
+RUN apt-get update && apt-get install -y curl \
+      libgpgme11-dev \
+      libglib2.0-dev \
+      libostree-dev
+
+RUN mkdir -p $GOPATH/src/github.com/containers/skopeo \
+    && curl -LsSf https://github.com/containers/skopeo/archive/${SKOPEO_VERSION}.tar.gz | tar xz --strip-components=1 -C $GOPATH/src/github.com/containers/skopeo \
+    && cd $GOPATH/src/github.com/containers/skopeo && make binary-local DISABLE_CGO=1
+
 FROM centos:7
 
 LABEL maintainer="ysi@adorsys.de,joe@adorsys.de"
@@ -24,11 +41,13 @@ ARG HELM_TILLER_VERSION=0.6.7
 
 ADD root /
 
+COPY --from=SKOPEO /go/src/github.com/containers/skopeo/skopeo /usr/local/bin/skopeo
+
 RUN set -euo pipefail \
     && mkdir -p "${HELM_HOME}" "${GNUPGHOME}" "$(dirname "$KUBECONFIG")" \
     && echo -e '[docker-ce-stable]\nname=Docker CE Stable - $basearch\nbaseurl=https://download.docker.com/linux/centos/7/$basearch/stable\nenabled=0\ngpgcheck=1\ngpgkey=https://download.docker.com/linux/centos/gpg' > /etc/yum.repos.d/docker-ce.repo \
     && yum install -y epel-release centos-release-openshift-origin \
-    && yum install -y --enablerepo=docker-ce-stable git skopeo docker-ce-cli origin-clients jq unzip \
+    && yum install -y --enablerepo=docker-ce-stable git docker-ce-cli origin-clients jq unzip \
     && yum clean all \
     && rm -rf /var/cache/yum \
 ## Install yq

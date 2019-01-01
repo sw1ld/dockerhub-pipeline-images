@@ -20,7 +20,7 @@ ENV HOME=/tmp \
 
 ADD root /
 
-RUN set -xeuo pipefail \
+RUN set -euo pipefail \
     && useradd -d "${HOME}" -M -u 1001 -g 0 default \
     && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
     && echo -e '[google-chrome]\nname=google-chrome\nbaseurl=http://dl.google.com/linux/chrome/rpm/stable/$basearch\nenabled=0\ngpgcheck=1\ngpgkey=https://dl-ssl.google.com/linux/linux_signing_key.pub' > /etc/yum.repos.d/google-chrome.repo \

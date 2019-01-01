@@ -13,7 +13,7 @@ if [ -n "${ALIASES+x}" ]; then
 fi
 
 if [ -n "${SNAPSHOT+x}" ] && [ "$(date +%d)" -eq "1" ]; then
-  echo "Pushing snapshot tag $(date +%Y%m)";
-  docker tag "${DOCKER_IMAGE}:${TAG}" "${DOCKER_IMAGE}:$(date +%Y%m)";
-  docker push "${DOCKER_IMAGE}:$(date +%Y%m)";
+  echo "Pushing snapshot tag $(date +%Y%m)"
+  docker tag "${DOCKER_IMAGE}:${TAG}" "${DOCKER_IMAGE}:$(date +%Y%m)"
+  docker push "${DOCKER_IMAGE}:$(date +%Y%m)"
 fi

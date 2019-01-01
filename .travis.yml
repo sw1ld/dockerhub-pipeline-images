@@ -39,20 +39,23 @@ env:
 
 script:
   - set -e
-  - travis_retry docker build --pull -t ${DOCKER_IMAGE}:${TAG} ${DIR}
+  - cd "${DIR}"
+  - travis_retry docker build --pull -t "${DOCKER_IMAGE}:${TAG}" .
   - |
     if [ ! -z ${SQUASH+x} ]; then
       docker-squash -t "${DOCKER_IMAGE}:squashed" "${DOCKER_IMAGE}:${TAG}"
       docker tag "${DOCKER_IMAGE}:squashed" "${DOCKER_IMAGE}:${TAG}"
     fi
   - docker images
-  - docker history ${DOCKER_IMAGE}:${TAG}
-  - bash -xe "${DIR}/tests.sh"
+  - docker history "${DOCKER_IMAGE}:${TAG}"
+  - bash -xe "tests.sh"
+  - find . -name '*.sh' -exec shellcheck {} \;
+  - grep -lr '#!/bin/sh' . | xargs --no-run-if-empty shellcheck
   - set +e
 
 deploy:
   provider: script
-  script: .travis/deploy.sh
+  script: "$TRAVIS_BUILD_DIR/.travis/deploy.sh"
   skip_cleanup: true
   on:
     repo: adorsys/dockerhub-pipeline-images

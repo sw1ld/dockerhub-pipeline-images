@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
-docker run --rm ${DOCKER_IMAGE}:${TAG} plantuml -v
-docker run --rm ${DOCKER_IMAGE}:${TAG} asciidoctor -v
+docker run --rm "${DOCKER_IMAGE}:${TAG}" plantuml -v
+docker run --rm "${DOCKER_IMAGE}:${TAG}" asciidoctor -v

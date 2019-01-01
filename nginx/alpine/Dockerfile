@@ -14,7 +14,7 @@ COPY root /
 RUN apk --no-cache upgrade \
     && mkdir -p /var/cache/nginx /etc/nginx/conf.default.d/ \
     && chown -R 1001:0 /var/cache/nginx /usr/share/nginx/html \
-    && chmod -R g=u /var/cache/nginx /usr/share/nginx/html \
+    && chmod -R g=u /var/cache/nginx /usr/share/nginx/html /etc/passwd \
     && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
     && rm -rf /usr/share/nginx/html/* \
     && sed -i -e '/listen/!b' -e '/80;/!b' -e 's/80;/8080;/' /etc/nginx/conf.d/default.conf \

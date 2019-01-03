@@ -1,6 +1,6 @@
 FROM centos:7
 
-LABEL maintainer="ysi@adorsys.de,joe@adorsys.de"
+LABEL maintainer="adorsys GmbH & Co. KG"
 
 # GNUPGHOME: Required von helm secrets
 # Workaround for

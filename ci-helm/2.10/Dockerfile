@@ -31,7 +31,7 @@ RUN set -euo pipefail \
     && yum clean all \
     && rm -rf /var/cache/yum \
 ## Install yq
-    && pip --disable-pip-version-check install -U --no-deps --compile --no-cache-dir yq \
+    && pip --disable-pip-version-check install -U --compile --no-cache-dir yq \
 ## Install kubernetes helm
     && curl -LsSf -O https://storage.googleapis.com/kubernetes-helm/helm-${HELM_VERSION}-linux-amd64.tar.gz \
     && tar -zxvf helm-${HELM_VERSION}-linux-amd64.tar.gz \

@@ -11,7 +11,7 @@ before_script:
   - export TAG="${TAG:-latest}"
   - docker --version
   - docker info
-  - sudo pip install docker-squash
+  - sudo -H pip install docker-squash
 
 env:
   matrix:

@@ -17,3 +17,4 @@ docker run --rm "${DOCKER_IMAGE}:${TAG}" yq --version
 docker run --rm "${DOCKER_IMAGE}:${TAG}" jq --version
 docker run --rm "${DOCKER_IMAGE}:${TAG}" unzip -v
 docker run --rm "${DOCKER_IMAGE}:${TAG}" skopeo copy docker://docker.io/library/alpine dir:///tmp/alpine.tar
+docker run --rm "${DOCKER_IMAGE}:${TAG}" envsubst --version

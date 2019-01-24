@@ -11,6 +11,7 @@ docker run --rm "${DOCKER_IMAGE}:${TAG}" firefox --version
 docker run --rm "${DOCKER_IMAGE}:${TAG}" skopeo -v
 
 docker run --rm "${DOCKER_IMAGE}:${TAG}" ip -V
+docker run --rm "${DOCKER_IMAGE}:${TAG}" rush -V
 
 # Default should be java 8
 docker run --rm --entrypoint=/bin/bash "${DOCKER_IMAGE}:${TAG}" -c 'java -version 2>&1 | grep -q "build 1\.8"'

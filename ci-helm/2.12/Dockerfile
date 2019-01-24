@@ -31,6 +31,7 @@ ENV GNUPGHOME=/var/local/lib/gnupg/ \
     HELM_HOME=/var/local/lib/helm/ \
     KUBECONFIG=/var/local/lib/kube/config
 
+ARG RUSH_VERSION=0.4.0
 ARG SOPS_VERSION=3.2.0
 ARG HELM_VERSION=v2.12.2
 ARG HELM_DIFF_VERSION=v2.11.0+3
@@ -51,6 +52,8 @@ RUN set -euo pipefail \
     && rm -rf /var/cache/yum \
 ## Install yq
     && pip --disable-pip-version-check install -U --compile --no-cache-dir yq \
+## Install rush
+    && curl -LsSf https://github.com/shenwei356/rush/releases/download/v${RUSH_VERSION}/rush_linux_amd64.tar.gz | tar xz -C /usr/local/bin \
 ## Install kubernetes helm
     && curl -LsSf -O https://storage.googleapis.com/kubernetes-helm/helm-${HELM_VERSION}-linux-amd64.tar.gz \
     && tar -zxvf helm-${HELM_VERSION}-linux-amd64.tar.gz \

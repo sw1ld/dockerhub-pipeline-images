@@ -11,6 +11,7 @@ ARG HELM_SECRETS_VERSION=1.3.1
 ARG HELM_TILLER_VERSION=0.6.7
 # END FROM adorsys/ci-helm:2.11
 
+ARG RUSH_VERSION=0.4.0
 ARG MAVEN_VERSION=3.6.0
 ARG JMETER_VERSION=5.0
 
@@ -82,6 +83,7 @@ RUN set -euo pipefail \
       && rm -f apache-jmeter-${JMETER_VERSION}.tgz apache-jmeter-${JMETER_VERSION}.tgz.sha512 \
       && ln -s "${JMETER_HOME}/bin/jmeter" /usr/bin/jmeter \
     ) \
+    && curl -LsSf https://github.com/shenwei356/rush/releases/download/v${RUSH_VERSION}/rush_linux_amd64.tar.gz | tar xz -C /usr/local/bin \
     && cd /tmp && rm -rf ..?* .[!.]* * \
     && mkdir -p "${MAVEN_CONFIG}" \
     && chmod -R g+rw "${NVM_DIR}" "${JABBA_HOME}" "${MAVEN_CONFIG}" \

@@ -5,7 +5,7 @@
 
 ## Description
 
-Provides nginx. Mainly used inside terraform.
+Provides nginx. If possible use the `alpine` flavor.
 
 ## Tags
 

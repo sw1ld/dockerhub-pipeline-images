@@ -9,7 +9,7 @@ if ! whoami > /dev/null 2>&1; then
   fi
 fi
 
-if [ "${NGINX_DISABLE_ACCESS_LOG:-}" == "true" ]; then
+if [ "${NGINX_DISABLE_ACCESS_LOG:-}" = "true" ]; then
   echo "access_log off;" > /etc/nginx/conf.d/logging.conf
 fi
 

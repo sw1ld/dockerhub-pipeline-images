@@ -24,7 +24,11 @@ RUN apk --no-cache upgrade \
     && sed -i '/access_log/a \    server_tokens off;' /etc/nginx/nginx.conf \
     && sed -ri '/location \//,/.*\}/d' /etc/nginx/conf.d/default.conf \
     && sed -i -e '/localhost/a\' -e'    include /etc/nginx/conf.default.d/*.conf;' /etc/nginx/conf.d/default.conf \
-    && sed -i -e '/localhost/a\' -e'    root         \/usr\/share\/nginx\/html;' /etc/nginx/conf.d/default.conf
+    && sed -i -e '/localhost/a\' -e'    root         \/usr\/share\/nginx\/html;' /etc/nginx/conf.d/default.conf \
+    && grep access_log /etc/nginx/nginx.conf > /etc/nginx/conf.d/logging.conf \
+    && sed -i '/access_log/d' /etc/nginx/nginx.conf \
+    && chown -R 1001:0 /etc/nginx/conf.d/logging.conf \
+    && chmod -R g=u /etc/nginx/conf.d/logging.conf
 
 USER 1001
 

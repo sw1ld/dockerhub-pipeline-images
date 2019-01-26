@@ -3,15 +3,15 @@ FROM centos:7
 LABEL maintainer="adorsys GmbH & Co. KG"
 
 # START FROM adorsys/ci-helm:2.11
-ARG SOPS_VERSION=3.0.4
-ARG HELM_VERSION=v2.11.0
+ARG RUSH_VERSION=0.4.1
+ARG SOPS_VERSION=3.2.0
+ARG HELM_VERSION=v2.12.2
 ARG HELM_DIFF_VERSION=v2.11.0+3
 ARG HELM_PUSH_VERSION=0.7.1
 ARG HELM_SECRETS_VERSION=1.3.1
 ARG HELM_TILLER_VERSION=0.6.7
 # END FROM adorsys/ci-helm:2.11
 
-ARG RUSH_VERSION=0.4.0
 ARG MAVEN_VERSION=3.6.0
 ARG JMETER_VERSION=5.0
 
@@ -83,7 +83,6 @@ RUN set -euo pipefail \
       && rm -f apache-jmeter-${JMETER_VERSION}.tgz apache-jmeter-${JMETER_VERSION}.tgz.sha512 \
       && ln -s "${JMETER_HOME}/bin/jmeter" /usr/bin/jmeter \
     ) \
-    && curl -LsSf https://github.com/shenwei356/rush/releases/download/v${RUSH_VERSION}/rush_linux_amd64.tar.gz | tar xz -C /usr/local/bin \
     && cd /tmp && rm -rf ..?* .[!.]* * \
     && mkdir -p "${MAVEN_CONFIG}" \
     && chmod -R g+rw "${NVM_DIR}" "${JABBA_HOME}" "${MAVEN_CONFIG}" \
@@ -98,6 +97,8 @@ RUN set -euo pipefail \
     && rm -rf /var/cache/yum \
 ## Install yq
     && pip --disable-pip-version-check install -U --compile --no-cache-dir yq \
+## Install rush
+    && curl -LsSf https://github.com/shenwei356/rush/releases/download/v${RUSH_VERSION}/rush_linux_amd64.tar.gz | tar xz -C /usr/local/bin \
 ## Install kubernetes helm
     && curl -LsSf -O https://storage.googleapis.com/kubernetes-helm/helm-${HELM_VERSION}-linux-amd64.tar.gz \
     && tar -zxvf helm-${HELM_VERSION}-linux-amd64.tar.gz \

@@ -11,14 +11,16 @@ Software list:
 
 * Java 8 and 11 (choosable via [JABBA](https://github.com/shyiko/jabba); default 8)
 * Node 8 and 10 (choosable via [NVM](https://github.com/creationix/nvm); default 8)
-* NPM and YARN
+* NPM and [YARN](https://yarnpkg.com/lang/en/)
 * Docker CE
 * Maven
 * JMeter
 * Chrome
 * Firefox
-* skopeo
-* jq
+* [skopeo](https://github.com/containers/skopeo)
+* [jq](https://stedolan.github.io/jq/)
+* [yq](https://yq.readthedocs.io/en/latest/)
+* [rush](https://github.com/shenwei356/rush)
 * Build Tools like gcc (required for some node dependencies)
 
 We try to avoid version pinning. Prepare to always get the latest version.

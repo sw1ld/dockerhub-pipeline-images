@@ -14,7 +14,7 @@ RUN apk --no-cache upgrade \
     && set -x \
     # https://github.com/infosiftr/tomcat/blob/5f1abae99c0b1ebbd4f020bc4b5696619d948cfd/7/jre8-alpine/Dockerfile
     && nativeBuildDir="$(mktemp -d)" \
-    && nativeVersion=$(wget -q "https://www-eu.apache.org/dist/tomcat/tomcat-connectors/native/" -O- | sed -nr 's/.*<a href="(\d+\.\d+.\d+)\/">.*/\1/p') \
+    && nativeVersion=$(wget -q "https://www-eu.apache.org/dist/tomcat/tomcat-connectors/native/" -O- | sed -nr 's/.*<a href="(\d+\.\d+.\d+)\/">.*/\1/p' | tail -n1) \
     && wget -O "$nativeBuildDir/tomcat-native.tar.gz" "https://www-eu.apache.org/dist/tomcat/tomcat-connectors/native/${nativeVersion}/source/tomcat-native-${nativeVersion}-src.tar.gz" \
     && tar -xvf "$nativeBuildDir/tomcat-native.tar.gz" -C "$nativeBuildDir" --strip-components=1 \
     && apk add --no-cache --virtual .native-build-deps \

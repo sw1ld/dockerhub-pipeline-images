@@ -42,7 +42,7 @@ RUN set -euo pipefail \
         docker-ce-cli skopeo \
         tomcat-native java-1.8.0-openjdk-devel java-11-openjdk-devel \
         google-chrome-stable \
-        python-gitlab
+        python-gitlab \
     && yum clean all -y && rm -rf /var/cache/yum \
     && chmod g=u /etc/passwd \
     && mkdir -p /opt/app-root/src && chown -R 1001:0 /opt/app-root/src && chmod -R ug+rwx /opt/app-root/src \

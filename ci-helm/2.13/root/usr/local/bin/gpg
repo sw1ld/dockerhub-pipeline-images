@@ -1,0 +1,3 @@
+#!/bin/sh
+# Since we are in a container silence warnings like there
+exec /usr/bin/gpg --no-permission-warning "$@"

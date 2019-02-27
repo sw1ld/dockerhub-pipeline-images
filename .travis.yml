@@ -18,6 +18,7 @@ env:
     - DOCKER_IMAGE=adorsys/ci-helm      DIR=ci-helm/2.10    TAG=2.10
     - DOCKER_IMAGE=adorsys/ci-helm      DIR=ci-helm/2.11    TAG=2.11
     - DOCKER_IMAGE=adorsys/ci-helm      DIR=ci-helm/2.12    TAG=2.12      ALIASES="latest"
+    - DOCKER_IMAGE=adorsys/ci-helm      DIR=ci-helm/2.13    TAG=2.13
     - DOCKER_IMAGE=adorsys/nginx        DIR=nginx/centos                  SQUASH=true
     - DOCKER_IMAGE=adorsys/nginx        DIR=nginx/alpine    TAG=alpine    SQUASH=true
     - DOCKER_IMAGE=adorsys/java         DIR=java/centos/8   TAG=8         SQUASH=true
@@ -37,7 +38,10 @@ env:
     - secure: aw0pM/B90CY41LFxFS83ju3Ebpwbv1BdRK0GGRbFhP9WnL+xwGZeEujDDDm0eJcUn06wBwxYPe8f+0TwLyYH2zmKHG8X2C+fp+c1M+ayuAi9dAh0hvu9jiwughuIikrNVw+3fgsm2T8Pqzf1PmDKouIqJ1U1YONfFtT7PhNAiSXK4M0g9eLbwRYx/77PVkWc8iFtLwAVMjtZTsMSIP4HVTW5AFkok/g9gBXt/Lp9CRCtz6EaqY30wo77rWmthV2ug1O+fzCzb4UVj3yiTzC+C5AUTa9wqBC9TH1Me+rxZiOb0PD4lZsDrc6ndOlCiADRimYb0JmBA8a+W+ibV7WXY9Dz7ompkS+FozifRWDwHmKtjtQE08UQOBV69IdIkv4c1GPB2FUOV9iF6r3712JPedmaIi4tG7lRXCiLZvPCXRkrTuD6NB51OlBh4YdEkM3u+czME+irAFWRl4u+7eDCuv025Z3bKBEXHbxk2kEAxDAD1T8rfBMu6Rxj7URh19T83QxS5FWF9s3TI5YhquRQQ71n6nw4tNB2onNm84LhH3dXxF4vZgVZGUTidKboNKlLgru9TKUOjrcR9uEbvcQfVwA85uONyhYegC/bnEVsRN3oijm32gORfX9IW1981mqXF8s5U4ieOZo2OKRi/NqpFAdtQ+aJq0LmFqDuG1J7AjM=
 
 install:
-  - '[ ! -z ${SQUASH+x} ] && sudo -H pip install docker-squash'
+  - |
+    if [ ! -z ${SQUASH+x} ]; then
+      sudo -H pip install docker-squash
+    fi
 
 before_script:
   - export TAG="${TAG:-latest}"

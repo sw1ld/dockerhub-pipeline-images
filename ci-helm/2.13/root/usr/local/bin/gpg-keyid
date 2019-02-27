@@ -1,0 +1,2 @@
+#!/bin/sh
+gpg --with-colons "$1" | grep '^ssb:' | cut -d':' -f 5 | tail -c 9

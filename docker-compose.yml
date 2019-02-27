@@ -33,6 +33,10 @@ services:
     image: adorsys/ci-helm:2.12
     build:
       context: ci-helm/2.12
+  ci_helm_2.13:
+    image: adorsys/ci-helm:2.13
+    build:
+      context: ci-helm/2.13
   nginx_alpine:
     image: adorsys/nginx:alpine
     build:

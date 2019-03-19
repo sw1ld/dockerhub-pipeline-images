@@ -3,7 +3,7 @@
 
 FROM golang:1.12 as SKOPEO
 
-ARG SKOPEO_VERSION=v0.1.34
+ARG SKOPEO_VERSION=v0.1.35
 
 # From https://github.com/containers/skopeo/blob/master/Dockerfile.build
 RUN apt-get update && apt-get install -y curl \

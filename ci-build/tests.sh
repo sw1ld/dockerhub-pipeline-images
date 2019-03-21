@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -euo pipefail
+
 docker run --rm "${DOCKER_IMAGE}:${TAG}" bash --version
 
 docker run --rm "${DOCKER_IMAGE}:${TAG}" docker --version

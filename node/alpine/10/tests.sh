@@ -1,4 +1,6 @@
-#!/bin/sh
+#!/bin/bash
+
+set -euo pipefail
 
 docker run --rm "${DOCKER_IMAGE}:${TAG}" node --version
 docker run --rm "${DOCKER_IMAGE}:${TAG}" npm --version

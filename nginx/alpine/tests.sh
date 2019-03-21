@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -euo pipefail
+
 docker run --rm "${DOCKER_IMAGE}:${TAG}" nginx -t
 docker run -eNGINX_DISABLE_ACCESS_LOG=true --rm "${DOCKER_IMAGE}:${TAG}" nginx -t
 

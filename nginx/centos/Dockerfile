@@ -18,15 +18,10 @@ RUN yum update -y && yum clean all && rm -rf /var/cache/yum \
     && ln -sf /opt/rh/rh-nginx${NGINX_SHORT_VER}/root/usr/share/nginx/html/50x.html /opt/app-root/src/50x.html
 
 # Required if nginx is updated via yum
-# https://github.com/sclorg/nginx-container/blob/master/1.14/Dockerfile#L59
+# should be the same like
+# https://github.com/sclorg/nginx-container/blob/master/1.14/Dockerfile#L60
+# expect the sed line
 RUN chmod a+rwx ${NGINX_CONF_PATH} && \
-    mkdir -p ${NGINX_APP_ROOT}/etc/nginx.d/ && \
-    mkdir -p ${NGINX_APP_ROOT}/etc/nginx.default.d/ && \
-    mkdir -p ${NGINX_APP_ROOT}/src/nginx-start/ && \
-    mkdir -p ${NGINX_CONTAINER_SCRIPTS_PATH}/nginx-start && \
-    mkdir -p /var/opt/rh/rh-nginx${NGINX_SHORT_VER}/log/nginx && \
-    ln -sf /dev/stdout /var/opt/rh/rh-nginx${NGINX_SHORT_VER}/log/nginx/access.log && \
-    ln -sf /dev/stderr /var/opt/rh/rh-nginx${NGINX_SHORT_VER}/log/nginx/error.log && \
     chmod -R a+rwx ${NGINX_APP_ROOT}/etc && \
     chmod -R a+rwx /var/opt/rh/rh-nginx${NGINX_SHORT_VER} && \
     chmod -R a+rwx ${NGINX_CONTAINER_SCRIPTS_PATH}/nginx-start && \

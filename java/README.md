@@ -41,3 +41,5 @@ Links:
 | `11` | CentOS based image with RH OpenJDK 11 | ![](https://img.shields.io/microbadger/image-size/adorsys/java/11.svg?style=flat-square) |
 | `8-alpine` | Alpine based image with AdoptOpenJDK 8 | ![](https://img.shields.io/microbadger/image-size/adorsys/java/8-alpine.svg?style=flat-square) |
 | `11-alpine` | Alpine based image with AdoptOpenJDK 11 | ![](https://img.shields.io/microbadger/image-size/adorsys/java/11-alpine.svg?style=flat-square) |
+| `8-ubuntu` | Alpine based image with AdoptOpenJDK 8 | ![](https://img.shields.io/microbadger/image-size/adorsys/java/8-ubuntu.svg?style=flat-square) |
+| `11-ubuntu` | Alpine based image with AdoptOpenJDK 11 | ![](https://img.shields.io/microbadger/image-size/adorsys/java/11-ubuntu.svg?style=flat-square) |

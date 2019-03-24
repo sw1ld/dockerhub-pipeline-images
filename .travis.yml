@@ -23,6 +23,8 @@ env:
     - DOCKER_IMAGE=adorsys/nginx        DIR=nginx/alpine    TAG=alpine    SQUASH=true
     - DOCKER_IMAGE=adorsys/java         DIR=java/centos/8   TAG=8         SQUASH=true
     - DOCKER_IMAGE=adorsys/java         DIR=java/centos/11  TAG=11        SQUASH=true
+    - DOCKER_IMAGE=adorsys/java         DIR=java/ubuntu/8   TAG=8-ubuntu  SQUASH=true
+    - DOCKER_IMAGE=adorsys/java         DIR=java/ubuntu/11  TAG=11-ubuntu SQUASH=true
     - DOCKER_IMAGE=adorsys/java         DIR=java/alpine/8   TAG=8-alpine  SQUASH=true
     - DOCKER_IMAGE=adorsys/java         DIR=java/alpine/11  TAG=11-alpine SQUASH=true
     - DOCKER_IMAGE=adorsys/node         DIR=node/centos/8   TAG=8         SQUASH=true

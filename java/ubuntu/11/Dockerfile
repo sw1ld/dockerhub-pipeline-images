@@ -11,7 +11,8 @@ WORKDIR /opt/app-root/src
 RUN rm -rf /var/lib/apt/lists/* && apt-get clean && apt-get update && apt-get upgrade -y \
     && apt-get autoremove -y --purge  \
     && apt-get install -y --no-install-recommends libtcnative-1 \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
+    && chmod g=u /etc/passwd
 
 ADD root /
 

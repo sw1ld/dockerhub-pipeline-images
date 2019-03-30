@@ -20,7 +20,7 @@ RUN yum update -y && yum clean all && rm -rf /var/cache/yum && \
     chmod g=u /etc/passwd && \
     mkdir -p /opt/app-root && chown -R 1001:0 /opt/app-root && chmod -R ug+rwx /opt/app-root
 
-ADD root /
+COPY root /
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
 

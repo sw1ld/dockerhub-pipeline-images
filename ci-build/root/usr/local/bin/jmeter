@@ -1,0 +1,11 @@
+#!/bin/bash
+
+if [ ! -x "${JMETER_HOME}/bin/jmeter" ]; then
+  mkdir -p "${JMETER_HOME}"
+  cd "${JMETER_HOME}"
+  curl -fsSLO "https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-${JMETER_VERSION}.tgz"
+  tar -xzf apache-jmeter-${JMETER_VERSION}.tgz -C "${JMETER_HOME}" --strip-components=1 --exclude='docs'
+  rm -f apache-jmeter-${JMETER_VERSION}.tgz
+fi
+
+exec "${JMETER_HOME}/bin/jmeter" "$@"

@@ -6,6 +6,6 @@ RUN apk add --no-cache docker \
   && wget -q -O /usr/bin/clair-scanner https://github.com/arminc/clair-scanner/releases/download/${VERSION_CLAIR_SCANNER}/clair-scanner_linux_amd64 \
   && chmod +x /usr/bin/clair-scanner
 
-ADD root /
+COPY root /
 
 ENTRYPOINT [""]

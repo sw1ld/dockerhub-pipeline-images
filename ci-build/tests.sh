@@ -32,5 +32,3 @@ docker run --rm --entrypoint=/bin/bash "${DOCKER_IMAGE}:${TAG}" -c 'nvm exec 10 
 
 docker run --rm --entrypoint=/bin/bash "${DOCKER_IMAGE}:${TAG}" -c 'nvm exec 8 yarn --version'
 docker run --rm --entrypoint=/bin/bash "${DOCKER_IMAGE}:${TAG}" -c 'nvm exec 10 yarn --version'
-
-../ci-helm/2.12/tests.sh

@@ -8,7 +8,7 @@ RUN yum -q -y install ruby fontconfig graphviz rubygem-asciidoctor jq && \
     curl -s -L http://sourceforge.net/projects/plantuml/files/plantuml.1.2018.12.jar/download --output /usr/local/share/plantuml/plantuml.jar && \
     yum clean all && rm -rf /var/cache/yum
 
-ADD root /
+COPY root /
 
 CMD ["/bin/bash"]
 

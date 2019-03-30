@@ -37,9 +37,9 @@ ARG HELM_VERSION=v2.13.0
 ARG HELM_DIFF_VERSION=v2.11.0+3
 ARG HELM_PUSH_VERSION=0.7.1
 ARG HELM_SECRETS_VERSION=1.3.1
-ARG HELM_TILLER_VERSION=0.6.7
+ARG HELM_TILLER_VERSION=0.6.8
 
-ADD root /
+COPY root /
 
 COPY --from=SKOPEO /go/src/github.com/containers/skopeo/skopeo /usr/local/bin/skopeo
 

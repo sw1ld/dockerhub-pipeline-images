@@ -39,7 +39,7 @@ ARG HELM_PUSH_VERSION=0.7.1
 ARG HELM_SECRETS_VERSION=1.3.1
 ARG HELM_TILLER_VERSION=0.6.7
 
-ADD root /
+COPY root /
 
 COPY --from=SKOPEO /go/src/github.com/containers/skopeo/skopeo /usr/local/bin/skopeo
 

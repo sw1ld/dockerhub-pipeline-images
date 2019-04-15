@@ -3,8 +3,8 @@ FROM centos:7
 LABEL maintainer="adorsys GmbH & Co. KG"
 
 ARG RUSH_VERSION=0.4.1
-ARG MAVEN_VERSION=3.6.0
-ENV JMETER_VERSION=5.0
+ARG MAVEN_VERSION=3.6.1
+ENV JMETER_VERSION=5.1.1
 
 ENV HOME=/tmp \
     TZ=Europe/Berlin \
@@ -65,6 +65,7 @@ RUN set -euo pipefail \
     ) \
     && curl -LsSf https://github.com/shenwei356/rush/releases/download/v${RUSH_VERSION}/rush_linux_amd64.tar.gz | tar xz -C /usr/local/bin \
     && cd /tmp && rm -rf ..?* .[!.]* * \
+    && ln -s /enable.sh /tmp/.bashrc \
     && rm -rf /var/log/* \
     && mkdir -p "${MAVEN_CONFIG}" \
     && chmod -R g+rw "${NVM_DIR}" "${JABBA_HOME}" "${MAVEN_CONFIG}" \

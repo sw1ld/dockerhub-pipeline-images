@@ -14,7 +14,7 @@ RUN yum update -y && yum clean all && rm -rf /var/cache/yum \
     && yum install epel-release -y && yum install -y openssl java-1.8.0-openjdk-headless tomcat-native && yum clean all \
     && chmod g=u /etc/passwd
 
-ADD root /
+COPY root /
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
 

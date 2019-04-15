@@ -12,7 +12,7 @@ RUN apk --no-cache upgrade \
     && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
     && chmod g=u /etc/passwd
 
-ADD root /
+COPY root /
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
 

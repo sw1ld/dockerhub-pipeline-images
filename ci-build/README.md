@@ -14,7 +14,6 @@ Software list:
 * NPM and [YARN](https://yarnpkg.com/lang/en/)
 * Docker CE
 * Maven
-* JMeter
 * Chrome
 * Firefox
 * [skopeo](https://github.com/containers/skopeo)

@@ -42,14 +42,14 @@ install:
     if [ ! -z ${SQUASH+x} ]; then
       sudo -H pip install docker-squash
     fi
-  - npm install -g snyk
+#  - npm install -g snyk
 
 before_script:
   - export TAG="${TAG:-latest}"
   - docker --version
   - docker info
-  - snyk -v
-  - snyk config set org=adorsys
+#  - snyk -v
+#  - snyk config set org=adorsys
 
 script:
   - set -e
@@ -63,7 +63,7 @@ script:
   - bash -xe "tests.sh"
   - find . -name '*.sh' -print0 | xargs -0 shellcheck
   - grep -lr '#!/bin/sh' . | xargs --no-run-if-empty shellcheck
-  - snyk test --docker "${DOCKER_IMAGE}:${TAG}" --file=Dockerfile
+#  - snyk test --docker "${DOCKER_IMAGE}:${TAG}" --file=Dockerfile
   - set +e
 
 before_deploy:
@@ -81,9 +81,6 @@ deploy:
     repo: adorsys/dockerhub-pipeline-images
     all_branches: true
     condition: $TRAVIS_BRANCH == master || $TRAVIS_TAG =~ ^[0-9]+.[0-9]+.+$
-
-after_deploy:
-  - snyk monitor --docker "${DOCKER_IMAGE}:${TAG}" --file=Dockerfile
 
 notifications:
   email:

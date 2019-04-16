@@ -3,6 +3,7 @@
 set -euo pipefail
 
 docker run --rm "${DOCKER_IMAGE}:${TAG}" docker --version
+docker run --rm "${DOCKER_IMAGE}:${TAG}" oc version
 docker run --rm "${DOCKER_IMAGE}:${TAG}" git --version
 docker run --rm "${DOCKER_IMAGE}:${TAG}" ansible --version
 docker run --rm "${DOCKER_IMAGE}:${TAG}" helm version -c

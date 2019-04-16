@@ -27,7 +27,7 @@ RUN set -euo pipefail \
     && echo -e '[google-chrome]\nname=google-chrome\nbaseurl=http://dl.google.com/linux/chrome/rpm/stable/$basearch\nenabled=0\ngpgcheck=1\ngpgkey=https://dl-ssl.google.com/linux/linux_signing_key.pub' > /etc/yum.repos.d/google-chrome.repo \
     && echo -e '[docker-ce-stable]\nname=Docker CE Stable - $basearch\nbaseurl=https://download.docker.com/linux/centos/7/$basearch/stable\nenabled=0\ngpgcheck=1\ngpgkey=https://download.docker.com/linux/centos/gpg' > /etc/yum.repos.d/docker-ce.repo \
     && yum update -y \
-    && yum install -y epel-release \
+    && yum install -y epel-release centos-release-openshift-origin \
     && yum install -y --enablerepo=google-chrome --enablerepo=docker-ce-stable \
         iproute zip unzip python bzip2 libXt git gcc-c++ make jq \
         docker-ce-cli origin-clients skopeo \

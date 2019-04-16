@@ -10,6 +10,7 @@ docker run --rm "${DOCKER_IMAGE}:${TAG}" mvn --version
 docker run --rm "${DOCKER_IMAGE}:${TAG}" jmeter -n --version
 docker run --rm "${DOCKER_IMAGE}:${TAG}" google-chrome-stable --version
 docker run --rm "${DOCKER_IMAGE}:${TAG}" firefox --version
+docker run --rm "${DOCKER_IMAGE}:${TAG}" oc version
 docker run --rm "${DOCKER_IMAGE}:${TAG}" skopeo -v
 
 docker run --rm "${DOCKER_IMAGE}:${TAG}" ip -V

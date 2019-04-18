@@ -12,6 +12,7 @@ COPY root/opt/app-root/etc/nginx.default.d /opt/app-root/etc/nginx.default.d
 # https://github.com/sclorg/nginx-container/issues/58
 RUN yum update -y && yum clean all && rm -rf /var/cache/yum \
     && sed -i '/^\s*location \/ {/ { N; /^\s*location \/ {\n\s*}/d }' "${NGINX_CONF_PATH}" \
+    && sed -i 's/default_server/http2/' "${NGINX_CONF_PATH}" \
     && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
     && chmod g=u /etc/passwd \
     && ln -sf /opt/rh/rh-nginx${NGINX_SHORT_VER}/root/usr/share/nginx/html/404.html /opt/app-root/src/404.html \

@@ -28,42 +28,52 @@ RUN set -euo pipefail \
     && echo -e '[docker-ce-stable]\nname=Docker CE Stable - $basearch\nbaseurl=https://download.docker.com/linux/centos/7/$basearch/stable\nenabled=0\ngpgcheck=1\ngpgkey=https://download.docker.com/linux/centos/gpg' > /etc/yum.repos.d/docker-ce.repo \
     && yum update -y \
     && yum install -y epel-release centos-release-openshift-origin \
-    && yum install -y --enablerepo=google-chrome --enablerepo=docker-ce-stable \
+    && yum install -y --enablerepo=docker-ce-stable \
         iproute zip unzip python bzip2 libXt git gcc-c++ make jq \
         docker-ce-cli origin-clients skopeo \
-        tomcat-native java-1.8.0-openjdk-devel java-11-openjdk-devel \
-        google-chrome-stable \
-        python-gitlab \
     && yum clean all -y && rm -rf /var/cache/yum \
     && chmod g=u /etc/passwd \
-    && mkdir -p /opt/app-root/src && chown -R 1001:0 /opt/app-root/src && chmod -R ug+rwx /opt/app-root/src \
-    && ( mkdir -p "${NVM_DIR}" && cd "${NVM_DIR}" \
-      && curl "https://raw.githubusercontent.com/creationix/nvm/master/install.sh" | bash \
-      && echo -e "npm\nyarn" > default-packages \
-      && . "${NVM_DIR}/nvm.sh" \
-      && nvm install 8 \
-      && nvm install 10 \
-      && nvm cache clear \
-      && nvm alias default 8 \
-      && rm -rf /home/default/.npm/ \
-    ) \
-    && (cd /opt \
-      # Less secure then git clone ... bash install.sh ?
-      && curl -fsSL "https://github.com/shyiko/jabba/raw/master/install.sh" | bash \
-      && . "${JABBA_HOME}/jabba.sh" \
-      && jabba link system@1.11 /usr/lib/jvm/java-11 \
-      && jabba link system@1.8 /usr/lib/jvm/java-1.8.0 \
-      && jabba alias default system@1.8 \
-    ) \
-    && (mkdir -p "${MAVEN_HOME}" && cd "${MAVEN_HOME}" \
-      && curl -fsSLO "https://archive.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz" \
-      && curl -fsSLO "https://archive.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz.sha512" \
-      && sha512sum -c apache-maven-${MAVEN_VERSION}-bin.tar.gz.sha512 \
-      && tar -xzf apache-maven-${MAVEN_VERSION}-bin.tar.gz -C "${MAVEN_HOME}" --strip-components=1 \
-      && rm -f apache-maven-${MAVEN_VERSION}-bin.tar.gz apache-maven-${MAVEN_VERSION}-bin.tar.gz.sha512 \
-      && ln -s "${MAVEN_HOME}/bin/mvn" /usr/bin/mvn \
-    ) \
-    && curl -LsSf https://github.com/shenwei356/rush/releases/download/v${RUSH_VERSION}/rush_linux_amd64.tar.gz | tar xz -C /usr/local/bin \
+    && mkdir -p /opt/app-root/src && chown -R 1001:0 /opt/app-root/src && chmod -R ug+rwx /opt/app-root/src
+
+RUN yum install -y --enablerepo=google-chrome \
+        google-chrome-stable \
+    && yum clean all -y && rm -rf /var/cache/yum
+
+RUN yum install -y \
+        tomcat-native java-1.8.0-openjdk-devel java-11-openjdk-devel \
+    && yum clean all -y && rm -rf /var/cache/yum
+
+RUN mkdir -p "${NVM_DIR}" && cd "${NVM_DIR}" \
+    && curl "https://raw.githubusercontent.com/creationix/nvm/master/install.sh" | bash \
+    && rm -rf .git test \
+    && echo -e "npm\nyarn" > default-packages \
+    && . "${NVM_DIR}/nvm.sh" \
+    && nvm install 8 \
+    && nvm install 10 \
+    && nvm cache clear \
+    && nvm alias default 8 \
+    && rm -rf /home/default/.npm/ \
+    && cd /tmp && rm -rf ..?* .[!.]* *
+
+RUN cd /opt \
+    # Less secure then git clone ... bash install.sh ?
+    && curl -fsSL "https://github.com/shyiko/jabba/raw/master/install.sh" | bash \
+    && . "${JABBA_HOME}/jabba.sh" \
+    && jabba link system@1.11 /usr/lib/jvm/java-11 \
+    && jabba link system@1.8 /usr/lib/jvm/java-1.8.0 \
+    && jabba alias default system@1.8 \
+    && cd /tmp && rm -rf ..?* .[!.]* *
+
+RUN mkdir -p "${MAVEN_HOME}" && cd "${MAVEN_HOME}" \
+    && curl -fsSLO "https://archive.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz" \
+    && curl -fsSLO "https://archive.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz.sha512" \
+    && sha512sum -c apache-maven-${MAVEN_VERSION}-bin.tar.gz.sha512 \
+    && tar -xzf apache-maven-${MAVEN_VERSION}-bin.tar.gz -C "${MAVEN_HOME}" --strip-components=1 \
+    && rm -f apache-maven-${MAVEN_VERSION}-bin.tar.gz apache-maven-${MAVEN_VERSION}-bin.tar.gz.sha512 \
+    && ln -s "${MAVEN_HOME}/bin/mvn" /usr/bin/mvn \
+    && cd /tmp && rm -rf ..?* .[!.]* *
+
+RUN curl -LsSf https://github.com/shenwei356/rush/releases/download/v${RUSH_VERSION}/rush_linux_amd64.tar.gz | tar xz -C /usr/local/bin \
     && cd /tmp && rm -rf ..?* .[!.]* * \
     && ln -s /enable.sh /tmp/.bashrc \
     && rm -rf /var/log/* \

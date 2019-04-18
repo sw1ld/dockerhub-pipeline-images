@@ -5,6 +5,8 @@ set -euo pipefail
 if [ ! -f /tmp/.gitlab-slug ]; then
   MKTEMP=$(mktemp)
 
+  pip install python-gitlab
+
   echo "[global]
 default = adorsys
 ssl_verify = true

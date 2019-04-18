@@ -2,6 +2,8 @@ FROM nginx:stable-alpine
 
 LABEL maintainer="adorsys GmbH & Co. KG"
 
+EXPOSE 8080
+
 USER 0
 
 ENV TZ=Europe/Berlin

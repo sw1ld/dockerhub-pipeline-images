@@ -2,6 +2,8 @@ FROM centos/nginx-114-centos7
 
 LABEL maintainer="adorsys GmbH & Co. KG"
 
+EXPOSE 8080
+
 USER 0
 
 ENV TZ=Europe/Berlin

@@ -53,6 +53,9 @@ RUN mkdir -p "${NVM_DIR}" && cd "${NVM_DIR}" \
     && nvm cache clear \
     && nvm alias default 8 \
     && rm -rf /home/default/.npm/ \
+    && for prog in "${NVM_DIR}/versions/node/$(. "${NVM_DIR}/nvm.sh"; nvm current)/bin/"*; do ln -s "$prog" "/usr/local/bin/$(basename "${prog}")"; done \
+    && find "${NVM_DIR}" -type d -exec chmod g+x {} + \
+    && chmod -R g+rw "${NVM_DIR}" \
     && cd /tmp && rm -rf ..?* .[!.]* *
 
 RUN cd /opt \
@@ -62,25 +65,20 @@ RUN cd /opt \
     && jabba link system@1.11 /usr/lib/jvm/java-11 \
     && jabba link system@1.8 /usr/lib/jvm/java-1.8.0 \
     && jabba alias default system@1.8 \
-    && cd /tmp && rm -rf ..?* .[!.]* *
-
-RUN mkdir -p "${MAVEN_HOME}" && cd "${MAVEN_HOME}" \
+    && chmod -R g+rw "${JABBA_HOME}"  \
+    && cd /tmp && rm -rf ..?* .[!.]* * \
+    && mkdir -p "${MAVEN_HOME}" && cd "${MAVEN_HOME}" \
     && curl -fsSLO "https://archive.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz" \
     && curl -fsSLO "https://archive.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz.sha512" \
     && sha512sum -c apache-maven-${MAVEN_VERSION}-bin.tar.gz.sha512 \
     && tar -xzf apache-maven-${MAVEN_VERSION}-bin.tar.gz -C "${MAVEN_HOME}" --strip-components=1 \
     && rm -f apache-maven-${MAVEN_VERSION}-bin.tar.gz apache-maven-${MAVEN_VERSION}-bin.tar.gz.sha512 \
     && ln -s "${MAVEN_HOME}/bin/mvn" /usr/bin/mvn \
-    && cd /tmp && rm -rf ..?* .[!.]* *
-
-RUN curl -LsSf https://github.com/shenwei356/rush/releases/download/v${RUSH_VERSION}/rush_linux_amd64.tar.gz | tar xz -C /usr/local/bin \
-    && cd /tmp && rm -rf ..?* .[!.]* * \
-    && ln -s /enable.sh /tmp/.bashrc \
-    && rm -rf /var/log/* \
     && mkdir -p "${MAVEN_CONFIG}" \
-    && chmod -R g+rw "${NVM_DIR}" "${JABBA_HOME}" "${MAVEN_CONFIG}" \
-    && for prog in "${NVM_DIR}/versions/node/$(. "${NVM_DIR}/nvm.sh"; nvm current)/bin/"*; do ln -s "$prog" "/usr/local/bin/$(basename "${prog}")"; done \
-    && find "${NVM_DIR}" -type d -exec chmod g+x {} +
+    && chmod -R g+rw "${MAVEN_CONFIG}" \
+    && cd /tmp && rm -rf ..?* .[!.]* * \
+    && curl -LsSf https://github.com/shenwei356/rush/releases/download/v${RUSH_VERSION}/rush_linux_amd64.tar.gz | tar xz -C /usr/local/bin \
+    && ln -s /enable.sh /tmp/.bashrc
 
 WORKDIR /opt/app-root/src
 

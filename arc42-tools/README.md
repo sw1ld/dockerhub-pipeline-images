@@ -1,7 +1,9 @@
-# [adorsys/arc42-tools](https://hub.docker.com/r/adorsys/arc42-tools/)
+[![](https://img.shields.io/docker/pulls/adorsys/arc42-tools.svg?logo=docker&style=flat-square)](https://hub.docker.com/r/adorsys/arc42-tools/)
+[![](https://img.shields.io/docker/stars/adorsys/arc42-tools.svg?logo=docker&style=flat-square)](https://hub.docker.com/r/adorsys/arc42-tools/)
 
-![](https://img.shields.io/docker/pulls/adorsys/arc42-tools.svg?logo=docker&style=flat-square)
-![](https://img.shields.io/docker/stars/adorsys/arc42-tools.svg?logo=docker&style=flat-square)
+# adorsys/arc42-tools
+
+https://hub.docker.com/r/adorsys/arc42-tools/
 
 ## Description
 
@@ -14,5 +16,5 @@ For more information see <https://arc42.org/> and <https://github.com/arc42>
 
 | Name | Description | Size |
 | ---- | ----------- | ---- |
-| latest | - | ![](https://img.shields.io/microbadger/image-size/adorsys/arc42-tools.svg?style=flat-square) |
+| latest | - | [![](https://img.shields.io/microbadger/image-size/adorsys/arc42-tools.svg?style=flat-square)](https://microbadger.com/images/adorsys/arc42-tools) |
 

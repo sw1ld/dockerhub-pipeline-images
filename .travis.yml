@@ -42,6 +42,7 @@ install:
     if [ ! -z ${SQUASH+x} ]; then
       sudo -H pip install docker-squash
     fi
+  - curl -sL https://github.com/gdraheim/docker-copyedit/archive/v1.2.2036.tar.gz | tar xzf -  --wildcards --strip-components=1 */docker-copyedit.py
 #  - npm install -g snyk
 
 before_script:
@@ -60,6 +61,7 @@ script:
       docker-squash -t "${DOCKER_IMAGE}:squashed" "${DOCKER_IMAGE}:${TAG}"
       docker tag "${DOCKER_IMAGE}:squashed" "${DOCKER_IMAGE}:${TAG}"
     fi
+  - bash -e "postbuild.sh"
   - bash -xe "tests.sh"
   - find . -name '*.sh' -print0 | xargs -0 shellcheck
   - grep -lr '#!/bin/sh' . | xargs --no-run-if-empty shellcheck

@@ -1,6 +1,13 @@
 FROM centos:7
 
-LABEL maintainer="adorsys GmbH & Co. KG"
+LABEL maintainer="adorsys GmbH & Co. KG" \
+      org.label-schema.schema-version="1.0" \
+      org.label-schema.vendor="adorsys GmbH & Co. KG" \
+      org.label-schema.name="" \
+      org.label-schema.description="" \
+      org.label-schema.usage="" \
+      org.label-schema.license="" \
+      org.label-schema.build-date=""
 
 RUN yum install -y epel-release \
     && yum install -y openssh-clients git ansible python-six python-passlib python-lxml pyOpenSSL python-cryptography \

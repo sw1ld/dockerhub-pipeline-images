@@ -1,7 +1,9 @@
-# [adorsys/ci-clair](https://hub.docker.com/r/adorsys/ci-clair/)
+[![](https://img.shields.io/docker/pulls/adorsys/ci-clair.svg?logo=docker&style=flat-square)](https://hub.docker.com/r/adorsys/ci-clair/)
+[![](https://img.shields.io/docker/stars/adorsys/ci-clair.svg?logo=docker&style=flat-square)](https://hub.docker.com/r/adorsys/ci-clair/)
 
-![](https://img.shields.io/docker/pulls/adorsys/ci-clair.svg?logo=docker&style=flat-square)
-![](https://img.shields.io/docker/stars/adorsys/ci-clair.svg?logo=docker&style=flat-square)
+# adorsys/ci-clair
+
+https://hub.docker.com/r/adorsys/ci-clair/
 
 ## Description
 
@@ -16,7 +18,7 @@ See also:
 
 | Name | Description | Size |
 | ---- | ----------- | ---- |
-| latest | - | ![](https://img.shields.io/microbadger/image-size/adorsys/ci-clair.svg?style=flat-square) |
+| latest | - | [![](https://img.shields.io/microbadger/image-size/adorsys/ci-clair.svg?style=flat-square)](https://microbadger.com/images/adorsys/ci-clair) |
 
 
 ## CI Examples

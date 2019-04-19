@@ -1,7 +1,9 @@
-# [adorsys/ci-build](https://hub.docker.com/r/adorsys/ci-build/)
+[![](https://img.shields.io/docker/pulls/adorsys/ci-build.svg?logo=docker&style=flat-square)](https://hub.docker.com/r/adorsys/ci-build/)
+[![](https://img.shields.io/docker/stars/adorsys/ci-build.svg?logo=docker&style=flat-square)](https://hub.docker.com/r/adorsys/ci-build/)
 
-![](https://img.shields.io/docker/pulls/adorsys/ci-build.svg?logo=docker&style=flat-square)
-![](https://img.shields.io/docker/stars/adorsys/ci-build.svg?logo=docker&style=flat-square)
+# adorsys/ci-build
+
+https://hub.docker.com/r/adorsys/ci-build/
 
 ## Description
 
@@ -15,10 +17,10 @@ Software list:
 * Docker CE
 * Maven
 * Chrome
-* Firefox
+* Firefox (bootstrap only)
+* JMeter (bootstrap only)
 * [skopeo](https://github.com/containers/skopeo)
 * [jq](https://stedolan.github.io/jq/)
-* [yq](https://yq.readthedocs.io/en/latest/)
 * [rush](https://github.com/shenwei356/rush)
 * Build Tools like gcc (required for some node dependencies)
 
@@ -28,7 +30,7 @@ We try to avoid version pinning. Prepare to always get the latest version.
 
 | Name | Description | Size | 
 | ---- | ----------- | ---- |
-| latest | - | ![](https://img.shields.io/microbadger/image-size/adorsys/ci-build.svg?style=flat-square) |
+| latest | - | [![](https://img.shields.io/microbadger/image-size/adorsys/ci-build.svg?style=flat-square)](https://microbadger.com/images/adorsys/ci-build) |
 | YYYYMM | Monthly Snapshots | - |
 
 ## CI Examples
@@ -41,6 +43,7 @@ system@1.11'
 ```
 and use `jabba use` inside your CI.
 
+More informations: https://github.com/shyiko/jabba
 
 ### Use Node 8 in your job
 
@@ -50,6 +53,7 @@ Create a file calling `.nvmrc` in the project root with this content
 ```
 and use `nvm use` inside your CI.
 
+More informations: https://github.com/creationix/nvm
 
 ### Best Practice default options for maven
 
@@ -63,7 +67,8 @@ variables:
 
 ### Copy Images without Docker
 
-````yaml
+```yaml
+  script:
 # From Gitlab to Openshift
     - >-
       skopeo copy
@@ -85,5 +90,24 @@ variables:
       --dest-creds=${HARBOR_USER}:${HARBOR_TOKEN}
       "docker://${OPENSHIFT_REGISTRY}/namespace/image:${CI_COMMIT_TAG}"
       "docker://${HARBOR_REGISTRY}/project/imagename:${CI_COMMIT_TAG}"
+```
 
-````
+#### User docker caching to reuse exists layers
+
+* This technique requires reproducible builds.
+  * Angular creates reproducible out of the box
+  * Java projects using maven require a maven plugin https://zlika.github.io/reproducible-build-maven-plugin/
+
+```yaml
+  script:
+    - >-
+      docker pull "${CI_REGISTRY_IMAGE}/${IMAGE_NAME}:${CI_COMMIT_TAG:-$CI_COMMIT_REF_SLUG}" 
+      || docker pull "${CI_REGISTRY_IMAGE}/${IMAGE_NAME}:develop" 
+      || true
+    - >-
+      docker build --pull
+      --cache-from "${CI_REGISTRY_IMAGE}/${IMAGE_NAME}:${CI_COMMIT_TAG:-$CI_COMMIT_REF_SLUG}"
+      --cache-from "${CI_REGISTRY_IMAGE}/${IMAGE_NAME}:develop"
+      -t "${CI_REGISTRY_IMAGE}/${IMAGE_NAME}:${CI_COMMIT_TAG:-$CI_COMMIT_REF_SLUG}" .
+    - docker push "${CI_REGISTRY_IMAGE}/${IMAGE_NAME}:${CI_COMMIT_TAG:-$CI_COMMIT_REF_SLUG}"
+```

@@ -17,7 +17,14 @@ RUN mkdir -p $GOPATH/src/github.com/containers/skopeo \
 
 FROM centos:7
 
-LABEL maintainer="adorsys GmbH & Co. KG"
+LABEL maintainer="adorsys GmbH & Co. KG" \
+      org.label-schema.schema-version="1.0" \
+      org.label-schema.vendor="adorsys GmbH & Co. KG" \
+      org.label-schema.name="" \
+      org.label-schema.description="" \
+      org.label-schema.usage="" \
+      org.label-schema.license="" \
+      org.label-schema.build-date=""
 
 # GNUPGHOME: Required von helm secrets
 # Workaround for

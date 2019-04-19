@@ -1,13 +1,26 @@
-# [adorsys/java](https://hub.docker.com/r/adorsys/java/)
+[![](https://img.shields.io/docker/pulls/adorsys/java.svg?logo=docker&style=flat-square)](https://hub.docker.com/r/adorsys/java/)
+[![](https://img.shields.io/docker/stars/adorsys/java.svg?logo=docker&style=flat-square)](https://hub.docker.com/r/adorsys/java/)
 
-![](https://img.shields.io/docker/pulls/adorsys/java.svg?logo=docker&style=flat-square)
-![](https://img.shields.io/docker/stars/adorsys/java.svg?logo=docker&style=flat-square)
+# adorsys/java
+
+https://hub.docker.com/r/adorsys/java/
 
 ## Description
 
 Provides java. Should be used for runtime containers.
 
-### Recommend runtime Options (for Java 8)
+
+### Recommend runtime Options (for Java 8u191 and Java 11)
+
+Since Java 8u191 `UseContainerSupport` is enabled by default which mean there a automatic configuration
+of the correct heap limits.
+
+See: https://www.eclipse.org/openj9/docs/xxusecontainersupport/
+
+Java 8 Release Notes:
+https://www.oracle.com/technetwork/java/javase/8u191-relnotes-5032181.html#JDK-8146115
+
+### Recommend runtime Options (for Java 8) (prior 191)
 
 | Parameter | Explanation |
 |-----------|-------------|
@@ -41,5 +54,3 @@ Links:
 | `11` | CentOS based image with RH OpenJDK 11 | ![](https://img.shields.io/microbadger/image-size/adorsys/java/11.svg?style=flat-square) |
 | `8-alpine` | Alpine based image with AdoptOpenJDK 8 | ![](https://img.shields.io/microbadger/image-size/adorsys/java/8-alpine.svg?style=flat-square) |
 | `11-alpine` | Alpine based image with AdoptOpenJDK 11 | ![](https://img.shields.io/microbadger/image-size/adorsys/java/11-alpine.svg?style=flat-square) |
-| `8-ubuntu` | Alpine based image with AdoptOpenJDK 8 | ![](https://img.shields.io/microbadger/image-size/adorsys/java/8-ubuntu.svg?style=flat-square) |
-| `11-ubuntu` | Alpine based image with AdoptOpenJDK 11 | ![](https://img.shields.io/microbadger/image-size/adorsys/java/11-ubuntu.svg?style=flat-square) |

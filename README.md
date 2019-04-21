@@ -1,4 +1,4 @@
-[![Build Status](https://img.shields.io/travis/adorsys/dockerhub-pipeline-images/master.svg?longCache=true&style=flat-square)](https://travis-ci.org/adorsys/dockerhub-pipeline-images)
+[![Build Status](https://img.shields.io/travis/com/adorsys/dockerhub-pipeline-images/master.svg?longCache=true&style=flat-square)](https://travis-ci.com/adorsys/dockerhub-pipeline-images)
 
 # adorsys docker pipeline images
 

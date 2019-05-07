@@ -7,7 +7,9 @@ https://hub.docker.com/r/adorsys/nginx/
 
 ## Description
 
-Provides nginx. If possible use the `alpine` flavor.
+Provides nginx. If possible use the `alpine` flavor based on the official [`nginx:alpine`](https://hub.docker.com/_/nginx) docker image. 
+
+For secure rootless environments nginx listen on port `8080` by default.
 
 ## Tags
 

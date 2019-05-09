@@ -25,6 +25,8 @@ env:
     - DOCKER_IMAGE=adorsys/java         DIR=java/centos/11  TAG=11        SQUASH=true
     - DOCKER_IMAGE=adorsys/java         DIR=java/alpine/8   TAG=8-alpine  SQUASH=true
     - DOCKER_IMAGE=adorsys/java         DIR=java/alpine/11  TAG=11-alpine SQUASH=true
+    - DOCKER_IMAGE=adorsys/java         DIR=java/ubi/8      TAG=8-ubi     SQUASH=true
+    - DOCKER_IMAGE=adorsys/java         DIR=java/ubi/11     TAG=11-ubi    SQUASH=true
     - DOCKER_IMAGE=adorsys/node         DIR=node/centos/8   TAG=8         SQUASH=true
     - DOCKER_IMAGE=adorsys/node         DIR=node/centos/10  TAG=10        SQUASH=true
     - DOCKER_IMAGE=adorsys/node         DIR=node/alpine/8   TAG=8-alpine  SQUASH=true

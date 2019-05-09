@@ -1,0 +1,2 @@
+target/*
+!target/dockerhub-pipeline-images-test-jar.jar

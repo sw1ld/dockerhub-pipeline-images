@@ -61,6 +61,14 @@ services:
     image: adorsys/java:8-centos
     build:
       context: java/centos/8
+  java_ubi_11:
+    image: adorsys/java:11-ubi
+    build:
+      context: java/ubi/11
+  java_ubi_8:
+    image: adorsys/java:8-ubi
+    build:
+      context: java/ubi/8
   node_alpine_10:
     image: adorsys/node:10-alpine
     build:

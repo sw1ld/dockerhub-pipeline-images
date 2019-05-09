@@ -57,8 +57,9 @@ RUN mkdir -p "${NVM_DIR}" && cd "${NVM_DIR}" \
     && . "${NVM_DIR}/nvm.sh" \
     && nvm install 8 \
     && nvm install 10 \
+    && nvm install 12 \
     && nvm cache clear \
-    && nvm alias default 8 \
+    && nvm alias default 10 \
     && rm -rf /home/default/.npm/ \
     && for prog in "${NVM_DIR}/versions/node/$(. "${NVM_DIR}/nvm.sh"; nvm current)/bin/"*; do ln -s "$prog" "/usr/local/bin/$(basename "${prog}")"; done \
     && find "${NVM_DIR}" -type d -exec chmod g+x {} + \

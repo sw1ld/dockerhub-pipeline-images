@@ -7,7 +7,6 @@ docker run --rm "${DOCKER_IMAGE}:${TAG}" bash --version
 docker run --rm "${DOCKER_IMAGE}:${TAG}" docker --version
 docker run --rm "${DOCKER_IMAGE}:${TAG}" java -version
 docker run --rm "${DOCKER_IMAGE}:${TAG}" mvn --version
-docker run --rm "${DOCKER_IMAGE}:${TAG}" jmeter -n --version
 docker run --rm "${DOCKER_IMAGE}:${TAG}" google-chrome-stable --version
 docker run --rm "${DOCKER_IMAGE}:${TAG}" firefox --version
 docker run --rm "${DOCKER_IMAGE}:${TAG}" oc version

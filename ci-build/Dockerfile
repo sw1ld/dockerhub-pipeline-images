@@ -11,14 +11,12 @@ LABEL maintainer="adorsys GmbH & Co. KG" \
 
 ARG RUSH_VERSION=0.4.1
 ARG MAVEN_VERSION=3.6.1
-ENV JMETER_VERSION=5.1.1
 
 ENV HOME=/tmp \
     TZ=Europe/Berlin \
     NO_UPDATE_NOTIFIER=1 \
     JAVA_TOOL_OPTIONS="-Xmx1G" \
     NODE_OPTIONS="--max_old_space_size=1024" \
-    JMETER_HOME="/tmp/.jmeter" \
     MAVEN_HOME="/usr/share/maven" \
     MAVEN_CONFIG="/usr/local/share/.m2" \
     NVM_DIR="/usr/local/share/nvm" \

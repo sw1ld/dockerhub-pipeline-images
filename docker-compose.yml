@@ -45,14 +45,6 @@ services:
     image: adorsys/nginx:centos
     build:
       context: nginx/centos
-  java_alpine_11:
-    image: adorsys/java:11-alpine
-    build:
-      context: java/alpine/11
-  java_alpine_8:
-    image: adorsys/java:8-alpine
-    build:
-      context: java/alpine/8
   java_centos_11:
     image: adorsys/java:11-centos
     build:
@@ -73,15 +65,15 @@ services:
     image: adorsys/node:10-alpine
     build:
       context: node/alpine/10
-  node_alpine_8:
-    image: adorsys/node:8-alpine
+  node_alpine_12:
+    image: adorsys/node:12-alpine
     build:
-      context: node/alpine/8
+      context: node/alpine/12
   node_centos_10:
     image: adorsys/node:10-centos
     build:
       context: node/centos/10
-  node_centos_8:
-    image: adorsys/node:8-centos
+  node_centos_12:
+    image: adorsys/node:12-centos
     build:
-      context: node/centos/8
+      context: node/centos/12

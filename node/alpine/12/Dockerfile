@@ -1,4 +1,4 @@
-FROM node:8-alpine
+FROM node:12-alpine
 
 LABEL maintainer="adorsys GmbH & Co. KG" \
       org.label-schema.schema-version="1.0" \

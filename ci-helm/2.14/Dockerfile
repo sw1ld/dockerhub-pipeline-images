@@ -42,6 +42,7 @@ ENV GNUPGHOME=/var/local/lib/gnupg/ \
 
 ARG RUSH_VERSION=0.4.1
 ARG SOPS_VERSION=3.3.0
+ARG JQ_VERSION=1.6
 ARG HELM_VERSION=v2.14.0
 ARG HELM_DIFF_VERSION=v2.11.0+4
 ARG HELM_PUSH_VERSION=0.7.1
@@ -57,11 +58,11 @@ RUN set -euo pipefail \
     && mkdir -p "${HELM_HOME}" "${GNUPGHOME}" "$(dirname "$KUBECONFIG")" \
     && echo -e '[docker-ce-stable]\nname=Docker CE Stable - $basearch\nbaseurl=https://download.docker.com/linux/centos/7/$basearch/stable\nenabled=0\ngpgcheck=1\ngpgkey=https://download.docker.com/linux/centos/gpg' > /etc/yum.repos.d/docker-ce.repo \
     && microdnf update -y \
-    && rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm \
-    && microdnf install -y --enablerepo=docker-ce-stable git docker-ce-cli python2-pip jq gettext tar unzip procps-ng \
+    && microdnf install -y --enablerepo=docker-ce-stable git docker-ce-cli python2-pip python2-pyyaml gettext tar unzip procps-ng \
     && microdnf clean all \
 ## Install yq
-    && pip2 --disable-pip-version-check install -U --compile --no-cache-dir yq \
+    && curl -LsSf https://github.com/stedolan/jq/releases/download/jq-${JQ_VERSION}/jq-linux64 -o /usr/local/bin/jq && chmod +x /usr/local/bin/jq \
+    && pip2 --disable-pip-version-check install --compile --no-cache-dir yq \
 ## Install rush
     && curl -LsSf https://github.com/shenwei356/rush/releases/download/v${RUSH_VERSION}/rush_linux_amd64.tar.gz | tar xz -C /usr/local/bin \
 ## Install kubernetes helm

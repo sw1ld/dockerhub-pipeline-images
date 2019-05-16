@@ -58,10 +58,10 @@ RUN set -euo pipefail \
     && echo -e '[docker-ce-stable]\nname=Docker CE Stable - $basearch\nbaseurl=https://download.docker.com/linux/centos/7/$basearch/stable\nenabled=0\ngpgcheck=1\ngpgkey=https://download.docker.com/linux/centos/gpg' > /etc/yum.repos.d/docker-ce.repo \
     && microdnf update -y \
     && rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm \
-    && microdnf install -y --enablerepo=docker-ce-stable git docker-ce-cli python3-pip jq gettext tar unzip procps-ng \
+    && microdnf install -y --enablerepo=docker-ce-stable git docker-ce-cli python2-pip jq gettext tar unzip procps-ng \
     && microdnf clean all \
 ## Install yq
-    && pip3 --disable-pip-version-check install -U --compile --no-cache-dir yq \
+    && pip2 --disable-pip-version-check install -U --compile --no-cache-dir yq \
 ## Install rush
     && curl -LsSf https://github.com/shenwei356/rush/releases/download/v${RUSH_VERSION}/rush_linux_amd64.tar.gz | tar xz -C /usr/local/bin \
 ## Install kubernetes helm

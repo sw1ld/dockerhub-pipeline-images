@@ -53,7 +53,6 @@ RUN mkdir -p "${NVM_DIR}" && cd "${NVM_DIR}" \
     && rm -rf .git test \
     && echo -e "npm\nyarn" > default-packages \
     && . "${NVM_DIR}/nvm.sh" \
-    && nvm install 8 \
     && nvm install 10 \
     && nvm install 12 \
     && nvm cache clear \

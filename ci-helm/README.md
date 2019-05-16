@@ -34,6 +34,7 @@ Provides Helm (and some plugins) also docker skopeo and ansible (<=2.11).
 | Name | Description | Size |
 | ---- | ----------- | ---- |
 | `latest` | Reference the latest recommend version | [![](https://img.shields.io/microbadger/image-size/adorsys/ci-helm/latest.svg?style=flat-square)](https://microbadger.com/images/adorsys/ci-helm) |
+| `2.14` | helm 2.14 | [![](https://img.shields.io/microbadger/image-size/adorsys/ci-helm/2.14.svg?style=flat-square)](https://microbadger.com/images/adorsys/ci-helm:2.14) |
 | `2.13` | helm 2.13 | [![](https://img.shields.io/microbadger/image-size/adorsys/ci-helm/2.13.svg?style=flat-square)](https://microbadger.com/images/adorsys/ci-helm:2.13) |
 | `2.12` | helm 2.12 | [![](https://img.shields.io/microbadger/image-size/adorsys/ci-helm/2.12.svg?style=flat-square)](https://microbadger.com/images/adorsys/ci-helm:2.12) |
 | `2.11` | helm 2.11 | [![](https://img.shields.io/microbadger/image-size/adorsys/ci-helm/2.11.svg?style=flat-square)](https://microbadger.com/images/adorsys/ci-helm:2.11) |

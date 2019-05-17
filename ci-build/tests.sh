@@ -22,7 +22,7 @@ docker run --rm "${DOCKER_IMAGE}:${TAG}" bash -c 'jabba use system@1.8 && java -
 docker run --rm "${DOCKER_IMAGE}:${TAG}" bash -c 'jabba use system@1.11 && java -version 2>&1 | grep -q "build 11"'
 
 docker run --rm "${DOCKER_IMAGE}:${TAG}" bash -c 'nvm exec 10 node --version | grep -q "node v10"'
-docker run --rm "${DOCKER_IMAGE}:${TAG}" bash -c 'nvm exec 12 node --version | grep -q "node v8"'
+docker run --rm "${DOCKER_IMAGE}:${TAG}" bash -c 'nvm exec 12 node --version | grep -q "node v12"'
 
 docker run --rm "${DOCKER_IMAGE}:${TAG}" bash -c 'nvm exec 10 node --version'
 docker run --rm "${DOCKER_IMAGE}:${TAG}" bash -c 'nvm exec 12 node --version'

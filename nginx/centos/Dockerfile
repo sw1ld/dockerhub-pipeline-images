@@ -25,7 +25,10 @@ RUN yum update -y && yum clean all && rm -rf /var/cache/yum \
     && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
     && chmod g=u /etc/passwd \
     && ln -sf /opt/rh/rh-nginx${NGINX_SHORT_VER}/root/usr/share/nginx/html/404.html /opt/app-root/src/404.html \
-    && ln -sf /opt/rh/rh-nginx${NGINX_SHORT_VER}/root/usr/share/nginx/html/50x.html /opt/app-root/src/50x.html
+    && ln -sf /opt/rh/rh-nginx${NGINX_SHORT_VER}/root/usr/share/nginx/html/50x.html /opt/app-root/src/50x.html \
+    && touch /opt/app-root/etc/nginx.default.d/logging.conf \
+    && chown -R 1001:0 /opt/app-root/etc/nginx.default.d/logging.conf ${NGINX_APP_ROOT}/src \
+    && chmod -R g=u /opt/app-root/etc/nginx.default.d/logging.conf ${NGINX_APP_ROOT}/src
 
 # Required if nginx is updated via yum
 # should be the same like

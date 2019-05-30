@@ -7,5 +7,9 @@ if ! whoami > /dev/null 2>&1; then
   fi
 fi
 
+if [ "${NGINX_DISABLE_ACCESS_LOG:-}" = "true" ]; then
+  echo "access_log off;" > /opt/app-root/etc/nginx.default.d/logging.conf
+fi
+
 # envsubst
 exec /usr/bin/container-entrypoint "$@"

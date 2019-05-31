@@ -1,2 +1,3 @@
 #!/bin/sh
-gpg --with-colons "$1" | grep '^ssb:' | cut -d':' -f 5 | tail -c 9
+# https://unix.stackexchange.com/a/391971
+gpg --with-colons --import-options show-only --import "$1" | grep '^ssb:' | cut -d':' -f 5 | tail -c 9

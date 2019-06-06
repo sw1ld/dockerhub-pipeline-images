@@ -26,6 +26,7 @@ By default all images based on CentOS except `awscli`. Some images have a `alpin
 | [adorsys/nginx](nginx/README.md) | Base image for distribute static files and SPAs. | [![](https://img.shields.io/docker/pulls/adorsys/nginx.svg?logo=docker&style=flat-square)](https://hub.docker.com/r/adorsys/nginx) |
 | [adorsys/java](java/README.md) | Base image for distribute java jars. | [![](https://img.shields.io/docker/pulls/adorsys/java.svg?logo=docker&style=flat-square)](https://hub.docker.com/r/adorsys/java) |
 | [adorsys/node](node/README.md) | Base image for distribute node applications. | [![](https://img.shields.io/docker/pulls/adorsys/node.svg?logo=docker&style=flat-square)](https://hub.docker.com/r/adorsys/node) |
+| [adorsys/mailout](mailout/README.md) | MTA for sending mails inside containerized applications | [![](https://img.shields.io/docker/pulls/adorsys/mailout.svg?logo=docker&style=flat-square)](https://hub.docker.com/r/adorsys/mailout) |
 
 
 # Contributing

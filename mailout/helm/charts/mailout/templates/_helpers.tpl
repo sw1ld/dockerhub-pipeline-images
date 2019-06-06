@@ -3,7 +3,7 @@
 Expand the name of the chart.
 */}}
 {{- define "mailout.name" -}}
-  {{- default "timp" $.Values.nameOverride | trunc 63 | trimSuffix "-" -}}
+  {{- default "mailout" $.Values.nameOverride | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 {{/*

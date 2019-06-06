@@ -21,6 +21,10 @@ services:
     image: adorsys/ci-clair
     build:
       context: ci-clair
+  mailout:
+    image: adorsys/mailout
+    build:
+      context: mailout
   ci_helm_2.10:
     image: adorsys/ci-helm:2.10
     build:
@@ -37,6 +41,10 @@ services:
     image: adorsys/ci-helm:2.13
     build:
       context: ci-helm/2.13
+  ci_helm_2.14:
+    image: adorsys/ci-helm:2.14
+    build:
+      context: ci-helm/2.14
   nginx_alpine:
     image: adorsys/nginx:alpine
     build:
@@ -61,6 +69,14 @@ services:
     image: adorsys/java:8-ubi
     build:
       context: java/ubi/8
+  mailout_node_modules_Haraka:
+    image: adorsys/mailout:Haraka-node_modules
+    build:
+      context: mailout/node_modules/Haraka
+  mailout_node_modules_sqlite3:
+    image: adorsys/mailout:sqlite3-node_modules
+    build:
+      context: mailout/node_modules/sqlite3
   node_alpine_10:
     image: adorsys/node:10-alpine
     build:

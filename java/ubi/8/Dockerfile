@@ -1,3 +1,5 @@
+FROM registry.access.redhat.com/ubi8/ubi AS TZDATA
+
 FROM registry.access.redhat.com/ubi8/ubi-minimal AS TCNATIVE
 
 RUN microdnf install -y apr-devel openssl-devel java-1.8.0-openjdk-devel tar gzip gcc make redhat-rpm-config
@@ -32,6 +34,10 @@ ENV TZ=Europe/Berlin \
     JAVA_OPTS="-Xmx128m"
 
 WORKDIR /opt/app-root/src
+
+# https://bugzilla.redhat.com/show_bug.cgi?id=1611117
+COPY --from=TZDATA /usr/share/zoneinfo/UTC /usr/share/zoneinfo/UTC
+COPY --from=TZDATA /usr/share/zoneinfo/Europe/Berlin /usr/share/zoneinfo/Europe/Berlin
 
 COPY --from=TCNATIVE /usr/lib/libtcnative*so /usr/lib/
 

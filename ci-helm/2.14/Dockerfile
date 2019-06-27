@@ -1,3 +1,5 @@
+FROM registry.access.redhat.com/ubi8/ubi AS TZDATA
+
 FROM openshift/origin-cli:v3.11 AS OC_CLIENT
 
 # If mutlistage docker builds are not supported in your enterprise environment
@@ -53,6 +55,10 @@ COPY root /
 
 COPY --from=OC_CLIENT /usr/bin/oc /usr/local/bin/oc
 COPY --from=SKOPEO /go/src/github.com/containers/skopeo/skopeo /usr/local/bin/skopeo
+
+# https://bugzilla.redhat.com/show_bug.cgi?id=1611117
+COPY --from=TZDATA /usr/share/zoneinfo/UTC /usr/share/zoneinfo/UTC
+COPY --from=TZDATA /usr/share/zoneinfo/Europe/Berlin /usr/share/zoneinfo/Europe/Berlin
 
 RUN set -euo pipefail \
     && mkdir -p "${HELM_HOME}" "${GNUPGHOME}" "$(dirname "$KUBECONFIG")" \

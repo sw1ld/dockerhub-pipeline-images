@@ -11,5 +11,11 @@ if [ "${NGINX_DISABLE_ACCESS_LOG:-}" = "true" ]; then
   echo "access_log off;" > /opt/app-root/etc/nginx.default.d/logging.conf
 fi
 
+if [ -d /docker-entrypoint.d/ ] && [ -n "$(ls -A /docker-entrypoint.d/)" ]; then
+  for f in /docker-entrypoint.d/*; do
+    . "$f"
+  done
+fi
+
 # envsubst
 exec /usr/bin/container-entrypoint "$@"

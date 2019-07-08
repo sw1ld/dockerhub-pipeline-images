@@ -17,7 +17,7 @@ COPY root /
 
 RUN apt-get update && apt-get upgrade -y && apt-get clean all \
     && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
-    && apt-get install -y openjdk-11-jdk-headless curl graphviz ruby fontconfig graphviz jq && apt-get clean all \
+    && apt-get install -y make rsync openjdk-11-jdk-headless curl graphviz ruby fontconfig graphviz jq && apt-get clean all \
     && mkdir /usr/local/share/plantuml \
     && curl -s -L http://sourceforge.net/projects/plantuml/files/plantuml.1.2019.7.jar/download --output /usr/local/share/plantuml/plantuml.jar \
     && gem install --no-document asciidoctor \

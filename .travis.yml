@@ -25,8 +25,8 @@ env:
     - DOCKER_IMAGE=adorsys/node           DIR=node/centos/12  TAG=12        SQUASH=true
     - DOCKER_IMAGE=adorsys/node           DIR=node/alpine/10  TAG=10-alpine SQUASH=true
     - DOCKER_IMAGE=adorsys/node           DIR=node/alpine/12  TAG=12-alpine SQUASH=true
-    - DOCKER_IMAGE=adorsys/ci-build/full  DIR=ci-build/full   TAG=full      SNAPSHOT=true ALIASES="latest"
-    - DOCKER_IMAGE=adorsys/ci-build/light DIR=ci-build/light  TAG=light
+    - DOCKER_IMAGE=adorsys/ci-build       DIR=ci-build/full   TAG=full      SNAPSHOT=true ALIASES="latest"
+    - DOCKER_IMAGE=adorsys/ci-build       DIR=ci-build/light  TAG=light
     - DOCKER_IMAGE=adorsys/ansible        DIR=ansible         SNAPSHOT=true
     - DOCKER_IMAGE=adorsys/awscli         DIR=awscli          SNAPSHOT=true
     - DOCKER_IMAGE=adorsys/arc42-tools    DIR=arc42-tools     SNAPSHOT=true

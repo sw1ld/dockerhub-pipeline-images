@@ -11,10 +11,53 @@ Provides nginx. If possible use the `alpine` flavor based on the official [`ngin
 
 For secure rootless environments nginx listen on port `8080` by default.
 
+## Example Dockerfile
+
+Copy your files to distribute just to `.`. It points the web root directory
+of the nginx container
+
+```dockerfile
+FROM adorsys/nginx
+
+COPY dist/ .
+```
+
+## Entrypoint hooks
+
+If you need to run addition logic on container start, e.g. correct backend url for angular you can just copy your shell
+script to `/docker-entrypoint.d/`.
+
+**Before you do this manually, checkout best-practice example how to run angular apps inside docker without modify the source at
+container start: https://github.com/adorsys/example-angular**
+
+#### Example
+
+angular-url.sh
+```bash
+if [ -f main.js ]; then
+  sed -i -e \
+    's#___SB_BACKEND_URL___#'"$BACKEND_URL"'#g' \
+    main.js
+else
+  sed -i -e \
+    's#___SB_BACKEND_URL___#'"$BACKEND_URL"'#g' \
+    main.*.js
+fi
+```
+
+```dockerfile
+FROM adorsys/nginx
+
+COPY dist/ .
+COPY angular-url.sh /docker-entrypoint.d/
+```
+
+The current directory points to the web http root directory.
+
+
 ## Tags
 
 | Name | Description | Size |
 | ---- | ----------- | ---- |
 | latest | Based on [RH SCL nginx](https://github.com/sclorg/nginx-container) 1.14 | ![](https://img.shields.io/microbadger/image-size/adorsys/nginx/latest.svg?style=flat-square) |
 | alpine | Based on [`nginx:alpine`](https://hub.docker.com/_/nginx) | ![](https://img.shields.io/microbadger/image-size/adorsys/nginx/alpine.svg?style=flat-square) |
-

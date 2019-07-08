@@ -9,8 +9,35 @@ https://hub.docker.com/r/adorsys/java/
 
 Provides java. Should be used for runtime containers.
 
+## Example Dockerfile
 
-### Recommend runtime Options (for Java 8u191 and Java 11)
+Copy your jar to distribute just to `.`. 
+Start command is well defined inside the upstream image.
+
+```dockerfile
+FROM adorsys/java:8
+
+COPY ./target/backend-executable.jar .
+```
+
+## Entrypoint hooks
+
+If you need to run addition logic on container start, e.g. correct backend url for angular you can just copy your shell
+script to `/docker-entrypoint.d/`.
+
+## Recommend runtime Options 
+
+### Production notice
+
+In production you should use openshift/kubernetes resource limits.
+
+https://docs.openshift.com/container-platform/3.11/dev_guide/compute_resources.html#dev-compute-resources
+
+To resolve conflict between the resource limits and JVM limits (e.g. heap space limit `-Xmx`) you should not defined any
+`-Xmx` parameters inside the `JAVA_OPTS`. By default `JAVA_OPTS` is set to `-Xmx128m` which should be removed by overwrite
+`JAVA_OPTS` to an empty string inside kubernetes/openshift.
+
+### for Java 8u191 and Java 11
 
 Since Java 8u191 `UseContainerSupport` is enabled by default which mean there a automatic configuration
 of the correct heap limits.
@@ -20,7 +47,7 @@ See: https://www.eclipse.org/openj9/docs/xxusecontainersupport/
 Java 8 Release Notes:
 https://www.oracle.com/technetwork/java/javase/8u191-relnotes-5032181.html#JDK-8146115
 
-### Recommend runtime Options (for Java 8) (prior 191)
+### for Java 8 (prior 191)
 
 | Parameter | Explanation |
 |-----------|-------------|
@@ -50,9 +77,5 @@ Links:
 
 | Name | Description | Size |
 | ---- | ----------- | ---- |
-| `8` | CentOS based image with RH OpenJDK 8 | ![](https://img.shields.io/microbadger/image-size/adorsys/java/8.svg?style=flat-square) |
-| `11` | CentOS based image with RH OpenJDK 11 | ![](https://img.shields.io/microbadger/image-size/adorsys/java/11.svg?style=flat-square) |
-| `8-alpine` | Alpine based image with AdoptOpenJDK 8 | ![](https://img.shields.io/microbadger/image-size/adorsys/java/8-alpine.svg?style=flat-square) |
-| `11-alpine` | Alpine based image with AdoptOpenJDK 11 | ![](https://img.shields.io/microbadger/image-size/adorsys/java/11-alpine.svg?style=flat-square) |
-| `8-ubi` | RHEL8 UBI based image with RH OpenJDK 8 | ![](https://img.shields.io/microbadger/image-size/adorsys/java/8-ubi.svg?style=flat-square) |
-| `11-ubi` | RHEL8 UBI based image with RH OpenJDK 11 | ![](https://img.shields.io/microbadger/image-size/adorsys/java/11-ubi.svg?style=flat-square) |
+| `8` | RHEL8 UBI based image with RH OpenJDK 8 | ![](https://img.shields.io/microbadger/image-size/adorsys/java/8.svg?style=flat-square) |
+| `11` | RHEL8 UBI based image with RH OpenJDK 11 | ![](https://img.shields.io/microbadger/image-size/adorsys/java/11.svg?style=flat-square) |

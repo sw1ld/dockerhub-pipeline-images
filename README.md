@@ -4,6 +4,10 @@
 
 Primary used to build and distribute software at adorsys.
 
+# Examples
+
+You can find examples inside the README.md of the images.
+
 # Getting updates
 
 All images are build daily at travis to receive daily OS update. Most of the images are squashed into one to

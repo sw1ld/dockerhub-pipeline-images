@@ -7,4 +7,11 @@ if ! whoami > /dev/null 2>&1; then
   fi
 fi
 
+if [ -d /docker-entrypoint.d/ ] && [ -n "$(ls -A /docker-entrypoint.d/)" ]; then
+  for f in /docker-entrypoint.d/*; do
+    # shellcheck source=/dev/null
+    . "$f"
+  done
+fi
+
 exec "$@"

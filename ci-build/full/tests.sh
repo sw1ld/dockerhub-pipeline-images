@@ -35,5 +35,7 @@ docker run --rm "${DOCKER_IMAGE}:${TAG}" bash -c 'nvm exec 12 npm --version'
 docker run --rm "${DOCKER_IMAGE}:${TAG}" bash -c 'nvm exec 10 yarn --version'
 docker run --rm "${DOCKER_IMAGE}:${TAG}" bash -c 'nvm exec 12 yarn --version'
 
-docker run --rm "${DOCKER_IMAGE}:${TAG}" bash -c 'npm install iconv'
+
+chmod -R 777 "$PWD/../../java/.tests/"
 docker run --rm -v "$PWD/../../java/.tests/":/opt/app-root/src "${DOCKER_IMAGE}:${TAG}" mvn -q --batch-mode clean package
+docker run --rm "${DOCKER_IMAGE}:${TAG}" bash -c 'npm install iconv'

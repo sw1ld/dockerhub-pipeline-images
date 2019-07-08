@@ -17,4 +17,4 @@ docker rm -f nginx-scl-test
 
 
 # Test /docker-entrypoint.d/*.sh
-docker run --rm -v "$PWD/../../../.tests/test-docker-entrypoint.d.sh":/docker-entrypoint.d/test.sh "${DOCKER_IMAGE}:${TAG}" nginx -t | grep "TEST-ENTRYPOINT-HOOK-WORKS!"
+docker run --rm -v "$PWD/../../.tests/test-docker-entrypoint.d.sh":/docker-entrypoint.d/test.sh "${DOCKER_IMAGE}:${TAG}" nginx -t | grep "TEST-ENTRYPOINT-HOOK-WORKS!"

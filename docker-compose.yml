@@ -13,10 +13,6 @@ services:
     image: adorsys/awscli
     build:
       context: awscli
-  ci_build:
-    image: adorsys/ci-build
-    build:
-      context: ci-build
   ci_clair:
     image: adorsys/ci-clair
     build:
@@ -25,6 +21,14 @@ services:
     image: adorsys/mailout
     build:
       context: mailout
+  ci_build_full:
+    image: adorsys/ci-build:full
+    build:
+      context: ci-build/full
+  ci_build_light:
+    image: adorsys/ci-build:light
+    build:
+      context: ci-build/light
   ci_helm_2.10:
     image: adorsys/ci-helm:2.10
     build:

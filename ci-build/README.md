@@ -12,17 +12,19 @@ The default build image.
 Software list:
 
 * Java 8 and 11 (choosable via [JABBA](https://github.com/shyiko/jabba); default 8)
-* Node 8 and 10 (choosable via [NVM](https://github.com/creationix/nvm); default 8)
+* Node 10 and 12 (choosable via [NVM](https://github.com/creationix/nvm); default 10)
 * NPM and [YARN](https://yarnpkg.com/lang/en/)
-* Docker CE
 * Maven
+* Build Tools like gcc (required for some node dependencies)
+
+### Additional software list inside full variant
+* Docker CE
 * Chrome
 * Firefox (bootstrap only)
 * JMeter (bootstrap only)
 * [skopeo](https://github.com/containers/skopeo)
 * [jq](https://stedolan.github.io/jq/)
 * [rush](https://github.com/shenwei356/rush)
-* Build Tools like gcc (required for some node dependencies)
 
 We try to avoid version pinning. Prepare to always get the latest version.
 
@@ -30,7 +32,9 @@ We try to avoid version pinning. Prepare to always get the latest version.
 
 | Name | Description | Size | 
 | ---- | ----------- | ---- |
-| latest | - | [![](https://img.shields.io/microbadger/image-size/adorsys/ci-build.svg?style=flat-square)](https://microbadger.com/images/adorsys/ci-build) |
+| latest | alias of full | [![](https://img.shields.io/microbadger/image-size/adorsys/ci-build.svg?style=flat-square)](https://microbadger.com/images/adorsys/ci-build) |
+| full | includes browser | [![](https://img.shields.io/microbadger/image-size/adorsys/ci-build/full.svg?style=flat-square)](https://microbadger.com/images/adorsys/ci-build) |
+| light | without browser and additional tools | [![](https://img.shields.io/microbadger/image-size/adorsys/ci-build/light.svg?style=flat-square)](https://microbadger.com/images/adorsys/ci-build) |
 | YYYYMM | Monthly Snapshots | - |
 
 ## CI Examples

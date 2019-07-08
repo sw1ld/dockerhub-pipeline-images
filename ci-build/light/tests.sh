@@ -7,13 +7,6 @@ docker run --rm "${DOCKER_IMAGE}:${TAG}" bash --version
 docker run --rm "${DOCKER_IMAGE}:${TAG}" docker --version
 docker run --rm "${DOCKER_IMAGE}:${TAG}" java -version
 docker run --rm "${DOCKER_IMAGE}:${TAG}" mvn --version
-docker run --rm "${DOCKER_IMAGE}:${TAG}" google-chrome-stable --version
-docker run --rm "${DOCKER_IMAGE}:${TAG}" firefox --version
-docker run --rm "${DOCKER_IMAGE}:${TAG}" oc version
-docker run --rm "${DOCKER_IMAGE}:${TAG}" skopeo -v
-
-docker run --rm "${DOCKER_IMAGE}:${TAG}" ip -V
-docker run --rm "${DOCKER_IMAGE}:${TAG}" rush -V
 
 # Default should be java 8
 docker run --rm "${DOCKER_IMAGE}:${TAG}" bash -c 'java -version 2>&1 | grep -q "build 1\.8"'
@@ -32,3 +25,5 @@ docker run --rm "${DOCKER_IMAGE}:${TAG}" bash -c 'nvm exec 12 npm --version'
 
 docker run --rm "${DOCKER_IMAGE}:${TAG}" bash -c 'nvm exec 10 yarn --version'
 docker run --rm "${DOCKER_IMAGE}:${TAG}" bash -c 'nvm exec 12 yarn --version'
+
+docker run --rm "${DOCKER_IMAGE}:${TAG}" bash -c 'npm install iconv'

@@ -1,3 +1,36 @@
+FROM openshift/origin-cli:v3.11 AS OC_CLIENT
+
+FROM golang:1.12 as SKOPEO
+
+ARG SKOPEO_VERSION=v0.1.35
+
+# From https://github.com/containers/skopeo/blob/master/Dockerfile.build
+RUN apt-get update && apt-get install -y curl \
+      libgpgme11-dev \
+      libglib2.0-dev \
+      libostree-dev
+
+RUN mkdir -p $GOPATH/src/github.com/containers/skopeo \
+    && curl -LsSf https://github.com/containers/skopeo/archive/${SKOPEO_VERSION}.tar.gz | tar xz --strip-components=1 -C $GOPATH/src/github.com/containers/skopeo \
+    && cd $GOPATH/src/github.com/containers/skopeo && make binary-local DISABLE_CGO=1
+
+FROM centos:7 AS TCNATIVE
+
+RUN yum install -y apr-devel openssl-devel java-1.8.0-openjdk-devel tar gzip gcc make redhat-rpm-config
+
+RUN set -x \
+    # https://github.com/infosiftr/tomcat/blob/5f1abae99c0b1ebbd4f020bc4b5696619d948cfd/7/jre8-alpine/Dockerfile
+    && nativeBuildDir="$(mktemp -d)" \
+    && nativeVersion=$(curl -sSf "https://www-eu.apache.org/dist/tomcat/tomcat-connectors/native/" | sed -nE 's/.*<a href="([0-9]+\.[0-9]+.[0-9]+)\/">.*/\1/p' | tail -n1) \
+    && curl -sSf "https://www-eu.apache.org/dist/tomcat/tomcat-connectors/native/${nativeVersion}/source/tomcat-native-${nativeVersion}-src.tar.gz" | tar -zxv -C "$nativeBuildDir" --strip-components=1 \
+    && export CATALINA_HOME="$PWD" \
+    && cd "$nativeBuildDir/native" \
+    && ./configure --with-apr=/usr/bin/apr-1-config \
+              --with-java-home=/usr/lib/jvm/java-openjdk  \
+              --with-ssl=yes \
+              --prefix=/usr \
+    && make && make install
+
 FROM centos:7
 
 LABEL maintainer="adorsys GmbH & Co. KG" \
@@ -26,18 +59,23 @@ ENV HOME=/tmp \
 
 COPY root /
 
+COPY --from=OC_CLIENT /usr/bin/oc /usr/local/bin/oc
+COPY --from=SKOPEO /go/src/github.com/containers/skopeo/skopeo /usr/local/bin/skopeo
+COPY --from=TCNATIVE /usr/lib/libtcnative*so /usr/lib/
+
 RUN set -euo pipefail \
     && useradd -d "${HOME}" -M -u 1001 -g 0 default \
     && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
     && echo -e '[google-chrome]\nname=google-chrome\nbaseurl=http://dl.google.com/linux/chrome/rpm/stable/$basearch\nenabled=0\ngpgcheck=1\ngpgkey=https://dl-ssl.google.com/linux/linux_signing_key.pub' > /etc/yum.repos.d/google-chrome.repo \
     && echo -e '[docker-ce-stable]\nname=Docker CE Stable - $basearch\nbaseurl=https://download.docker.com/linux/centos/7/$basearch/stable\nenabled=0\ngpgcheck=1\ngpgkey=https://download.docker.com/linux/centos/gpg' > /etc/yum.repos.d/docker-ce.repo \
     && yum update -y \
-    && yum install -y epel-release centos-release-openshift-origin \
+    && yum install -y epel-release \
     && yum install -y --enablerepo=docker-ce-stable \
         iproute zip unzip python bzip2 libXt git gcc-c++ make jq \
-        docker-ce-cli origin-clients skopeo \
+        docker-ce-cli \
     && yum clean all -y && rm -rf /var/cache/yum \
     && chmod g=u /etc/passwd \
+    && curl -LsSf https://github.com/shenwei356/rush/releases/download/v${RUSH_VERSION}/rush_linux_amd64.tar.gz | tar xz -C /usr/local/bin \
     && mkdir -p /opt/app-root/src && chown -R 1001:0 /opt/app-root/src && chmod -R ug+rwx /opt/app-root/src
 
 RUN yum install -y --enablerepo=google-chrome \
@@ -45,7 +83,7 @@ RUN yum install -y --enablerepo=google-chrome \
     && yum clean all -y && rm -rf /var/cache/yum
 
 RUN yum install -y \
-        tomcat-native java-1.8.0-openjdk-devel java-11-openjdk-devel \
+        java-1.8.0-openjdk-devel java-11-openjdk-devel \
     && yum clean all -y && rm -rf /var/cache/yum
 
 RUN mkdir -p "${NVM_DIR}" && cd "${NVM_DIR}" \
@@ -82,7 +120,6 @@ RUN cd /opt \
     && mkdir -p "${MAVEN_CONFIG}" \
     && chmod -R g+rw "${MAVEN_CONFIG}" \
     && cd /tmp && rm -rf ..?* .[!.]* * \
-    && curl -LsSf https://github.com/shenwei356/rush/releases/download/v${RUSH_VERSION}/rush_linux_amd64.tar.gz | tar xz -C /usr/local/bin \
     && ln -s /enable.sh /tmp/.bashrc
 
 WORKDIR /opt/app-root/src

@@ -17,6 +17,8 @@ docker run --rm "${DOCKER_IMAGE}:${TAG}" ip -V
 docker run --rm "${DOCKER_IMAGE}:${TAG}" rush -V
 docker run --rm "${DOCKER_IMAGE}:${TAG}" gcc --version
 
+docker run --rm "${DOCKER_IMAGE}:${TAG}" skopeo copy docker://docker.io/library/alpine dir:///tmp/alpine.tar
+
 # Default should be java 8
 docker run --rm "${DOCKER_IMAGE}:${TAG}" bash -c 'java -version 2>&1 | grep -q "build 1\.8"'
 

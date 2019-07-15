@@ -30,6 +30,6 @@ RUN mkdir -p /opt/app-root/queue /opt/app-root/config \
 
 USER 1001
 
-HEALTHCHECK CMD ["/healthcheck.sh"]
+HEALTHCHECK CMD /healthcheck.sh || exit 1
 ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["npx", "--no-install", "haraka", "-c", "."]

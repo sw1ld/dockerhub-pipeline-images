@@ -2,6 +2,11 @@
 
 set -eu
 
+if [ "$(cat /sys/fs/cgroup/memory/memory.limit_in_bytes)" != "9223372036854771712" ]; then
+  NODE_OPTIONS="--max_old_space_size=$(( $(cat /sys/fs/cgroup/memory/memory.limit_in_bytes) * 7 / 10 / 1000 / 1000 )) ${NODE_OPTIONS:-}"
+  export NODE_OPTIONS
+fi
+
 # log.ini
 if [ -n "${HARAKA_LOG_LEVEL+x}" ]; then
     echo "level=${HARAKA_LOG_LEVEL}"      >> /opt/app-root/config/log.ini

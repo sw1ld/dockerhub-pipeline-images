@@ -13,7 +13,7 @@ if [ -n "${HARAKA_LOG_LEVEL+x}" ]; then
 fi
 
 if [ -n "${HARAKA_LOG_TIMESTAMPS+x}" ]; then
-    echo "timestamps=${HARAKA_LOG_LEVEL}" >> /opt/app-root/config/log.ini
+    echo "timestamps=${HARAKA_LOG_TIMESTAMPS}" >> /opt/app-root/config/log.ini
 fi
 
 # me

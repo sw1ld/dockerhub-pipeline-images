@@ -3,7 +3,7 @@
 set -eu
 
 if [ "$(cat /sys/fs/cgroup/memory/memory.limit_in_bytes)" != "9223372036854771712" ]; then
-  NODE_OPTIONS="--max_old_space_size=$(( $(cat /sys/fs/cgroup/memory/memory.limit_in_bytes) * 7 / 10 / 1000 / 1000 )) ${NODE_OPTIONS:-}"
+  NODE_OPTIONS="--max_old_space_size=$(( $(cat /sys/fs/cgroup/memory/memory.limit_in_bytes) * 8 / 10 / 1000 / 1000 )) ${NODE_OPTIONS:-}"
   export NODE_OPTIONS
 fi
 
@@ -43,11 +43,6 @@ if [ -n "${HARAKA_NODES+x}" ]; then
 fi
 
 # tls
-if [ -n "${HARAKA_TLS_CA_BUNDLE+x}" ]; then
-    echo "ca=${HARAKA_TLS_CA_BUNDLE}"         >> /opt/app-root/config/tls.ini
-    unset HARAKA_TLS_CA_BUNDLE
-fi
-
 if [ -n "${HARAKA_TLS+x}" ] && [ "${HARAKA_TLS}" = "true" ]; then
     echo "tls" >> /opt/app-root/config/plugins
     unset HARAKA_TLS
@@ -61,6 +56,11 @@ if [ -n "${HARAKA_TLS+x}" ] && [ "${HARAKA_TLS}" = "true" ]; then
         echo "cert=${HARAKA_TLS_LISTEN_CERT}" >> /opt/app-root/config/tls.ini
         unset HARAKA_TLS_LISTEN_CERT
     fi
+fi
+
+if [ -n "${HARAKA_TLS_CA_BUNDLE+x}" ]; then
+    echo "\n[outbound]\nca=${HARAKA_TLS_CA_BUNDLE}" >> /opt/app-root/config/tls.ini
+    unset HARAKA_TLS_CA_BUNDLE
 fi
 
 # auth

@@ -59,7 +59,8 @@ if [ -n "${HARAKA_TLS+x}" ] && [ "${HARAKA_TLS}" = "true" ]; then
 fi
 
 if [ -n "${HARAKA_TLS_CA_BUNDLE+x}" ]; then
-    echo "\n[outbound]\nca=${HARAKA_TLS_CA_BUNDLE}" >> /opt/app-root/config/tls.ini
+    echo "[outbound]" >> /opt/app-root/config/tls.ini
+    echo "ca=${HARAKA_TLS_CA_BUNDLE}" >> /opt/app-root/config/tls.ini
     unset HARAKA_TLS_CA_BUNDLE
 fi
 

@@ -40,7 +40,8 @@ LABEL maintainer="adorsys GmbH & Co. KG" \
 ENV GNUPGHOME=/var/local/lib/gnupg/ \
     TERM=xterm \
     HELM_HOME=/var/local/lib/helm/ \
-    KUBECONFIG=/var/local/lib/kube/config
+    KUBECONFIG=/var/local/lib/kube/config \
+    HOME=/tmp
 
 ARG RUSH_VERSION=0.4.1
 ARG SOPS_VERSION=3.3.0

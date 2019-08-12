@@ -19,6 +19,7 @@ env:
     - DOCKER_IMAGE=adorsys/ci-helm        DIR=ci-helm/2.14    TAG=2.14      SQUASH=true ALIASES="latest"
     - DOCKER_IMAGE=adorsys/nginx          DIR=nginx/centos                  SQUASH=true
     - DOCKER_IMAGE=adorsys/nginx          DIR=nginx/alpine    TAG=alpine    SQUASH=true
+    - DOCKER_IMAGE=adorsys/nginx          DIR=nginx/ubi       TAG=ubi       SQUASH=true
     - DOCKER_IMAGE=adorsys/java           DIR=java/ubi/8      TAG=8         SQUASH=true
     - DOCKER_IMAGE=adorsys/java           DIR=java/ubi/11     TAG=11        SQUASH=true
     - DOCKER_IMAGE=adorsys/node           DIR=node/centos/10  TAG=10        SQUASH=true

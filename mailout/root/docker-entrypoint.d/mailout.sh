@@ -1,12 +1,5 @@
 #!/bin/sh
 
-set -eu
-
-if [ "$(cat /sys/fs/cgroup/memory/memory.limit_in_bytes)" != "9223372036854771712" ]; then
-  NODE_OPTIONS="--max_old_space_size=$(( $(cat /sys/fs/cgroup/memory/memory.limit_in_bytes) * 8 / 10 / 1000 / 1000 )) ${NODE_OPTIONS:-}"
-  export NODE_OPTIONS
-fi
-
 # log.ini
 if [ -n "${HARAKA_LOG_LEVEL+x}" ]; then
     echo "level=${HARAKA_LOG_LEVEL}"      >> /opt/app-root/config/log.ini
@@ -96,5 +89,3 @@ if [ -n "${HARAKA_RELAY_AUTH_PASS+x}" ]; then
     echo "auth_pass=${HARAKA_RELAY_AUTH_PASS}" >> /opt/app-root/config/smtp_smarthost.ini
     unset HARAKA_RELAY_AUTH_PASS
 fi
-
-exec "$@"

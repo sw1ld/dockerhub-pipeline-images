@@ -13,7 +13,9 @@ EXPOSE 8080
 
 # discard npm update warnings
 ENV NO_UPDATE_NOTIFIER=1\
-    TZ=Europe/Berlin
+    TZ=Europe/Berlin \
+    ENABLE_AUTO_NODE_MEMORY_LIMIT=true \
+    NODE_MEMORY_LIMIT_PERCENT=80
 
 WORKDIR /opt/app-root
 

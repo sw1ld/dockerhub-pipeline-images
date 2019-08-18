@@ -9,7 +9,7 @@ docker run --rm "${DOCKER_IMAGE}:${TAG}" npm --version
 docker run --rm -u 1000090000:0 "${DOCKER_IMAGE}:${TAG}" whoami
 
 # Test /docker-entrypoint.d/*.sh
-docker run --rm -v "$PWD/../../../.tests/test-docker-entrypoint.d.sh":/docker-entrypoint.d/test.sh "${DOCKER_IMAGE}:${TAG}" node --version | grep "TEST-ENTRYPOINT-HOOK-WORKS!"
+docker run --rm -v "$(git rev-parse --show-toplevel)/.tests/test-docker-entrypoint.d.sh":/docker-entrypoint.d/test.sh "${DOCKER_IMAGE}:${TAG}" node --version | grep "TEST-ENTRYPOINT-HOOK-WORKS!"
 
 # Test Memory autconfig
 docker run -m 128M --rm -ti "${DOCKER_IMAGE}:${TAG}" env | grep NODE_OPTIONS=--max_old_space_size=107

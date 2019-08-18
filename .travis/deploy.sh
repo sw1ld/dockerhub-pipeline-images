@@ -27,9 +27,11 @@ echo "push to ${DOCKER_IMAGE}:${TAG}"
 travis_retry docker push "${DOCKER_IMAGE}:${TAG}"
 
 if [ -n "${ALIASES+x}" ]; then
-  echo "Pushing tag aliases ${ALIASES}"
-  docker tag "${DOCKER_IMAGE}:${TAG}" "${DOCKER_IMAGE}:${ALIASES}"
-  travis_retry docker push "${DOCKER_IMAGE}:${ALIASES}"
+  for ALIAS in ${ALIASES}; do
+    echo "Pushing tag aliases ${ALIAS}"
+    docker tag "${DOCKER_IMAGE}:${TAG}" "${DOCKER_IMAGE}:${ALIAS}"
+    travis_retry docker push "${DOCKER_IMAGE}:${ALIAS}"
+  done
 fi
 
 if [ -n "${SNAPSHOT+x}" ] && [ "$(date +%d)" -eq "1" ]; then

@@ -37,14 +37,14 @@ docker run --rm "${DOCKER_IMAGE}:${TAG}" bash -c 'nvm exec 12 npm --version'
 docker run --rm "${DOCKER_IMAGE}:${TAG}" bash -c 'nvm exec 10 yarn --version'
 docker run --rm "${DOCKER_IMAGE}:${TAG}" bash -c 'nvm exec 12 yarn --version'
 
-chmod -R 777 "$PWD/../../.tests/"
+chmod -R 777 "$(git rev-parse --show-toplevel)/.tests/"
 
 # Test node package managers
 docker run --rm "${DOCKER_IMAGE}:${TAG}" bash -c 'npm install iconv'
-docker run --rm "${DOCKER_IMAGE}:${TAG}" bash -c 'yarn install iconv'
+docker run --rm "${DOCKER_IMAGE}:${TAG}" bash -c 'yarn add iconv'
 
 # Test Maven
-docker run --rm -v "$PWD/../../.tests/java/example-app/":/opt/app-root/src "${DOCKER_IMAGE}:${TAG}" mvn -q --batch-mode clean package
+docker run --rm -v "$(git rev-parse --show-toplevel)/.tests/java/example-app/":/opt/app-root/src:cached "${DOCKER_IMAGE}:${TAG}" mvn -q --batch-mode clean package
 
-# Test Headless chrome
-docker run --rm -v "$PWD/../../.tests/ci-build/":/opt/app-root/src "${DOCKER_IMAGE}:${TAG}" bash -c 'npm install puppeteer && node headless-chrome/puppeteer.js'
+# Test Headless chrome via angular
+docker run --rm -v "$(git rev-parse --show-toplevel)/.tests/js/test-app/":/opt/app-root/src/:cached "${DOCKER_IMAGE}:${TAG}" bash -c 'npx ng test --watch=false --code-coverage --browsers ChromeHeadlessNoSandbox'

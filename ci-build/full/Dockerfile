@@ -8,7 +8,7 @@ RUN set -x \
     # https://github.com/infosiftr/tomcat/blob/5f1abae99c0b1ebbd4f020bc4b5696619d948cfd/7/jre8-alpine/Dockerfile
     && nativeBuildDir="$(mktemp -d)" \
     && nativeVersion=$(curl -sSf "https://www-eu.apache.org/dist/tomcat/tomcat-connectors/native/" | sed -nE 's/.*<a href="([0-9]+\.[0-9]+.[0-9]+)\/">.*/\1/p' | tail -n1) \
-    && curl -sSf "https://www-eu.apache.org/dist/tomcat/tomcat-connectors/native/${nativeVersion}/source/tomcat-native-${nativeVersion}-src.tar.gz" | tar -zxv -C "$nativeBuildDir" --strip-components=1 \
+    && curl -sSf "https://www-eu.apache.org/dist/tomcat/tomcat-connectors/native/${nativeVersion}/source/tomcat-native-${nativeVersion}-src.tar.gz" | tar -zx -C "$nativeBuildDir" --strip-components=1 \
     && export CATALINA_HOME="$PWD" \
     && cd "$nativeBuildDir/native" \
     && ./configure --with-apr=/usr/bin/apr-1-config \
@@ -64,8 +64,7 @@ RUN set -euo pipefail \
     && chmod g=u /etc/passwd \
     && curl -LsSf https://github.com/shenwei356/rush/releases/download/v${RUSH_VERSION}/rush_linux_amd64.tar.gz | tar xz -C /usr/local/bin \
     && mkdir -p /opt/app-root/src && chown -R 1001:0 /opt/app-root/src && chmod -R ug+rwx /opt/app-root/src \
-    && (
-      mkdir -p "${NVM_DIR}" && cd "${NVM_DIR}" \
+    && (mkdir -p "${NVM_DIR}" && cd "${NVM_DIR}" \
       && curl "https://raw.githubusercontent.com/creationix/nvm/master/install.sh" | bash \
       && rm -rf .git test \
       && echo -e "npm\nyarn" > default-packages \
@@ -77,20 +76,18 @@ RUN set -euo pipefail \
       && rm -rf /home/default/.npm/ \
       && for prog in "${NVM_DIR}/versions/node/$(. "${NVM_DIR}/nvm.sh"; nvm current)/bin/"*; do ln -s "$prog" "/usr/local/bin/$(basename "${prog}")"; done \
       && find "${NVM_DIR}" -type d -exec chmod g+x {} + \
-      && chmod -R g+rw "${NVM_DIR}"
+      && chmod -R g+rw "${NVM_DIR}" \
     ) \
-    && (
-      cd /opt \
+    && (cd /opt \
       # Less secure then git clone ... bash install.sh ?
       && curl -fsSL "https://github.com/shyiko/jabba/raw/master/install.sh" | bash \
       && . "${JABBA_HOME}/jabba.sh" \
       && jabba link system@1.11 /usr/lib/jvm/java-11 \
       && jabba link system@1.8 /usr/lib/jvm/java-1.8.0 \
       && jabba alias default system@1.8 \
-      && chmod -R g+rw "${JABBA_HOME}"
+      && chmod -R g+rw "${JABBA_HOME}" \
     ) \
-    && (
-      mkdir -p "${MAVEN_HOME}" && cd "${MAVEN_HOME}" \
+    && (mkdir -p "${MAVEN_HOME}" && cd "${MAVEN_HOME}" \
       && curl -fsSLO "https://archive.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz" \
       && curl -fsSLO "https://archive.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz.sha512" \
       && sha512sum -c apache-maven-${MAVEN_VERSION}-bin.tar.gz.sha512 \
@@ -98,7 +95,7 @@ RUN set -euo pipefail \
       && rm -f apache-maven-${MAVEN_VERSION}-bin.tar.gz apache-maven-${MAVEN_VERSION}-bin.tar.gz.sha512 \
       && ln -s "${MAVEN_HOME}/bin/mvn" /usr/bin/mvn \
       && mkdir -p "${MAVEN_CONFIG}" \
-      && chmod -R g+rw "${MAVEN_CONFIG}"
+      && chmod -R g+rw "${MAVEN_CONFIG}" \
     ) \
     && cd /tmp && rm -rf ..?* .[!.]* * \
     && ln -s /enable.sh /tmp/.bashrc

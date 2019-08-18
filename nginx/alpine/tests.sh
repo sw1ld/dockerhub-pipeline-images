@@ -11,7 +11,7 @@ docker run --rm -u 1000090000:0 "${DOCKER_IMAGE}:${TAG}" whoami
 docker run --rm -u 1000090000:0 "${DOCKER_IMAGE}:${TAG}" nginx -t
 
 # Test /docker-entrypoint.d/*.sh
-docker run --rm -v "$PWD/../../.tests/test-docker-entrypoint.d.sh":/docker-entrypoint.d/test.sh "${DOCKER_IMAGE}:${TAG}" nginx -t | grep "TEST-ENTRYPOINT-HOOK-WORKS!"
+docker run --rm -v "$(git rev-parse --show-toplevel)/.tests/test-docker-entrypoint.d.sh":/docker-entrypoint.d/test.sh "${DOCKER_IMAGE}:${TAG}" nginx -t | grep "TEST-ENTRYPOINT-HOOK-WORKS!"
 
 # Test starting nginx
 docker run --rm --name nginx -u 1000090000:0 -d -p8080:8080 -v "$PWD/../../.tests/nginx/index.html":/usr/share/nginx/html/index.html "${DOCKER_IMAGE}:${TAG}"

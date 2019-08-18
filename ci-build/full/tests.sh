@@ -47,4 +47,4 @@ docker run --rm "${DOCKER_IMAGE}:${TAG}" bash -c 'yarn add iconv'
 docker run --rm -v "$(git rev-parse --show-toplevel)/.tests/java/example-app/":/opt/app-root/src:cached "${DOCKER_IMAGE}:${TAG}" mvn -q --batch-mode clean package
 
 # Test Headless chrome via angular
-docker run --rm -v "$(git rev-parse --show-toplevel)/.tests/js/test-app/":/opt/app-root/src/:cached "${DOCKER_IMAGE}:${TAG}" bash -c 'npx ng test --watch=false --code-coverage --browsers ChromeHeadlessNoSandbox'
+docker run --rm -v "$(git rev-parse --show-toplevel)/.tests/js/test-app/":/opt/app-root/src/:cached "${DOCKER_IMAGE}:${TAG}" bash -c 'npm install && npx ng test --watch=false --code-coverage --browsers ChromeHeadlessNoSandbox'

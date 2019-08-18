@@ -1,5 +1,19 @@
 FROM openshift/origin-cli:v3.11 AS OC_CLIENT
 
+FROM golang:1.12 as SKOPEO
+
+ARG SKOPEO_VERSION=v0.1.39
+
+# From https://github.com/containers/skopeo/blob/master/Dockerfile.build
+RUN apt-get update && apt-get install -y curl \
+      libgpgme11-dev \
+      libglib2.0-dev \
+      libostree-dev
+
+RUN mkdir -p $GOPATH/src/github.com/containers/skopeo \
+    && curl -LsSf https://github.com/containers/skopeo/archive/${SKOPEO_VERSION}.tar.gz | tar xz --strip-components=1 -C $GOPATH/src/github.com/containers/skopeo \
+    && cd $GOPATH/src/github.com/containers/skopeo && make binary-local DISABLE_CGO=1
+
 FROM centos:7 AS TCNATIVE
 
 RUN yum install -y apr-devel openssl-devel java-1.8.0-openjdk-devel tar gzip gcc make redhat-rpm-config
@@ -46,6 +60,7 @@ ENV HOME=/tmp \
 COPY root /
 
 COPY --from=OC_CLIENT /usr/bin/oc /usr/local/bin/oc
+COPY --from=SKOPEO /go/src/github.com/containers/skopeo/skopeo /usr/local/bin/skopeo
 COPY --from=TCNATIVE /usr/lib/libtcnative*so /usr/lib/
 
 RUN set -euo pipefail \
@@ -59,7 +74,7 @@ RUN set -euo pipefail \
         iproute zip unzip python bzip2 libXt git gcc-c++ make jq \
         google-chrome-stable \
         java-1.8.0-openjdk-devel java-11-openjdk-devel \
-        docker-ce-cli skopeo \
+        docker-ce-cli \
     && yum clean all -y && rm -rf /var/cache/yum \
     && chmod g=u /etc/passwd \
     && curl -LsSf https://github.com/shenwei356/rush/releases/download/v${RUSH_VERSION}/rush_linux_amd64.tar.gz | tar xz -C /usr/local/bin \

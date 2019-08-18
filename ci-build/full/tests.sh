@@ -37,7 +37,14 @@ docker run --rm "${DOCKER_IMAGE}:${TAG}" bash -c 'nvm exec 12 npm --version'
 docker run --rm "${DOCKER_IMAGE}:${TAG}" bash -c 'nvm exec 10 yarn --version'
 docker run --rm "${DOCKER_IMAGE}:${TAG}" bash -c 'nvm exec 12 yarn --version'
 
+chmod -R 777 "$PWD/../../.tests/"
 
-chmod -R 777 "$PWD/../../java/.tests/"
-docker run --rm -v "$PWD/../../java/.tests/":/opt/app-root/src "${DOCKER_IMAGE}:${TAG}" mvn -q --batch-mode clean package
+# Test node package managers
 docker run --rm "${DOCKER_IMAGE}:${TAG}" bash -c 'npm install iconv'
+docker run --rm "${DOCKER_IMAGE}:${TAG}" bash -c 'yarn install iconv'
+
+# Test Maven
+docker run --rm -v "$PWD/../../.tests/java/example-app/":/opt/app-root/src "${DOCKER_IMAGE}:${TAG}" mvn -q --batch-mode clean package
+
+# Test Headless chrome
+docker run --rm -v "$PWD/../../.tests/ci-build/":/opt/app-root/src "${DOCKER_IMAGE}:${TAG}" bash -c 'npm install puppeteer && node headless-chrome/puppeteer.js'

@@ -1,4 +1,16 @@
-#!/bin/sh
+#!/bin/bash
+
+set -euo pipefail
+
+if [ "$(cat /sys/fs/cgroup/memory/memory.limit_in_bytes)" != "9223372036854771712" ]; then
+  if [ "${NODE_MEMORY_LIMIT_PERCENT}" -lt 1 ] || [ "${NODE_MEMORY_LIMIT_PERCENT}" -gt 100 ]; then
+    echo "\$NODE_MEMORY_LIMIT_PERCENT should be between 1 and 99."
+    exit 1
+  fi
+
+  NODE_OPTIONS="--max_old_space_size=$(( $(cat /sys/fs/cgroup/memory/memory.limit_in_bytes) * NODE_MEMORY_LIMIT_PERCENT / 100 / 1000 / 1000 )) ${NODE_OPTIONS:-}"
+  export NODE_OPTIONS
+fi
 
 # From https://docs.openshift.com/container-platform/3.9/creating_images/guidelines.html#use-uid
 if ! whoami > /dev/null 2>&1; then

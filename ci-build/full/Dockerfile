@@ -2,7 +2,7 @@ FROM openshift/origin-cli:v3.11 AS OC_CLIENT
 
 FROM golang:1.12 as SKOPEO
 
-ARG SKOPEO_VERSION=v0.1.35
+ARG SKOPEO_VERSION=v0.1.39
 
 # From https://github.com/containers/skopeo/blob/master/Dockerfile.build
 RUN apt-get update && apt-get install -y curl \
@@ -22,7 +22,7 @@ RUN set -x \
     # https://github.com/infosiftr/tomcat/blob/5f1abae99c0b1ebbd4f020bc4b5696619d948cfd/7/jre8-alpine/Dockerfile
     && nativeBuildDir="$(mktemp -d)" \
     && nativeVersion=$(curl -sSf "https://www-eu.apache.org/dist/tomcat/tomcat-connectors/native/" | sed -nE 's/.*<a href="([0-9]+\.[0-9]+.[0-9]+)\/">.*/\1/p' | tail -n1) \
-    && curl -sSf "https://www-eu.apache.org/dist/tomcat/tomcat-connectors/native/${nativeVersion}/source/tomcat-native-${nativeVersion}-src.tar.gz" | tar -zxv -C "$nativeBuildDir" --strip-components=1 \
+    && curl -sSf "https://www-eu.apache.org/dist/tomcat/tomcat-connectors/native/${nativeVersion}/source/tomcat-native-${nativeVersion}-src.tar.gz" | tar -zx -C "$nativeBuildDir" --strip-components=1 \
     && export CATALINA_HOME="$PWD" \
     && cd "$nativeBuildDir/native" \
     && ./configure --with-apr=/usr/bin/apr-1-config \
@@ -70,55 +70,48 @@ RUN set -euo pipefail \
     && echo -e '[docker-ce-stable]\nname=Docker CE Stable - $basearch\nbaseurl=https://download.docker.com/linux/centos/7/$basearch/stable\nenabled=0\ngpgcheck=1\ngpgkey=https://download.docker.com/linux/centos/gpg' > /etc/yum.repos.d/docker-ce.repo \
     && yum update -y \
     && yum install -y epel-release \
-    && yum install -y --enablerepo=docker-ce-stable \
+    && yum install -y --enablerepo=docker-ce-stable --enablerepo=google-chrome \
         iproute zip unzip python bzip2 libXt git gcc-c++ make jq \
+        google-chrome-stable \
+        java-1.8.0-openjdk-devel java-11-openjdk-devel \
         docker-ce-cli \
     && yum clean all -y && rm -rf /var/cache/yum \
     && chmod g=u /etc/passwd \
     && curl -LsSf https://github.com/shenwei356/rush/releases/download/v${RUSH_VERSION}/rush_linux_amd64.tar.gz | tar xz -C /usr/local/bin \
-    && mkdir -p /opt/app-root/src && chown -R 1001:0 /opt/app-root/src && chmod -R ug+rwx /opt/app-root/src
-
-RUN yum install -y --enablerepo=google-chrome \
-        google-chrome-stable \
-    && yum clean all -y && rm -rf /var/cache/yum
-
-RUN yum install -y \
-        java-1.8.0-openjdk-devel java-11-openjdk-devel \
-    && yum clean all -y && rm -rf /var/cache/yum
-
-RUN mkdir -p "${NVM_DIR}" && cd "${NVM_DIR}" \
-    && curl "https://raw.githubusercontent.com/creationix/nvm/master/install.sh" | bash \
-    && rm -rf .git test \
-    && echo -e "npm\nyarn" > default-packages \
-    && . "${NVM_DIR}/nvm.sh" \
-    && nvm install 10 \
-    && nvm install 12 \
-    && nvm cache clear \
-    && nvm alias default 10 \
-    && rm -rf /home/default/.npm/ \
-    && for prog in "${NVM_DIR}/versions/node/$(. "${NVM_DIR}/nvm.sh"; nvm current)/bin/"*; do ln -s "$prog" "/usr/local/bin/$(basename "${prog}")"; done \
-    && find "${NVM_DIR}" -type d -exec chmod g+x {} + \
-    && chmod -R g+rw "${NVM_DIR}" \
-    && cd /tmp && rm -rf ..?* .[!.]* *
-
-RUN cd /opt \
-    # Less secure then git clone ... bash install.sh ?
-    && curl -fsSL "https://github.com/shyiko/jabba/raw/master/install.sh" | bash \
-    && . "${JABBA_HOME}/jabba.sh" \
-    && jabba link system@1.11 /usr/lib/jvm/java-11 \
-    && jabba link system@1.8 /usr/lib/jvm/java-1.8.0 \
-    && jabba alias default system@1.8 \
-    && chmod -R g+rw "${JABBA_HOME}"  \
-    && cd /tmp && rm -rf ..?* .[!.]* * \
-    && mkdir -p "${MAVEN_HOME}" && cd "${MAVEN_HOME}" \
-    && curl -fsSLO "https://archive.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz" \
-    && curl -fsSLO "https://archive.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz.sha512" \
-    && sha512sum -c apache-maven-${MAVEN_VERSION}-bin.tar.gz.sha512 \
-    && tar -xzf apache-maven-${MAVEN_VERSION}-bin.tar.gz -C "${MAVEN_HOME}" --strip-components=1 \
-    && rm -f apache-maven-${MAVEN_VERSION}-bin.tar.gz apache-maven-${MAVEN_VERSION}-bin.tar.gz.sha512 \
-    && ln -s "${MAVEN_HOME}/bin/mvn" /usr/bin/mvn \
-    && mkdir -p "${MAVEN_CONFIG}" \
-    && chmod -R g+rw "${MAVEN_CONFIG}" \
+    && mkdir -p /opt/app-root/src && chown -R 1001:0 /opt/app-root/src && chmod -R ug+rwx /opt/app-root/src \
+    && (mkdir -p "${NVM_DIR}" && cd "${NVM_DIR}" \
+      && curl "https://raw.githubusercontent.com/creationix/nvm/master/install.sh" | bash \
+      && rm -rf .git test \
+      && echo -e "npm\nyarn" > default-packages \
+      && . "${NVM_DIR}/nvm.sh" \
+      && nvm install 10 \
+      && nvm install 12 \
+      && nvm cache clear \
+      && nvm alias default 10 \
+      && rm -rf /home/default/.npm/ \
+      && for prog in "${NVM_DIR}/versions/node/$(. "${NVM_DIR}/nvm.sh"; nvm current)/bin/"*; do ln -s "$prog" "/usr/local/bin/$(basename "${prog}")"; done \
+      && find "${NVM_DIR}" -type d -exec chmod g+x {} + \
+      && chmod -R g+rw "${NVM_DIR}" \
+    ) \
+    && (cd /opt \
+      # Less secure then git clone ... bash install.sh ?
+      && curl -fsSL "https://github.com/shyiko/jabba/raw/master/install.sh" | bash \
+      && . "${JABBA_HOME}/jabba.sh" \
+      && jabba link system@1.11 /usr/lib/jvm/java-11 \
+      && jabba link system@1.8 /usr/lib/jvm/java-1.8.0 \
+      && jabba alias default system@1.8 \
+      && chmod -R g+rw "${JABBA_HOME}" \
+    ) \
+    && (mkdir -p "${MAVEN_HOME}" && cd "${MAVEN_HOME}" \
+      && curl -fsSLO "https://archive.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz" \
+      && curl -fsSLO "https://archive.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz.sha512" \
+      && sha512sum -c apache-maven-${MAVEN_VERSION}-bin.tar.gz.sha512 \
+      && tar -xzf apache-maven-${MAVEN_VERSION}-bin.tar.gz -C "${MAVEN_HOME}" --strip-components=1 \
+      && rm -f apache-maven-${MAVEN_VERSION}-bin.tar.gz apache-maven-${MAVEN_VERSION}-bin.tar.gz.sha512 \
+      && ln -s "${MAVEN_HOME}/bin/mvn" /usr/bin/mvn \
+      && mkdir -p "${MAVEN_CONFIG}" \
+      && chmod -R g+rw "${MAVEN_CONFIG}" \
+    ) \
     && cd /tmp && rm -rf ..?* .[!.]* * \
     && ln -s /enable.sh /tmp/.bashrc
 

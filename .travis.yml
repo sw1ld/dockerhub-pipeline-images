@@ -2,8 +2,6 @@ language: generic
 
 cache: false
 
-dist: xenial
-
 services:
   - docker
 
@@ -26,8 +24,7 @@ env:
     - DOCKER_IMAGE=adorsys/node           DIR=node/centos/12  TAG=12        SQUASH=true
     - DOCKER_IMAGE=adorsys/node           DIR=node/alpine/10  TAG=10-alpine SQUASH=true
     - DOCKER_IMAGE=adorsys/node           DIR=node/alpine/12  TAG=12-alpine SQUASH=true
-    - DOCKER_IMAGE=adorsys/ci-build       DIR=ci-build/full   TAG=full      SNAPSHOT=true ALIASES="latest"
-    - DOCKER_IMAGE=adorsys/ci-build       DIR=ci-build/light  TAG=light
+    - DOCKER_IMAGE=adorsys/ci-build       DIR=ci-build/full   SNAPSHOT=true
     - DOCKER_IMAGE=adorsys/ansible        DIR=ansible         SNAPSHOT=true
     - DOCKER_IMAGE=adorsys/awscli         DIR=awscli          SNAPSHOT=true
     - DOCKER_IMAGE=adorsys/arc42-tools    DIR=arc42-tools     SNAPSHOT=true
@@ -42,14 +39,11 @@ install:
       sudo -H pip install docker-squash
     fi
   - curl -sL https://github.com/gdraheim/docker-copyedit/archive/v1.2.2036.tar.gz | tar xzf -  --wildcards --strip-components=1 */docker-copyedit.py
-#  - npm install -g snyk
 
 before_script:
   - export TAG="${TAG:-latest}"
   - docker --version
   - docker info
-#  - snyk -v
-#  - snyk config set org=adorsys
 
 script:
   - set -e
@@ -63,7 +57,6 @@ script:
   - bash -xe "tests.sh"
   - find . -name '*.sh' -print0 | xargs -0 shellcheck
   - grep -lr '#!/bin/sh' . | xargs --no-run-if-empty shellcheck
-#  - snyk test --docker "${DOCKER_IMAGE}:${TAG}" --file=Dockerfile
   - set +e
 
 before_deploy:

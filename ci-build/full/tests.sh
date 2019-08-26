@@ -37,7 +37,14 @@ docker run --rm "${DOCKER_IMAGE}:${TAG}" bash -c 'nvm exec 12 npm --version'
 docker run --rm "${DOCKER_IMAGE}:${TAG}" bash -c 'nvm exec 10 yarn --version'
 docker run --rm "${DOCKER_IMAGE}:${TAG}" bash -c 'nvm exec 12 yarn --version'
 
+chmod -R 777 "$(git rev-parse --show-toplevel)/.tests/"
 
-chmod -R 777 "$PWD/../../java/.tests/"
-docker run --rm -v "$PWD/../../java/.tests/":/opt/app-root/src "${DOCKER_IMAGE}:${TAG}" mvn -q --batch-mode clean package
+# Test node package managers
 docker run --rm "${DOCKER_IMAGE}:${TAG}" bash -c 'npm install iconv'
+docker run --rm "${DOCKER_IMAGE}:${TAG}" bash -c 'yarn add iconv'
+
+# Test Maven
+docker run --rm -v "$(git rev-parse --show-toplevel)/.tests/java/example-app/":/opt/app-root/src:cached "${DOCKER_IMAGE}:${TAG}" mvn -q --batch-mode clean package
+
+# Test Headless chrome via angular
+docker run --rm -v "$(git rev-parse --show-toplevel)/.tests/js/test-app/":/opt/app-root/src/:cached "${DOCKER_IMAGE}:${TAG}" bash -c 'npm install && npx ng test --watch=false --code-coverage --browsers ChromeHeadlessNoSandbox'

@@ -7,7 +7,7 @@ https://hub.docker.com/r/adorsys/nginx/
 
 ## Description
 
-Provides nginx. If possible use the `alpine` flavor based on the official [`nginx:alpine`](https://hub.docker.com/_/nginx) docker image. 
+Provides nginx. If possible use the `ubi` flavor based on the official [`nginx:alpine`](https://hub.docker.com/_/nginx) docker image. 
 
 For secure rootless environments nginx listen on port `8080` by default.
 
@@ -61,3 +61,4 @@ The current directory points to the web http root directory.
 | ---- | ----------- | ---- |
 | latest | Based on [RH SCL nginx](https://github.com/sclorg/nginx-container) 1.14 | ![](https://img.shields.io/microbadger/image-size/adorsys/nginx/latest.svg?style=flat-square) |
 | alpine | Based on [`nginx:alpine`](https://hub.docker.com/_/nginx) | ![](https://img.shields.io/microbadger/image-size/adorsys/nginx/alpine.svg?style=flat-square) |
+| ubi | Based on [RHEL8 UBI](https://developers.redhat.com/blog/2019/05/31/working-with-red-hat-enterprise-linux-universal-base-images-ubi/) | ![](https://img.shields.io/microbadger/image-size/adorsys/nginx/ubi.svg?style=flat-square) |

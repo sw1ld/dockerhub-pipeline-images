@@ -15,6 +15,13 @@ docker exec nginx-scl-test curl -I -sSf http://localhost:8080/404.html
 docker logs nginx-scl-test
 docker rm -f nginx-scl-test
 
-
 # Test /docker-entrypoint.d/*.sh
 docker run --rm -v "$PWD/../../.tests/test-docker-entrypoint.d.sh":/docker-entrypoint.d/test.sh "${DOCKER_IMAGE}:${TAG}" nginx -t | grep "TEST-ENTRYPOINT-HOOK-WORKS!"
+
+# Test starting nginx
+docker run --rm --name nginx -u 1000090000:0 -d -p8080:8080 -v "$PWD/../../.tests/nginx/index.html":/opt/app-root/src/index.html "${DOCKER_IMAGE}:${TAG}"
+docker logs nginx
+
+curl -sSf localhost:8080 | grep OK
+docker logs nginx | grep "GET / HTTP"
+docker rm -f nginx

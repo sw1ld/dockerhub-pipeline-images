@@ -1,12 +1,15 @@
 #!/bin/bash
+
+shopt -s extglob
+
 {
   echo "---"
   echo "version: '3'"
   echo "services:"
 
-  for FILE in */Dockerfile */*/Dockerfile */*/*/Dockerfile; do
+  for FILE in */Dockerfile */*/Dockerfile */!(node_modules)/*/Dockerfile; do
     BASENAME=${FILE%/Dockerfile}
-    if [[ "$FILE" == */*/*/Dockerfile ]]; then
+    if [[ "$FILE" == */!(node_modules)/*/Dockerfile ]]; then
       # $1/$2/$3 -> adorsys/$1:$3-$2
       IMAGE="adorsys/$(echo "${BASENAME}" | cut -d/ -f1):$(echo "${BASENAME}" | cut -d/ -f3)-$(echo "${BASENAME}" | cut -d/ -f2)"
     else

@@ -113,6 +113,9 @@ RUN set -euo pipefail \
       && chmod -R g+rw "${MAVEN_CONFIG}" \
     ) \
     && cd /tmp && rm -rf ..?* .[!.]* * \
+    && rm -rf \
+      /usr/libexec/docker/cli-plugins/docker-app \
+      /var/cache/yum \
     && ln -s /enable.sh /tmp/.bashrc
 
 WORKDIR /opt/app-root/src

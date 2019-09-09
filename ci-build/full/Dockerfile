@@ -42,8 +42,10 @@ LABEL maintainer="adorsys GmbH & Co. KG" \
       org.label-schema.license="" \
       org.label-schema.build-date=""
 
-ARG RUSH_VERSION=0.4.1
-ARG MAVEN_VERSION=3.6.1
+ARG RUSH_VERSION=0.4.2
+ARG MAVEN_VERSION=3.6.2
+ARG MAVEN_SHA=d941423d115cd021514bfd06c453658b1b3e39e6240969caf4315ab7119a77299713f14b620fb2571a264f8dff2473d8af3cb47b05acf0036fc2553199a5c1ee
+ARG NODE_DEFAULT_VERSION=10
 
 ENV HOME=/tmp \
     TZ=Europe/Berlin \
@@ -84,10 +86,9 @@ RUN set -euo pipefail \
       && rm -rf .git test \
       && echo -e "npm\nyarn" > default-packages \
       && . "${NVM_DIR}/nvm.sh" \
-      && nvm install 10 \
-      && nvm install 12 \
+      && nvm install ${NODE_DEFAULT_VERSION} \
       && nvm cache clear \
-      && nvm alias default 10 \
+      && nvm alias default ${NODE_DEFAULT_VERSION} \
       && rm -rf /home/default/.npm/ \
       && for prog in "${NVM_DIR}/versions/node/$(. "${NVM_DIR}/nvm.sh"; nvm current)/bin/"*; do ln -s "$prog" "/usr/local/bin/$(basename "${prog}")"; done \
       && find "${NVM_DIR}" -type d -exec chmod g+x {} + \
@@ -104,8 +105,7 @@ RUN set -euo pipefail \
     ) \
     && (mkdir -p "${MAVEN_HOME}" && cd "${MAVEN_HOME}" \
       && curl -fsSLO "https://archive.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz" \
-      && curl -fsSLO "https://archive.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz.sha512" \
-      && sha512sum -c apache-maven-${MAVEN_VERSION}-bin.tar.gz.sha512 \
+      && echo "${MAVEN_SHA}  apache-maven-${MAVEN_VERSION}-bin.tar.gz" | sha512sum -c - \
       && tar -xzf apache-maven-${MAVEN_VERSION}-bin.tar.gz -C "${MAVEN_HOME}" --strip-components=1 \
       && rm -f apache-maven-${MAVEN_VERSION}-bin.tar.gz apache-maven-${MAVEN_VERSION}-bin.tar.gz.sha512 \
       && ln -s "${MAVEN_HOME}/bin/mvn" /usr/bin/mvn \

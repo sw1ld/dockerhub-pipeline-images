@@ -43,7 +43,7 @@ We try to avoid version pinning. Prepare to always get the latest version.
 
 Create a file calling `.jabbarc` in the project root with this content
 ```
-system@1.11'
+system@1.11
 ```
 and use `jabba use` inside your CI.
 

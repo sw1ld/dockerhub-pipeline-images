@@ -9,7 +9,7 @@ LABEL maintainer="adorsys GmbH & Co. KG" \
       org.label-schema.license="" \
       org.label-schema.build-date=""
 
-EXPOSE 8080
+EXPOSE 3000
 
 # discard npm update warnings
 ENV NO_UPDATE_NOTIFIER=1 \

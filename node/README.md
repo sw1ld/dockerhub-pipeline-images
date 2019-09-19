@@ -12,9 +12,7 @@ Provides node. Should be used for runtime containers.
 ## Example Dockerfile
 
 ```dockerfile
-FROM adorsys/node:10
-
-EXPOSE 3000
+FROM adorsys/node:12
 
 COPY . .
 

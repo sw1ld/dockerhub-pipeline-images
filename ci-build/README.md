@@ -49,7 +49,7 @@ and use `jabba use` inside your CI.
 
 More informations: https://github.com/shyiko/jabba
 
-### Use Node 8 in your job
+### Use Node 10 in your job
 
 Create a file calling `.nvmrc` in the project root with this content
 ```

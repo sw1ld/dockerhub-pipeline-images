@@ -14,7 +14,7 @@ RUN mkdir -p $GOPATH/src/github.com/containers/skopeo \
     && curl -LsSf https://github.com/containers/skopeo/archive/${SKOPEO_VERSION}.tar.gz | tar xz --strip-components=1 -C $GOPATH/src/github.com/containers/skopeo \
     && cd $GOPATH/src/github.com/containers/skopeo && make binary-local DISABLE_CGO=1
 
-FROM centos:7 AS TCNATIVE
+FROM centos:8 AS TCNATIVE
 
 RUN yum install -y apr-devel openssl-devel java-1.8.0-openjdk-devel tar gzip gcc make redhat-rpm-config
 
@@ -31,7 +31,7 @@ RUN set -x \
               --prefix=/usr \
     && make && make install
 
-FROM centos:7
+FROM centos:8
 
 LABEL maintainer="adorsys GmbH & Co. KG" \
       org.label-schema.schema-version="1.0" \
@@ -73,10 +73,12 @@ RUN set -euo pipefail \
     && yum update -y \
     && yum install -y epel-release \
     && yum install -y --enablerepo=docker-ce-stable --enablerepo=google-chrome \
-        iproute zip unzip python bzip2 libXt git gcc-c++ make jq \
+        iproute zip unzip python2 bzip2 libXt git gcc-c++ make jq \
         google-chrome-stable \
         java-1.8.0-openjdk-devel java-11-openjdk-devel \
         docker-ce-cli \
+        binutils \
+        libX11-xcb libXScrnSaver \
     && yum clean all -y && rm -rf /var/cache/yum \
     && chmod g=u /etc/passwd \
     && curl -LsSf https://github.com/shenwei356/rush/releases/download/v${RUSH_VERSION}/rush_linux_amd64.tar.gz | tar xz -C /usr/local/bin \
@@ -116,7 +118,8 @@ RUN set -euo pipefail \
     && rm -rf \
       /usr/libexec/docker/cli-plugins/docker-app \
       /var/cache/yum \
-    && ln -s /enable.sh /tmp/.bashrc
+    && ln -s /enable.sh /tmp/.bashrc \
+    && strip /usr/bin/docker /usr/local/bin/oc
 
 WORKDIR /opt/app-root/src
 

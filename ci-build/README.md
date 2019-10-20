@@ -19,7 +19,6 @@ Software list:
 
 ### Additional software list inside full variant
 * Docker CE
-* Chrome
 * Firefox (bootstrap only)
 * JMeter (bootstrap only)
 * [skopeo](https://github.com/containers/skopeo)

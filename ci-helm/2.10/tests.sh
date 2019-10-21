@@ -23,4 +23,5 @@ docker run --rm "${DOCKER_IMAGE}:${TAG}" unzip -v
 docker run --rm "${DOCKER_IMAGE}:${TAG}" skopeo copy docker://docker.io/library/alpine dir:///tmp/alpine.tar
 docker run --rm "${DOCKER_IMAGE}:${TAG}" envsubst --version
 docker run --rm "${DOCKER_IMAGE}:${TAG}" rush -V
+docker run --rm -w /tmp "${DOCKER_IMAGE}:${TAG}" helm fetch --untar stable/wordpress
 docker run --rm -v "$(git rev-parse --show-toplevel)/.tests/helm/gpg/test-key.gpg:/tmp/test-key.gpg" "${DOCKER_IMAGE}:${TAG}" bash -xc "gpg-keyid /tmp/test-key.gpg"

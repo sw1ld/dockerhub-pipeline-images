@@ -7,7 +7,7 @@ FROM openshift/origin-cli:v3.11 AS OC_CLIENT
 
 FROM golang:1.12 as SKOPEO
 
-ARG SKOPEO_VERSION=v0.1.35
+ARG SKOPEO_VERSION=v0.1.39
 
 # From https://github.com/containers/skopeo/blob/master/Dockerfile.build
 RUN apt-get update && apt-get install -y curl \
@@ -43,14 +43,13 @@ ENV GNUPGHOME=/var/local/lib/gnupg/ \
     KUBECONFIG=/var/local/lib/kube/config \
     HOME=/tmp
 
-ARG RUSH_VERSION=0.4.1
-ARG SOPS_VERSION=3.3.0
+ARG RUSH_VERSION=0.4.2
+ARG SOPS_VERSION=3.4.0
 ARG JQ_VERSION=1.6
-ARG HELM_VERSION=v2.14.2
+ARG HELM_VERSION=v2.15.0
 ARG HELM_DIFF_VERSION=v2.11.0+5
 ARG HELM_PUSH_VERSION=0.7.1
 ARG HELM_SECRETS_VERSION=1.3.1
-ARG HELM_TILLER_VERSION=0.8.3
 
 COPY root /
 
@@ -65,11 +64,11 @@ RUN set -euo pipefail \
     && mkdir -p "${HELM_HOME}" "${GNUPGHOME}" "$(dirname "$KUBECONFIG")" \
     && echo -e '[docker-ce-stable]\nname=Docker CE Stable - $basearch\nbaseurl=https://download.docker.com/linux/centos/7/$basearch/stable\nenabled=0\ngpgcheck=1\ngpgkey=https://download.docker.com/linux/centos/gpg' > /etc/yum.repos.d/docker-ce.repo \
     && microdnf update -y \
-    && microdnf install -y --enablerepo=docker-ce-stable git-core docker-ce-cli python2-pip python2-pyyaml gettext tar unzip procps-ng findutils \
+    && microdnf install -y --enablerepo=docker-ce-stable git-core docker-ce-cli python3-pip gettext tar unzip findutils \
     && microdnf clean all \
 ## Install yq
     && curl -LsSf https://github.com/stedolan/jq/releases/download/jq-${JQ_VERSION}/jq-linux64 -o /usr/local/bin/jq && chmod +x /usr/local/bin/jq \
-    && pip2 --disable-pip-version-check install --compile --no-cache-dir yq \
+    && pip3 --disable-pip-version-check install --compile --no-cache-dir yq \
 ## Install rush
     && curl -LsSf https://github.com/shenwei356/rush/releases/download/v${RUSH_VERSION}/rush_linux_amd64.tar.gz | tar xz -C /usr/local/bin \
 ## Install kubernetes helm
@@ -83,12 +82,16 @@ RUN set -euo pipefail \
     && mkdir "$(helm home)/plugins/helm-push" \
     && curl -LsSf https://github.com/chartmuseum/helm-push/releases/download/v${HELM_PUSH_VERSION}/helm-push_${HELM_PUSH_VERSION}_linux_amd64.tar.gz | tar -C "$(helm home)/plugins/helm-push" -zxf- \
     && curl -LsSf https://github.com/databus23/helm-diff/releases/download/${HELM_DIFF_VERSION}/helm-diff-linux.tgz | tar -C "$(helm home)/plugins" --warning=no-unknown-keyword -zxf- \
-    && curl -LsSf https://github.com/rimusz/helm-tiller/archive/v${HELM_TILLER_VERSION}.tar.gz| tar -C "$(helm home)/plugins" -xzf- \
     && curl -LsSf https://github.com/futuresimple/helm-secrets/archive/v${HELM_SECRETS_VERSION}.tar.gz | tar -C "$(helm home)/plugins" -xzf- \
     && curl -LsSf https://github.com/mozilla/sops/releases/download/${SOPS_VERSION}/sops-${SOPS_VERSION}.linux -o /usr/local/bin/sops && chmod +x /usr/local/bin/sops \
-    && helm tiller install \
     && ln -s "$(helm home)/plugins/helm-secrets-${HELM_SECRETS_VERSION}/wrapper.sh" /usr/local/bin/helm-wrapper \
     && ln -s /usr/libexec/gpg-preset-passphrase /usr/local/bin/gpg-preset-passphrase \
-    && chmod -R go+rw "$(helm home)" "${GNUPGHOME}" "$(dirname "$KUBECONFIG")"
+    && chmod -R go+rw "$(helm home)" "${GNUPGHOME}" "$(dirname "$KUBECONFIG")" \
+    && microdnf remove tar unzip -y \
+## Reduce image size
+    && microdnf install binutils -y \
+    && strip /usr/local/bin/sops /usr/local/bin/skopeo /usr/local/bin/rush /usr/local/bin/oc /usr/local/bin/helm \
+    && microdnf remove binutils -y \
+    && microdnf clean all
 
 USER 1001

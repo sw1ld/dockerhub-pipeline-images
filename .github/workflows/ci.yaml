@@ -102,10 +102,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-
+      - uses: actions/setup-go@v1
       - uses: actions/setup-python@v1
         with:
-          python-version: '3.x' # Version range or exact version of a Python version to use, using semvers version range syntax.
+          python-version: '3.x'
           architecture: 'x64'
 
       - name: Install dependencies
@@ -113,8 +113,9 @@ jobs:
           pip3 install setuptools wheel docker-squash
           go get -u github.com/kamilsk/retry
           curl -sL https://github.com/gdraheim/docker-copyedit/archive/v1.2.2036.tar.gz | tar xzf -  --wildcards --strip-components=1 */docker-copyedit.py
-          find / -name docker-squash
+          echo $PATH
           /home/runner/.local/bin/docker-squash --help
+          /opt/hostedtoolcache/Python/3.7.4/x64/bin/docker-squash --help
           docker-squash --help
           retry --help
 

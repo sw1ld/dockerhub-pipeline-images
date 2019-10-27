@@ -13,87 +13,87 @@ jobs:
       matrix:
         # https://github.community/t5/GitHub-Actions/GitHub-Actions-new-BUG-Unable-to-create-environment-variables/td-p/29338
         env:
-          - DOCKER_IMAGE: adorsys/ci-clair
-            DIR: ci-clair
-            TAG: latest
-            SQUASH: true
-
-          - DOCKER_IMAGE: adorsys/ci-helm
-            DIR: ci-helm/2.14
-            TAG: 2.14
-            SQUASH: true
-
-          - DOCKER_IMAGE: adorsys/ci-helm
-            DIR: ci-helm/2.15
-            TAG: 2.15
-            SQUASH: true
-            ALIASES: "latest"
-
-          - DOCKER_IMAGE: adorsys/nginx
-            DIR: nginx/centos
-            TAG: latest
-            SQUASH: true
-
-          - DOCKER_IMAGE: adorsys/nginx
-            DIR: nginx/alpine
-            TAG: alpine
-            SQUASH: true
-
-          - DOCKER_IMAGE: adorsys/nginx
-            DIR: nginx/ubi
-            TAG: ubi
-            SQUASH: true
-
-          - DOCKER_IMAGE: adorsys/java
-            DIR: java/ubi/8
-            TAG: 8
-            SQUASH: true
-
-          - DOCKER_IMAGE: adorsys/java
-            DIR: java/ubi/11
-            TAG: 11
-            SQUASH: true
-
-          - DOCKER_IMAGE: adorsys/node
-            DIR: node/centos/10
-            TAG: 10
-            SQUASH: true
-
-          - DOCKER_IMAGE: adorsys/node
-            DIR: node/centos/12
-            TAG: 12
-            SQUASH: true
-
-          - DOCKER_IMAGE: adorsys/node
-            DIR: node/alpine/10
-            TAG: 10-alpine
-            SQUASH: true
-
-          - DOCKER_IMAGE: adorsys/node
-            DIR: node/alpine/12
-            TAG: 12-alpine
-            SQUASH: true
-
-          - DOCKER_IMAGE: adorsys/ci-build
-            DIR: ci-build/full
-            TAG: latest
-            SNAPSHOT: true
-            SQUASH: true
-
-          - DOCKER_IMAGE: adorsys/ansible
-            DIR: ansible
-            TAG: latest
-            SNAPSHOT: true
-
-          - DOCKER_IMAGE: adorsys/awscli
-            DIR: awscli
-            TAG: latest
-            SNAPSHOT: true
-
-          - DOCKER_IMAGE: adorsys/arc42-tools
-            DIR: arc42-tools
-            TAG: latest
-            SNAPSHOT: true
+#          - DOCKER_IMAGE: adorsys/ci-clair
+#            DIR: ci-clair
+#            TAG: latest
+#            SQUASH: true
+#
+#          - DOCKER_IMAGE: adorsys/ci-helm
+#            DIR: ci-helm/2.14
+#            TAG: 2.14
+#            SQUASH: true
+#
+#          - DOCKER_IMAGE: adorsys/ci-helm
+#            DIR: ci-helm/2.15
+#            TAG: 2.15
+#            SQUASH: true
+#            ALIASES: "latest"
+#
+#          - DOCKER_IMAGE: adorsys/nginx
+#            DIR: nginx/centos
+#            TAG: latest
+#            SQUASH: true
+#
+#          - DOCKER_IMAGE: adorsys/nginx
+#            DIR: nginx/alpine
+#            TAG: alpine
+#            SQUASH: true
+#
+#          - DOCKER_IMAGE: adorsys/nginx
+#            DIR: nginx/ubi
+#            TAG: ubi
+#            SQUASH: true
+#
+#          - DOCKER_IMAGE: adorsys/java
+#            DIR: java/ubi/8
+#            TAG: 8
+#            SQUASH: true
+#
+#          - DOCKER_IMAGE: adorsys/java
+#            DIR: java/ubi/11
+#            TAG: 11
+#            SQUASH: true
+#
+#          - DOCKER_IMAGE: adorsys/node
+#            DIR: node/centos/10
+#            TAG: 10
+#            SQUASH: true
+#
+#          - DOCKER_IMAGE: adorsys/node
+#            DIR: node/centos/12
+#            TAG: 12
+#            SQUASH: true
+#
+#          - DOCKER_IMAGE: adorsys/node
+#            DIR: node/alpine/10
+#            TAG: 10-alpine
+#            SQUASH: true
+#
+#          - DOCKER_IMAGE: adorsys/node
+#            DIR: node/alpine/12
+#            TAG: 12-alpine
+#            SQUASH: true
+#
+#          - DOCKER_IMAGE: adorsys/ci-build
+#            DIR: ci-build/full
+#            TAG: latest
+#            SNAPSHOT: true
+#            SQUASH: true
+#
+#          - DOCKER_IMAGE: adorsys/ansible
+#            DIR: ansible
+#            TAG: latest
+#            SNAPSHOT: true
+#
+#          - DOCKER_IMAGE: adorsys/awscli
+#            DIR: awscli
+#            TAG: latest
+#            SNAPSHOT: true
+#
+#          - DOCKER_IMAGE: adorsys/arc42-tools
+#            DIR: arc42-tools
+#            TAG: latest
+#            SNAPSHOT: true
 
           - DOCKER_IMAGE: adorsys/mailout
             DIR: mailout
@@ -109,6 +109,7 @@ jobs:
           pip3 install docker-squash
           go get -u github.com/kamilsk/retry
           curl -sL https://github.com/gdraheim/docker-copyedit/archive/v1.2.2036.tar.gz | tar xzf -  --wildcards --strip-components=1 */docker-copyedit.py
+          find / -name docker-squash
           docker-squash --help
           retry --help
 

@@ -1,0 +1,23 @@
+command:
+  java -version:
+    exit-status: 0
+  openssl version:
+    exit-status: 0
+  date:
+    exit-status: 0
+    stdout:
+      - /CES?T/
+  ldd /usr/lib/libtcnative-1.so | grep -vz "=> not found":
+    exit-status: 0
+  whoami:
+    exit-status: 0
+    stdout:
+      - default
+  /docker-entrypoint.sh java -version:
+    exit-status: 0
+    stdout:
+      - TEST-ENTRYPOINT-HOOK-WORKS!
+  /docker-entrypoint.sh java -jar /opt/app-root/src/app.jar:
+    exit-status: 0
+    stdout:
+      - Loaded APR based Apache Tomcat Native library

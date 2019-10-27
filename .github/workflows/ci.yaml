@@ -9,6 +9,7 @@ on:
 jobs:
   build:
     strategy:
+      fail-fast: false
       matrix:
         # https://github.community/t5/GitHub-Actions/GitHub-Actions-new-BUG-Unable-to-create-environment-variables/td-p/29338
         env:
@@ -80,18 +81,22 @@ jobs:
 
           - DOCKER_IMAGE: adorsys/ansible
             DIR: ansible
+            TAG: latest
             SNAPSHOT: true
 
           - DOCKER_IMAGE: adorsys/awscli
             DIR: awscli
+            TAG: latest
             SNAPSHOT: true
 
           - DOCKER_IMAGE: adorsys/arc42-tools
             DIR: arc42-tools
+            TAG: latest
             SNAPSHOT: true
 
           - DOCKER_IMAGE: adorsys/mailout
             DIR: mailout
+            TAG: latest
 
     runs-on: ubuntu-latest
     steps:

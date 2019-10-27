@@ -1,0 +1,144 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        # https://github.community/t5/GitHub-Actions/GitHub-Actions-new-BUG-Unable-to-create-environment-variables/td-p/29338
+        env:
+          - DOCKER_IMAGE: adorsys/ci-clair
+            DIR: ci-clair
+            TAG: latest
+            SQUASH: true
+
+          - DOCKER_IMAGE: adorsys/ci-helm
+            DIR: ci-helm/2.14
+            TAG: 2.14
+            SQUASH: true
+
+          - DOCKER_IMAGE: adorsys/ci-helm
+            DIR: ci-helm/2.15
+            TAG: 2.15
+            SQUASH: true
+            ALIASES: "latest"
+
+          - DOCKER_IMAGE: adorsys/nginx
+            DIR: nginx/centos
+            TAG: latest
+            SQUASH: true
+
+          - DOCKER_IMAGE: adorsys/nginx
+            DIR: nginx/alpine
+            TAG: alpine
+            SQUASH: true
+
+          - DOCKER_IMAGE: adorsys/nginx
+            DIR: nginx/ubi
+            TAG: ubi
+            SQUASH: true
+
+          - DOCKER_IMAGE: adorsys/java
+            DIR: java/ubi/8
+            TAG: 8
+            SQUASH: true
+
+          - DOCKER_IMAGE: adorsys/java
+            DIR: java/ubi/11
+            TAG: 11
+            SQUASH: true
+
+          - DOCKER_IMAGE: adorsys/node
+            DIR: node/centos/10
+            TAG: 10
+            SQUASH: true
+
+          - DOCKER_IMAGE: adorsys/node
+            DIR: node/centos/12
+            TAG: 12
+            SQUASH: true
+
+          - DOCKER_IMAGE: adorsys/node
+            DIR: node/alpine/10
+            TAG: 10-alpine
+            SQUASH: true
+
+          - DOCKER_IMAGE: adorsys/node
+            DIR: node/alpine/12
+            TAG: 12-alpine
+            SQUASH: true
+
+          - DOCKER_IMAGE: adorsys/ci-build
+            DIR: ci-build/full
+            SNAPSHOT: true
+            SQUASH: true
+
+          - DOCKER_IMAGE: adorsys/ansible
+            DIR: ansible
+            SNAPSHOT: true
+
+          - DOCKER_IMAGE: adorsys/awscli
+            DIR: awscli
+            SNAPSHOT: true
+
+          - DOCKER_IMAGE: adorsys/arc42-tools
+            DIR: arc42-tools
+            SNAPSHOT: true
+
+          - DOCKER_IMAGE: adorsys/mailout
+            DIR: mailout
+
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Install dependencies
+        run: |
+          pip install docker-squash
+          curl -sL https://github.com/gdraheim/docker-copyedit/archive/v1.2.2036.tar.gz | tar xzf -  --wildcards --strip-components=1 */docker-copyedit.py
+          docker info
+
+      - name: docker build
+        env: ${{ matrix.env }}
+        run: |
+          cd "${DIR}"
+          docker build --pull -t "${DOCKER_IMAGE}:${TAG}" .
+
+      - name: Run tests
+        env: ${{ matrix.env }}
+        run: |
+          cd "${DIR}"
+          bash -xe "tests.sh"
+          find . -name '*.sh' -print0 | xargs -0 shellcheck
+          grep -lr '#!/bin/sh' . | xargs --no-run-if-empty shellcheck
+
+      - name: Report Image Size
+        env: ${{ matrix.env }}
+        run: |
+          docker images
+          docker history "${DOCKER_IMAGE}:${TAG}"
+
+      - name: Publish Image on DockerHub
+        if: github.ref == "master"
+        env: ${{ matrix.env }}
+        run: |
+          docker push "${DOCKER_IMAGE}:${TAG}"
+
+          if [ -n "${ALIASES+x}" ]; then
+            for ALIAS in ${ALIASES}; do
+              echo "Pushing tag aliases ${ALIAS}"
+              docker tag "${DOCKER_IMAGE}:${TAG}" "${DOCKER_IMAGE}:${ALIAS}"
+              docker push "${DOCKER_IMAGE}:${ALIAS}"
+            done
+          fi
+
+          if [ -n "${SNAPSHOT+x}" ] && [ "$(date +%d)" -eq "1" ]; then
+            echo "Pushing snapshot tag $(date +%Y%m)"
+            docker tag "${DOCKER_IMAGE}:${TAG}" "${DOCKER_IMAGE}:$(date +%Y%m)"
+            docker push "${DOCKER_IMAGE}:$(date +%Y%m)"
+          fi

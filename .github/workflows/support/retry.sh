@@ -1,5 +1,3 @@
-#!/bin/bash
-
 set -xeuo pipefail
 
 # https://github.com/travis-ci/travis-build/blob/1317b0c9e96f5a56308138d869f0124de1b672b5/lib/travis/build/bash/travis_setup_env.bash
@@ -28,21 +26,3 @@ travis_retry() {
 
   return "${result}"
 }
-
-
-echo "push to ${DOCKER_IMAGE}:${TAG}"
-travis_retry docker push "${DOCKER_IMAGE}:${TAG}"
-
-if [ -n "${ALIASES+x}" ]; then
-  for ALIAS in ${ALIASES}; do
-    echo "Pushing tag aliases ${ALIAS}"
-    docker tag "${DOCKER_IMAGE}:${TAG}" "${DOCKER_IMAGE}:${ALIAS}"
-    travis_retry docker push "${DOCKER_IMAGE}:${ALIAS}"
-  done
-fi
-
-if [ -n "${SNAPSHOT+x}" ] && [ "$(date +%d)" -eq "1" ]; then
-  echo "Pushing snapshot tag $(date +%Y%m)"
-  docker tag "${DOCKER_IMAGE}:${TAG}" "${DOCKER_IMAGE}:$(date +%Y%m)"
-  travis_retry docker push "${DOCKER_IMAGE}:$(date +%Y%m)"
-fi

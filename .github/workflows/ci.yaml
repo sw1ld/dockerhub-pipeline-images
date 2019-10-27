@@ -7,7 +7,7 @@ on:
       - master
 
 jobs:
-  build:
+  Image:
     strategy:
       fail-fast: false
       matrix:
@@ -102,9 +102,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - uses: actions/setup-go@v1
-        with:
-          go-version: '1.x'
       - uses: actions/setup-python@v1
         with:
           python-version: '3.x'
@@ -112,11 +109,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          go get -u github.com/kamilsk/retry
-          pip3 install setuptools wheel docker-squash
+          pip3 install wheel docker-squash
           curl -sL https://github.com/gdraheim/docker-copyedit/archive/v1.2.2036.tar.gz | tar xzf -  --wildcards --strip-components=1 */docker-copyedit.py
-          docker-squash --help
-          find / -name retry
 
       - name: docker version
         run: docker version
@@ -124,8 +118,9 @@ jobs:
       - name: docker build
         env: ${{ matrix.env }}
         run: |
+          source ./.github/workflows/support/retry.sh
           cd "${DIR}"
-          docker build --pull -t "${DOCKER_IMAGE}:${TAG}" .
+          travis_retry docker build --pull -t "${DOCKER_IMAGE}:${TAG}" .
 
       - name: Run tests
         env: ${{ matrix.env }}

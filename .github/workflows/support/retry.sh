@@ -1,5 +1,3 @@
-set -xeuo pipefail
-
 # https://github.com/travis-ci/travis-build/blob/1317b0c9e96f5a56308138d869f0124de1b672b5/lib/travis/build/bash/travis_setup_env.bash
 export ANSI_RED="\033[31;1m"
 export ANSI_GREEN="\033[32;1m"

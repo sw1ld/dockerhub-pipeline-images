@@ -76,6 +76,7 @@ jobs:
 
           - DOCKER_IMAGE: adorsys/ci-build
             DIR: ci-build/full
+            TAG: latest
             SNAPSHOT: true
             SQUASH: true
 

@@ -4,7 +4,7 @@ set -euo pipefail
 
 docker run --rm "${DOCKER_IMAGE}:${TAG}" java --version
 docker run --rm "${DOCKER_IMAGE}:${TAG}" openssl version
-docker run --rm "${DOCKER_IMAGE}:${TAG}" bash -c 'date | grep CEST'
+docker run --rm "${DOCKER_IMAGE}:${TAG}" bash -c 'date | grep -E "CES?T"'
 docker run --rm "${DOCKER_IMAGE}:${TAG}" bash -c 'ldd /usr/lib/libtcnative-1.so | grep -vz "=> not found"'
 
 docker run --rm -eSPRING_MAIN_BANNER-MODE=off -v "$(git rev-parse --show-toplevel)/.tests/java/example-app/target/dockerhub-pipeline-images-test-jar.jar":/opt/app-root/src/app.jar "${DOCKER_IMAGE}:${TAG}"

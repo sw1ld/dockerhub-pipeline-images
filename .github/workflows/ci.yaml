@@ -139,21 +139,24 @@ jobs:
           docker history "${DOCKER_IMAGE}:${TAG}"
 
       - name: Publish Image on DockerHub
-        if: github.ref == 'master'
+        # https://github.community/t5/GitHub-Actions/GitHub-Actions-branch-conditional/m-p/29794
+        if: github.ref == 'refs/heads/master'
         env: ${{ matrix.env }}
         run: |
-          docker push "${DOCKER_IMAGE}:${TAG}"
+          source ./.github/workflows/support/retry.sh
+
+          travis_retry docker push "${DOCKER_IMAGE}:${TAG}"
 
           if [ -n "${ALIASES+x}" ]; then
             for ALIAS in ${ALIASES}; do
               echo "Pushing tag aliases ${ALIAS}"
               docker tag "${DOCKER_IMAGE}:${TAG}" "${DOCKER_IMAGE}:${ALIAS}"
-              docker push "${DOCKER_IMAGE}:${ALIAS}"
+              travis_retry docker push "${DOCKER_IMAGE}:${ALIAS}"
             done
           fi
 
           if [ -n "${SNAPSHOT+x}" ] && [ "$(date +%d)" -eq "1" ]; then
             echo "Pushing snapshot tag $(date +%Y%m)"
             docker tag "${DOCKER_IMAGE}:${TAG}" "${DOCKER_IMAGE}:$(date +%Y%m)"
-            docker push "${DOCKER_IMAGE}:$(date +%Y%m)"
+            travis_retry docker push "${DOCKER_IMAGE}:$(date +%Y%m)"
           fi

@@ -6,6 +6,6 @@
     "url": "https://github.com/adorsys/dockerhub-pipeline-images.git"
   },
   "dependencies": {
-    "Haraka": "^2.8.24"
+    "Haraka": "^2.8.25"
   }
 }

@@ -2,7 +2,7 @@ FROM openshift/origin-cli:v3.11 AS OC_CLIENT
 
 FROM golang:1.12 as SKOPEO
 
-ARG SKOPEO_VERSION=v0.1.39
+ARG SKOPEO_VERSION=v0.1.40
 
 # From https://github.com/containers/skopeo/blob/master/Dockerfile.build
 RUN apt-get update && apt-get install -y curl \

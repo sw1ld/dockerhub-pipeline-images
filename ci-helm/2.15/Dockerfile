@@ -7,7 +7,7 @@ FROM openshift/origin-cli:v3.11 AS OC_CLIENT
 
 FROM golang:1.12 as SKOPEO
 
-ARG SKOPEO_VERSION=v0.1.39
+ARG SKOPEO_VERSION=v0.1.40
 
 # From https://github.com/containers/skopeo/blob/master/Dockerfile.build
 RUN apt-get update && apt-get install -y curl \
@@ -46,7 +46,7 @@ ENV GNUPGHOME=/var/local/lib/gnupg/ \
 ARG RUSH_VERSION=0.4.2
 ARG SOPS_VERSION=3.4.0
 ARG JQ_VERSION=1.6
-ARG HELM_VERSION=v2.15.0
+ARG HELM_VERSION=v2.15.2
 ARG HELM_DIFF_VERSION=v2.11.0+5
 ARG HELM_PUSH_VERSION=0.7.1
 ARG HELM_SECRETS_VERSION=1.3.1
@@ -72,10 +72,7 @@ RUN set -euo pipefail \
 ## Install rush
     && curl -LsSf https://github.com/shenwei356/rush/releases/download/v${RUSH_VERSION}/rush_linux_amd64.tar.gz | tar xz -C /usr/local/bin \
 ## Install kubernetes helm
-    && curl -LsSf -O https://storage.googleapis.com/kubernetes-helm/helm-${HELM_VERSION}-linux-amd64.tar.gz \
-    && tar -zxvf helm-${HELM_VERSION}-linux-amd64.tar.gz \
-    && mv linux-amd64/helm /usr/local/bin/helm \
-    && rm -rf helm-${HELM_VERSION}-linux-amd64.tar.gz linux-amd64 \
+    && curl -LsSf https://storage.googleapis.com/kubernetes-helm/helm-${HELM_VERSION}-linux-amd64.tar.gz | tar xz -C /usr/local/bin/ --strip-components=1 linux-amd64/helm  \
     && helm init --client-only \
     && helm repo remove local \
 ## Install helm plugins (manual installation without GH API)

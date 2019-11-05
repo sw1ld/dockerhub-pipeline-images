@@ -38,7 +38,6 @@ install:
     if [ ! -z ${SQUASH+x} ]; then
       sudo -H pip install docker-squash
     fi
-  - curl -sL https://github.com/gdraheim/docker-copyedit/archive/v1.2.2036.tar.gz | tar xzf -  --wildcards --strip-components=1 */docker-copyedit.py
 
 before_script:
   - export TAG="${TAG:-latest}"

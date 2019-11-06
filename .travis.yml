@@ -14,7 +14,7 @@ env:
   matrix:
     - DOCKER_IMAGE=adorsys/ci-clair       DIR=ci-clair                      SQUASH=true
     - DOCKER_IMAGE=adorsys/ci-helm        DIR=ci-helm/2.14    TAG=2.14      SQUASH=true
-    - DOCKER_IMAGE=adorsys/ci-helm        DIR=ci-helm/2.15    TAG=2.15      SQUASH=true ALIASES="latest"
+    - DOCKER_IMAGE=adorsys/ci-helm        DIR=ci-helm/2.16    TAG=2.16      SQUASH=true ALIASES="latest"
     - DOCKER_IMAGE=adorsys/nginx          DIR=nginx/centos                  SQUASH=true
     - DOCKER_IMAGE=adorsys/nginx          DIR=nginx/alpine    TAG=alpine    SQUASH=true
     - DOCKER_IMAGE=adorsys/nginx          DIR=nginx/ubi       TAG=ubi       SQUASH=true

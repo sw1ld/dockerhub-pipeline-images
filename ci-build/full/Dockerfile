@@ -22,7 +22,7 @@ RUN set -x \
     # https://github.com/infosiftr/tomcat/blob/5f1abae99c0b1ebbd4f020bc4b5696619d948cfd/7/jre8-alpine/Dockerfile
     && nativeBuildDir="$(mktemp -d)" \
     && nativeVersion=$(curl -sSf "https://www-eu.apache.org/dist/tomcat/tomcat-connectors/native/" | sed -nE 's/.*<a href="([0-9]+\.[0-9]+.[0-9]+)\/">.*/\1/p' | tail -n1) \
-    && curl -sSf "https://www-eu.apache.org/dist/tomcat/tomcat-connectors/native/${nativeVersion}/source/tomcat-native-${nativeVersion}-src.tar.gz" | tar -zxv -C "$nativeBuildDir" --strip-components=1 \
+    && curl -sSf "https://www-eu.apache.org/dist/tomcat/tomcat-connectors/native/${nativeVersion}/source/tomcat-native-${nativeVersion}-src.tar.gz" | tar -zx -C "$nativeBuildDir" --strip-components=1 \
     && export CATALINA_HOME="$PWD" \
     && cd "$nativeBuildDir/native" \
     && ./configure --with-apr=/usr/bin/apr-1-config \
@@ -84,12 +84,10 @@ RUN set -euo pipefail \
     && microdnf install -y --enablerepo=docker-ce-stable --enablerepo=google-chrome \
              --enablerepo=centos-8-baseos --enablerepo=centos-8-appstream \
         iproute zip unzip python2 bzip2 git-core gcc-c++ make findutils \
-        google-chrome-stable \
-        java-1.8.0-openjdk-devel java-11-openjdk-devel \
+        google-chrome-stable libXt libX11-xcb libXScrnSaver dbus-glib \
+        java-1.8.0-openjdk-devel java-11-openjdk-devel apr \
         docker-ce-cli \
         binutils tar \
-        libXt libX11-xcb libXScrnSaver \
-        dbus-glib \
     && microdnf clean all -y && rm -rf /var/cache/yum \
     && chmod g=u /etc/passwd \
     && curl -LsSf https://github.com/shenwei356/rush/releases/download/v${RUSH_VERSION}/rush_linux_amd64.tar.gz | tar xz -C /usr/local/bin \

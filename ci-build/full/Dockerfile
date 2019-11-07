@@ -1,5 +1,5 @@
 FROM openshift/origin-cli:v3.11 AS OC_CLIENT
-
+FROM registry.access.redhat.com/ubi8/ubi AS TZDATA
 FROM golang:1.12 as SKOPEO
 
 ARG SKOPEO_VERSION=v0.1.40
@@ -14,9 +14,9 @@ RUN mkdir -p $GOPATH/src/github.com/containers/skopeo \
     && curl -LsSf https://github.com/containers/skopeo/archive/${SKOPEO_VERSION}.tar.gz | tar xz --strip-components=1 -C $GOPATH/src/github.com/containers/skopeo \
     && cd $GOPATH/src/github.com/containers/skopeo && make binary-local DISABLE_CGO=1
 
-FROM centos:7 AS TCNATIVE
+FROM registry.access.redhat.com/ubi8/ubi-minimal AS TCNATIVE
 
-RUN yum install -y apr-devel openssl-devel java-1.8.0-openjdk-devel tar gzip gcc make redhat-rpm-config
+RUN microdnf install -y apr-devel openssl-devel java-1.8.0-openjdk-devel tar gzip gcc make redhat-rpm-config
 
 RUN set -x \
     # https://github.com/infosiftr/tomcat/blob/5f1abae99c0b1ebbd4f020bc4b5696619d948cfd/7/jre8-alpine/Dockerfile
@@ -31,7 +31,7 @@ RUN set -x \
               --prefix=/usr \
     && make && make install
 
-FROM centos:7
+FROM registry.access.redhat.com/ubi8/ubi-minimal
 
 LABEL maintainer="adorsys GmbH & Co. KG" \
       org.label-schema.schema-version="1.0" \
@@ -65,28 +65,44 @@ COPY --from=OC_CLIENT /usr/bin/oc /usr/local/bin/oc
 COPY --from=SKOPEO /go/src/github.com/containers/skopeo/skopeo /usr/local/bin/skopeo
 COPY --from=TCNATIVE /usr/lib/libtcnative*so /usr/lib/
 
+# https://bugzilla.redhat.com/show_bug.cgi?id=1611117
+COPY --from=TZDATA /usr/share/zoneinfo/UTC /usr/share/zoneinfo/UTC
+COPY --from=TZDATA /usr/share/zoneinfo/Europe/Berlin /usr/share/zoneinfo/Europe/Berlin
+
 RUN set -euo pipefail \
+    && microdnf install -y shadow-utils libsemanage \
     && useradd -d "${HOME}" -M -u 1001 -g 0 default \
+    && microdnf remove -y shadow-utils libsemanage \
     && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
+    && curl -sSf -L http://mirror.centos.org/centos/RPM-GPG-KEY-CentOS-Official -o /etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial \
     && echo -e '[google-chrome]\nname=google-chrome\nbaseurl=http://dl.google.com/linux/chrome/rpm/stable/$basearch\nenabled=0\ngpgcheck=1\ngpgkey=https://dl-ssl.google.com/linux/linux_signing_key.pub' > /etc/yum.repos.d/google-chrome.repo \
     && echo -e '[docker-ce-stable]\nname=Docker CE Stable - $basearch\nbaseurl=https://download.docker.com/linux/centos/7/$basearch/stable\nenabled=0\ngpgcheck=1\ngpgkey=https://download.docker.com/linux/centos/gpg' > /etc/yum.repos.d/docker-ce.repo \
-    && yum update -y \
-    && yum install -y epel-release \
-    && yum install -y --enablerepo=docker-ce-stable --enablerepo=google-chrome \
-        iproute zip unzip python bzip2 libXt git gcc-c++ make jq \
-        google-chrome-stable \
-        java-1.8.0-openjdk-devel java-11-openjdk-devel \
+    && echo -e '[epel]\nname=Extra Packages for Enterprise Linux $releasever - $basearch\nbaseurl=https://download.fedoraproject.org/pub/epel/$releasever/Everything/$basearch\nenabled=1\ngpgcheck=1\ngpgkey=https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-8' > /etc/yum.repos.d/epel.repo \
+    && echo -e '[centos-8-baseos]\nname=CentOS-$releasever - BaseOS\nbaseurl=http://mirror.centos.org/centos/$releasever/BaseOS/$basearch/os/\ngpgcheck=1\npriority=99\nenabled=0\ngpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial' > /etc/yum.repos.d/centos-8-baseos.repo \
+    && echo -e '[centos-8-appstream]\nname=CentOS-$releasever - AppStream\nbaseurl=http://mirror.centos.org/centos/$releasever/AppStream/$basearch/os/\ngpgcheck=1\npriority=99\nenabled=0\ngpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial' > /etc/yum.repos.d/centos-8-appstream.repo \
+    && microdnf update -y \
+    && microdnf install -y --enablerepo=docker-ce-stable --enablerepo=google-chrome \
+             --enablerepo=centos-8-baseos --enablerepo=centos-8-appstream \
+        iproute zip unzip python2 bzip2 git-core gcc-c++ make findutils \
+        google-chrome-stable libXt libX11-xcb libXScrnSaver dbus-glib \
+        java-1.8.0-openjdk-devel java-11-openjdk-devel apr \
         docker-ce-cli \
-    && yum clean all -y && rm -rf /var/cache/yum \
+        binutils tar \
+    && microdnf clean all -y && rm -rf /var/cache/yum \
     && chmod g=u /etc/passwd \
     && curl -LsSf https://github.com/shenwei356/rush/releases/download/v${RUSH_VERSION}/rush_linux_amd64.tar.gz | tar xz -C /usr/local/bin \
     && mkdir -p /opt/app-root/src && chown -R 1001:0 /opt/app-root/src && chmod -R ug+rwx /opt/app-root/src \
+    && ( \
+      curl -sSf -L https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64 -o /usr/local/bin/jq \
+      && chmod +x /usr/local/bin/jq \
+    ) \
     && (mkdir -p "${NVM_DIR}" && cd "${NVM_DIR}" \
       && curl "https://raw.githubusercontent.com/creationix/nvm/master/install.sh" | bash \
       && rm -rf .git test \
       && echo -e "npm\nyarn" > default-packages \
       && . "${NVM_DIR}/nvm.sh" \
       && nvm install ${NODE_DEFAULT_VERSION} \
+      && nvm install 12 \
       && nvm cache clear \
       && nvm alias default ${NODE_DEFAULT_VERSION} \
       && rm -rf /home/default/.npm/ \
@@ -116,7 +132,8 @@ RUN set -euo pipefail \
     && rm -rf \
       /usr/libexec/docker/cli-plugins/docker-app \
       /var/cache/yum \
-    && ln -s /enable.sh /tmp/.bashrc
+    && ln -s /enable.sh /tmp/.bashrc \
+    && strip /usr/bin/docker /usr/local/bin/oc
 
 WORKDIR /opt/app-root/src
 

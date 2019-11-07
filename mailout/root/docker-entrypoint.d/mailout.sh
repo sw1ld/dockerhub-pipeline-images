@@ -18,6 +18,17 @@ if [ -n "${HARAKA_HOSTNAME+x}" ]; then
 fi
 
 # plugins
+if [ -n "${HARAKA_PLUGINS_PREPEND+x}" ]; then
+    _DEFAULT_PLUGINS=$(cat /opt/app-root/config/plugins)
+
+    echo "${HARAKA_PLUGINS_PREPEND}" | tr , '\n' >  /opt/app-root/config/plugins
+    echo ""                                      >> /opt/app-root/config/plugins
+    echo "${_DEFAULT_PLUGINS}"                   >> /opt/app-root/config/plugins
+
+    unset _DEFAULT_PLUGINS
+    unset HARAKA_PLUGINS_PREPEND
+fi
+
 if [ -n "${HARAKA_PLUGINS+x}" ]; then
     echo "${HARAKA_PLUGINS}" | tr , '\n' >> /opt/app-root/config/plugins
     unset HARAKA_PLUGINS

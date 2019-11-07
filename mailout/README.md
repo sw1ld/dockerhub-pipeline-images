@@ -21,6 +21,7 @@ certificates inside the container under `/var/run/secrets/serving-cert-secret/`.
 | HARAKA_LOG_LEVEL | Define log level | `NOTICE` |
 | HARAKA_LOG_TIMESTAMPS | prefix log lines with timestamps | `true` |
 | HARAKA_HOSTNAME | hostname of the mailer | `relay.local` |
+| HARAKA_PLUGINS_PREPEND | Enable additional plugins before defaults | `` |
 | HARAKA_PLUGINS | Enable additional plugins | `` |
 | HARAKA_RELAY | Define relay policy: https://haraka.github.io/manual/plugins/relay.html | `` |
 | HARAKA_NODES | How many threads should spawn per process | `1` |

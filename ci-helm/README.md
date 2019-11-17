@@ -20,18 +20,19 @@ Provides Helm (and some plugins) also docker skopeo and ansible (<=2.11).
 
 ### Additional software
 
-* [ansible](https://www.ansible.com/) (<=2.11)
+* [kubeval](https://github.com/instrumenta/kubeval)
 * [envsubst](https://www.gnu.org/software/gettext/manual/html_node/envsubst-Invocation.html)
 * [skopeo](https://github.com/containers/skopeo)
 * [jq](https://stedolan.github.io/jq/)
 * [yq](https://yq.readthedocs.io/en/latest/)
 * [rush](https://github.com/shenwei356/rush)
 
-## Tags
+## Tags*__*
 
 | Name | Description | Size |
 | ---- | ----------- | ---- |
 | `latest` | Reference the latest recommend version | [![](https://img.shields.io/microbadger/image-size/adorsys/ci-helm/latest.svg?style=flat-square)](https://microbadger.com/images/adorsys/ci-helm) |
+| `3.0.0` | helm 3.0.0 | [![](https://img.shields.io/microbadger/image-size/adorsys/ci-helm/3.0.0.svg?style=flat-square)](https://microbadger.com/images/adorsys/ci-helm:3.0.0) |
 | `2.16` | helm 2.16 | [![](https://img.shields.io/microbadger/image-size/adorsys/ci-helm/2.16.svg?style=flat-square)](https://microbadger.com/images/adorsys/ci-helm:2.16) |
 | `2.15` | helm 2.15 | [![](https://img.shields.io/microbadger/image-size/adorsys/ci-helm/2.15.svg?style=flat-square)](https://microbadger.com/images/adorsys/ci-helm:2.15) |
 | `2.14` | helm 2.14 | [![](https://img.shields.io/microbadger/image-size/adorsys/ci-helm/2.14.svg?style=flat-square)](https://microbadger.com/images/adorsys/ci-helm:2.14) |

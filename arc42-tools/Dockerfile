@@ -9,7 +9,7 @@ LABEL maintainer="adorsys GmbH & Co. KG" \
       org.label-schema.license="" \
       org.label-schema.build-date=""
 
-ARG PANDOC_VERSION=2.7.3
+ARG PANDOC_VERSION=2.8
 ARG PLANTUML_VERSION=1.2019.7
 
 ENV TZ=Europe/Berlin \

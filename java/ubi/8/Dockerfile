@@ -31,6 +31,8 @@ LABEL maintainer="adorsys GmbH & Co. KG" \
 EXPOSE 8080
 
 ENV TZ=Europe/Berlin \
+    LANG=en_US.UTF-8 \
+    LC_ALL=en_US.UTF-8 \
     JAVA_OPTS="-Xmx128m"
 
 WORKDIR /opt/app-root/src

@@ -1,15 +1,20 @@
 FROM ubuntu:18.04
 
 LABEL maintainer="adorsys GmbH & Co. KG" \
-      org.label-schema.schema-version="1.0" \
+      vendor="adorsys GmbH & Co. KG" \
+      name="adorsys/arc42-tools" \
       org.label-schema.vendor="adorsys GmbH & Co. KG" \
-      org.label-schema.name="" \
-      org.label-schema.description="" \
+      org.label-schema.name="adorsys/arc42-tools" \
+      io.k8s.display-name="adorsys/arc42-tools" \
+      summary="adorsys/arc42-tools" \
+      io.k8s.description="adorsys/arc42-tools" \
+      org.label-schema.description="adorsys/arc42-tools" \
+      org.label-schema.schema-version="1.0" \
       org.label-schema.usage="" \
       org.label-schema.license="" \
       org.label-schema.build-date=""
 
-ARG PANDOC_VERSION=2.7.3
+ARG PANDOC_VERSION=2.9
 ARG PLANTUML_VERSION=1.2019.7
 
 ENV TZ=Europe/Berlin \

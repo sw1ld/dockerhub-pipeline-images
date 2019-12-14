@@ -1,10 +1,15 @@
 FROM python:alpine
 
 LABEL maintainer="adorsys GmbH & Co. KG" \
-      org.label-schema.schema-version="1.0" \
+      vendor="adorsys GmbH & Co. KG" \
+      name="adorsys/awscli" \
       org.label-schema.vendor="adorsys GmbH & Co. KG" \
-      org.label-schema.name="" \
-      org.label-schema.description="" \
+      org.label-schema.name="adorsys/awscli" \
+      io.k8s.display-name="adorsys/awscli" \
+      summary="adorsys/awscli" \
+      io.k8s.description="adorsys/awscli" \
+      org.label-schema.description="adorsys/awscli" \
+      org.label-schema.schema-version="1.0" \
       org.label-schema.usage="" \
       org.label-schema.license="" \
       org.label-schema.build-date=""

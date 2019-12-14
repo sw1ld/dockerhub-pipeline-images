@@ -48,6 +48,6 @@ If you need to run addition logic on container start just copy your shell script
 | Name | Description | Size |
 | ---- | ----------- | ---- |
 | `8` | CentOS based image Node 8 | ![](https://img.shields.io/microbadger/image-size/adorsys/node/8.svg?style=flat-square) |
-| `11` | CentOS based image Node 10 | ![](https://img.shields.io/microbadger/image-size/adorsys/node/10.svg?style=flat-square) |
+| `10` | CentOS based image Node 10 | ![](https://img.shields.io/microbadger/image-size/adorsys/node/10.svg?style=flat-square) |
 | `8-alpine` | Alpine based image Node 8 | ![](https://img.shields.io/microbadger/image-size/adorsys/node/8-alpine.svg?style=flat-square) |
-| `11-alpine` | Alpine based image Node 10 | ![](https://img.shields.io/microbadger/image-size/adorsys/node/10-alpine.svg?style=flat-square) |
+| `10-alpine` | Alpine based image Node 10 | ![](https://img.shields.io/microbadger/image-size/adorsys/node/10-alpine.svg?style=flat-square) |

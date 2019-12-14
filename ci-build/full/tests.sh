@@ -17,6 +17,9 @@ docker run --rm "${DOCKER_IMAGE}:${TAG}" ip -V
 docker run --rm "${DOCKER_IMAGE}:${TAG}" rush -V
 docker run --rm "${DOCKER_IMAGE}:${TAG}" gcc --version
 
+docker run --rm "${DOCKER_IMAGE}:${TAG}" bash -c 'date | grep -E "CES?T"'
+docker run --rm "${DOCKER_IMAGE}:${TAG}" bash -c 'locale | grep -E LANG=.+\.UTF-8'
+
 docker run --rm "${DOCKER_IMAGE}:${TAG}" skopeo copy docker://docker.io/library/alpine dir:///tmp/alpine.tar
 
 # Default should be java 8

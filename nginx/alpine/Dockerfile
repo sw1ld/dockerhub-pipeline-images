@@ -1,10 +1,15 @@
 FROM nginx:stable-alpine
 
 LABEL maintainer="adorsys GmbH & Co. KG" \
-      org.label-schema.schema-version="1.0" \
+      vendor="adorsys GmbH & Co. KG" \
+      name="adorsys/nginx:alpine" \
       org.label-schema.vendor="adorsys GmbH & Co. KG" \
-      org.label-schema.name="" \
-      org.label-schema.description="" \
+      org.label-schema.name="adorsys/nginx:alpine" \
+      io.k8s.display-name="adorsys/nginx:alpine" \
+      summary="adorsys/nginx:alpine" \
+      io.k8s.description="adorsys/nginx:alpine" \
+      org.label-schema.description="adorsys/nginx:alpine" \
+      org.label-schema.schema-version="1.0" \
       org.label-schema.usage="" \
       org.label-schema.license="" \
       org.label-schema.build-date=""

@@ -34,10 +34,15 @@ RUN set -x \
 FROM registry.access.redhat.com/ubi8/ubi-minimal
 
 LABEL maintainer="adorsys GmbH & Co. KG" \
-      org.label-schema.schema-version="1.0" \
+      vendor="adorsys GmbH & Co. KG" \
+      name="adorsys/ci-build" \
       org.label-schema.vendor="adorsys GmbH & Co. KG" \
-      org.label-schema.name="" \
-      org.label-schema.description="" \
+      org.label-schema.name="adorsys/ci-build" \
+      io.k8s.display-name="adorsys/ci-build" \
+      summary="adorsys/ci-build" \
+      io.k8s.description="adorsys/ci-build" \
+      org.label-schema.description="adorsys/ci-build" \
+      org.label-schema.schema-version="1.0" \
       org.label-schema.usage="" \
       org.label-schema.license="" \
       org.label-schema.build-date=""
@@ -48,6 +53,8 @@ ARG MAVEN_SHA=d941423d115cd021514bfd06c453658b1b3e39e6240969caf4315ab7119a772997
 ARG NODE_DEFAULT_VERSION=10
 
 ENV HOME=/tmp \
+    LANG=C.UTF-8 \
+    LC_ALL=C.UTF-8 \
     TZ=Europe/Berlin \
     NO_UPDATE_NOTIFIER=1 \
     JAVA_TOOL_OPTIONS="-Xmx1G" \

@@ -1,10 +1,15 @@
 FROM centos/nginx-114-centos7
 
 LABEL maintainer="adorsys GmbH & Co. KG" \
-      org.label-schema.schema-version="1.0" \
+      vendor="adorsys GmbH & Co. KG" \
+      name="adorsys/nginx:centos" \
       org.label-schema.vendor="adorsys GmbH & Co. KG" \
-      org.label-schema.name="" \
-      org.label-schema.description="" \
+      org.label-schema.name="adorsys/nginx:centos" \
+      io.k8s.display-name="adorsys/nginx:centos" \
+      summary="adorsys/nginx:centos" \
+      io.k8s.description="adorsys/nginx:centos" \
+      org.label-schema.description="adorsys/nginx:centos" \
+      org.label-schema.schema-version="1.0" \
       org.label-schema.usage="" \
       org.label-schema.license="" \
       org.label-schema.build-date=""

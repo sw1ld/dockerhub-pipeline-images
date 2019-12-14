@@ -14,16 +14,17 @@ env:
   matrix:
     - DOCKER_IMAGE=adorsys/ci-clair       DIR=ci-clair                      SQUASH=true
     - DOCKER_IMAGE=adorsys/ci-helm        DIR=ci-helm/2.14    TAG=2.14      SQUASH=true
-    - DOCKER_IMAGE=adorsys/ci-helm        DIR=ci-helm/2.16    TAG=2.16      SQUASH=true ALIASES="latest"
-    - DOCKER_IMAGE=adorsys/nginx          DIR=nginx/centos                  SQUASH=true
+    - DOCKER_IMAGE=adorsys/ci-helm        DIR=ci-helm/2.16    TAG=2.16      SQUASH=true ALIASES="2"
+    - DOCKER_IMAGE=adorsys/ci-helm        DIR=ci-helm/3.0     TAG=3.0       SQUASH=true ALIASES="latest"
+    - DOCKER_IMAGE=adorsys/nginx          DIR=nginx/centos    TAG=centos    SQUASH=true ALIASES="latest"
     - DOCKER_IMAGE=adorsys/nginx          DIR=nginx/alpine    TAG=alpine    SQUASH=true
     - DOCKER_IMAGE=adorsys/nginx          DIR=nginx/ubi       TAG=ubi       SQUASH=true
     - DOCKER_IMAGE=adorsys/java           DIR=java/ubi/8      TAG=8         SQUASH=true
     - DOCKER_IMAGE=adorsys/java           DIR=java/ubi/11     TAG=11        SQUASH=true
-    - DOCKER_IMAGE=adorsys/node           DIR=node/centos/10  TAG=10        SQUASH=true
-    - DOCKER_IMAGE=adorsys/node           DIR=node/centos/12  TAG=12        SQUASH=true
-    - DOCKER_IMAGE=adorsys/node           DIR=node/alpine/10  TAG=10-alpine SQUASH=true
-    - DOCKER_IMAGE=adorsys/node           DIR=node/alpine/12  TAG=12-alpine SQUASH=true
+    - DOCKER_IMAGE=adorsys/node           DIR=node/centos/10  TAG=10-centos SQUASH=true ALIASES="10"
+    - DOCKER_IMAGE=adorsys/node           DIR=node/centos/12  TAG=12-centos SQUASH=true ALIASES="12"
+    - DOCKER_IMAGE=adorsys/node           DIR=node/ubi/10     TAG=10-ubi    SQUASH=true
+    - DOCKER_IMAGE=adorsys/node           DIR=node/ubi/12     TAG=12-ubi    SQUASH=true
     - DOCKER_IMAGE=adorsys/ci-build       DIR=ci-build/full   SNAPSHOT=true SQUASH=true
     - DOCKER_IMAGE=adorsys/ansible        DIR=ansible         SNAPSHOT=true
     - DOCKER_IMAGE=adorsys/awscli         DIR=awscli          SNAPSHOT=true
@@ -77,6 +78,6 @@ deploy:
 notifications:
   email:
     recipients:
-      - jkr@adorsys.de
+      - joe@adorsys.de
     on_success: never
     on_failure: always

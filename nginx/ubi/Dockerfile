@@ -3,10 +3,15 @@ FROM registry.access.redhat.com/ubi8/ubi AS TZDATA
 FROM registry.access.redhat.com/ubi8/ubi-minimal
 
 LABEL maintainer="adorsys GmbH & Co. KG" \
-      org.label-schema.schema-version="1.0" \
+      vendor="adorsys GmbH & Co. KG" \
+      name="adorsys/nginx:ubi" \
       org.label-schema.vendor="adorsys GmbH & Co. KG" \
-      org.label-schema.name="" \
-      org.label-schema.description="" \
+      org.label-schema.name="adorsys/nginx:ubi" \
+      io.k8s.display-name="adorsys/nginx:ubi" \
+      summary="adorsys/nginx:ubi" \
+      io.k8s.description="adorsys/nginx:ubi" \
+      org.label-schema.description="adorsys/nginx:ubi" \
+      org.label-schema.schema-version="1.0" \
       org.label-schema.usage="" \
       org.label-schema.license="" \
       org.label-schema.build-date=""
@@ -15,7 +20,9 @@ EXPOSE 8080
 
 USER 0
 
-ENV TZ=Europe/Berlin
+ENV TZ=Europe/Berlin \
+    LANG=C.UTF-8 \
+    LC_ALL=C.UTF-8
 
 # https://bugzilla.redhat.com/show_bug.cgi?id=1611117
 COPY --from=TZDATA /usr/share/zoneinfo/UTC /usr/share/zoneinfo/UTC

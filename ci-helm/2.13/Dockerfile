@@ -18,10 +18,15 @@ RUN mkdir -p $GOPATH/src/github.com/containers/skopeo \
 FROM centos:7
 
 LABEL maintainer="adorsys GmbH & Co. KG" \
-      org.label-schema.schema-version="1.0" \
+      vendor="adorsys GmbH & Co. KG" \
+      name="adorsys/ci-helm" \
       org.label-schema.vendor="adorsys GmbH & Co. KG" \
-      org.label-schema.name="" \
-      org.label-schema.description="" \
+      org.label-schema.name="adorsys/ci-helm" \
+      io.k8s.display-name="adorsys/ci-helm" \
+      summary="adorsys/ci-helm" \
+      io.k8s.description="adorsys/ci-helm" \
+      org.label-schema.description="adorsys/ci-helm" \
+      org.label-schema.schema-version="1.0" \
       org.label-schema.usage="" \
       org.label-schema.license="" \
       org.label-schema.build-date=""

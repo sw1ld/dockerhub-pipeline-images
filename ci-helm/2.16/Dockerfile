@@ -22,10 +22,15 @@ RUN mkdir -p $GOPATH/src/github.com/containers/skopeo \
 FROM registry.access.redhat.com/ubi8/ubi-minimal
 
 LABEL maintainer="adorsys GmbH & Co. KG" \
-      org.label-schema.schema-version="1.0" \
+      vendor="adorsys GmbH & Co. KG" \
+      name="adorsys/ci-helm" \
       org.label-schema.vendor="adorsys GmbH & Co. KG" \
-      org.label-schema.name="" \
-      org.label-schema.description="" \
+      org.label-schema.name="adorsys/ci-helm" \
+      io.k8s.display-name="adorsys/ci-helm" \
+      summary="adorsys/ci-helm" \
+      io.k8s.description="adorsys/ci-helm" \
+      org.label-schema.description="adorsys/ci-helm" \
+      org.label-schema.schema-version="1.0" \
       org.label-schema.usage="" \
       org.label-schema.license="" \
       org.label-schema.build-date=""
@@ -46,7 +51,7 @@ ENV GNUPGHOME=/var/local/lib/gnupg/ \
 ARG RUSH_VERSION=0.4.2
 ARG SOPS_VERSION=3.4.0
 ARG JQ_VERSION=1.6
-ARG HELM_VERSION=v2.16.0
+ARG HELM_VERSION=v2.16.1
 ARG HELM_DIFF_VERSION=v2.11.0+5
 ARG HELM_PUSH_VERSION=0.7.1
 ARG HELM_SECRETS_VERSION=1.3.1

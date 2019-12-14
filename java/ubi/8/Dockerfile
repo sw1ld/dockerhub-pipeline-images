@@ -20,10 +20,15 @@ RUN set -x \
 FROM registry.access.redhat.com/ubi8/ubi-minimal
 
 LABEL maintainer="adorsys GmbH & Co. KG" \
-      org.label-schema.schema-version="1.0" \
+      vendor="adorsys GmbH & Co. KG" \
+      name="adorsys/java:8" \
       org.label-schema.vendor="adorsys GmbH & Co. KG" \
-      org.label-schema.name="" \
-      org.label-schema.description="" \
+      org.label-schema.name="adorsys/java:8" \
+      io.k8s.display-name="adorsys/java:8" \
+      summary="adorsys/java:8" \
+      io.k8s.description="adorsys/java:8" \
+      org.label-schema.description="adorsys/java:8" \
+      org.label-schema.schema-version="1.0" \
       org.label-schema.usage="" \
       org.label-schema.license="" \
       org.label-schema.build-date=""

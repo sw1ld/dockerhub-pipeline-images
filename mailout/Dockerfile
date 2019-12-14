@@ -4,6 +4,20 @@ RUN bash -c "nvm use && npm ci"
 
 FROM adorsys/node:10
 
+LABEL maintainer="adorsys GmbH & Co. KG" \
+      vendor="adorsys GmbH & Co. KG" \
+      name="adorsys/mailout" \
+      org.label-schema.vendor="adorsys GmbH & Co. KG" \
+      org.label-schema.name="adorsys/mailout" \
+      io.k8s.display-name="adorsys/mailout" \
+      summary="adorsys/mailout" \
+      io.k8s.description="adorsys/mailout" \
+      org.label-schema.description="adorsys/mailout" \
+      org.label-schema.schema-version="1.0" \
+      org.label-schema.usage="" \
+      org.label-schema.license="" \
+      org.label-schema.build-date=""
+
 ENV \
   HARAKA_LOG_LEVEL=warn \
   HARAKA_LOG_TIMESTAMPS=true \

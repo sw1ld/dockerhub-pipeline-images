@@ -35,9 +35,9 @@ LABEL maintainer="adorsys GmbH & Co. KG" \
 
 EXPOSE 8080
 
+# https://stackoverflow.com/questions/39163590/how-to-set-utf-8-character-encoding-in-spring-boot
 ENV TZ=Europe/Berlin \
-    LANG=en_US.UTF-8 \
-    LC_ALL=en_US.UTF-8 \
+    LC_ALL=C.UTF-8 \
     JAVA_OPTS="-Xmx128m"
 
 WORKDIR /opt/app-root/src

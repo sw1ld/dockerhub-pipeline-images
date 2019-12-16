@@ -21,7 +21,6 @@ EXPOSE 8080
 USER 0
 
 ENV TZ=Europe/Berlin \
-    LANG=C.UTF-8 \
     LC_ALL=C.UTF-8
 
 # https://bugzilla.redhat.com/show_bug.cgi?id=1611117

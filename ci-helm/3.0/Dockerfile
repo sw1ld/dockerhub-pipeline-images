@@ -36,7 +36,6 @@ LABEL maintainer="adorsys GmbH & Co. KG" \
       org.label-schema.build-date=""
 
 ENV TZ=Europe/Berlin \
-    LANG=C.UTF-8 \
     LC_ALL=C.UTF-8 \
     TERM=xterm \
     XDG_DATA_HOME=/var/local/lib/ \

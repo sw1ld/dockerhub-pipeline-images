@@ -8,7 +8,7 @@ docker run --rm "${DOCKER_IMAGE}:${TAG}" node --version | grep "v10"
 docker run --rm "${DOCKER_IMAGE}:${TAG}" rpm -qa | grep "nodesource"
 
 docker run --rm "${DOCKER_IMAGE}:${TAG}" bash -c 'date | grep -E "CES?T"'
-docker run --rm "${DOCKER_IMAGE}:${TAG}" bash -c 'locale | grep -E LANG=.+\.UTF-8'
+docker run --rm "${DOCKER_IMAGE}:${TAG}" bash -c 'locale | grep -E LC_ALL=.+\.UTF-8'
 
 # Test as Openshift UID
 docker run --rm -u 1000090000:0 "${DOCKER_IMAGE}:${TAG}" whoami

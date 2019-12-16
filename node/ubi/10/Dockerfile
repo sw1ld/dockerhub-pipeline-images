@@ -28,7 +28,6 @@ EXPOSE 3000
 
 # discard npm update warnings
 ENV TZ=Europe/Berlin \
-    LANG=C.UTF-8 \
     LC_ALL=C.UTF-8 \
     NO_UPDATE_NOTIFIER=1 \
     ENABLE_AUTO_NODE_MEMORY_LIMIT=true \
